@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无障碍网页功能展示</title>
+    <style>
+        /* 低版本浏览器兼容性备用方案 */
+        .btn {
+            padding: 0.6em 1.2em;
+            background-color: #f0f0f0;
+            border: 1px solid #b3b3b3;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.25em;
+            color: #000000;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: inline-block;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- 顶栏容器 -->
+    <header id="topbar" class="topbar" role="region" aria-label="网页顶栏">
+        <div class="topbar-container">
+            <h1 class="site-title">无障碍网页</h1>
+            <nav id="navbar" class="navbar" role="navigation" aria-label="功能菜单"></nav>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content" role="main">
+        <!-- 页面标题区域 -->
+        <section class="page-header content-section">
+            <h2 class="page-title">无障碍功能展示平台</h2>
+            <p class="page-subtitle">体验现代化的无障碍网页功能，为所有用户提供平等的访问体验</p>
+            <div class="header-badges">
+                <span class="badge">WCAG 2.1 AA 标准</span>
+                <span class="badge">响应式设计</span>
+                <span class="badge">键盘友好</span>
+                <span class="badge">屏幕阅读器优化</span>
+            </div>
+        </section>
+
+        <!-- 核心功能展示 -->
+        <section class="core-features content-section">
+            <h2 class="section-title">核心功能</h2>
+            <p class="section-description">顶栏中的功能按钮提供了完整的无障碍支持</p>
+            
+            <div class="features-grid">
+                <article class="feature-article">
+                    <div class="feature-header">
+                        <span class="feature-icon">🔍</span>
+                        <h3>智能缩放</h3>
+                    </div>
+                    <div class="feature-content">
+                        <p>动态调整页面内容大小，支持从50%到200%的缩放范围。实时显示当前缩放级别。</p>
+                        <div class="feature-details">
+                            <h4>快捷键：</h4>
+                            <ul>
+                                <li><code>Ctrl/Cmd + +</code> 放大</li>
+                                <li><code>Ctrl/Cmd + -</code> 缩小</li>
+                                <li><code>Ctrl/Cmd + 0</code> 重置</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="feature-article">
+                    <div class="feature-header">
+                        <span class="feature-icon">🖱️</span>
+                        <h3>鼠标增强</h3>
+                    </div>
+                    <div class="feature-content">
+                        <p>提供两种鼠标增强模式，帮助视力不佳的用户更好地定位和操作。</p>
+                        <div class="feature-details">
+                            <h4>功能模式：</h4>
+                            <ul>
+                                <li><strong>大鼠标</strong>：放大鼠标光标至64x64像素</li>
+                                <li><strong>十字线</strong>：显示红色定位十字线</li>
+                            </ul>
+                            <p class="feature-note">两种模式可同时启用，提供双重定位辅助。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="feature-article">
+                    <div class="feature-header">
+                        <span class="feature-icon">🔊</span>
+                        <h3>语音朗读</h3>
+                    </div>
+                    <div class="feature-content">
+                        <p>完整的文本转语音功能，支持中文朗读和多参数调节。</p>
+                        <div class="feature-details">
+                            <h4>主要特性：</h4>
+                            <ul>
+                                <li>语速调节（0.5x - 10x）</li>
+                                <li>音量控制</li>
+                                <li>悬停自动朗读</li>
+                                <li>行朗读模式</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="feature-article">
+                    <div class="feature-header">
+                        <span class="feature-icon">🌙</span>
+                        <h3>主题切换</h3>
+                    </div>
+                    <div class="feature-content">
+                        <p>在浅色和深色主题间无缝切换，适应不同环境和使用习惯。</p>
+                        <div class="feature-details">
+                            <h4>主题特点：</h4>
+                            <ul>
+                                <li><strong>浅色模式</strong>：高对比度，适合白天使用</li>
+                                <li><strong>深色模式</strong>：低亮度，减少眼睛疲劳</li>
+                            </ul>
+                            <p class="feature-note">系统自动保存主题偏好，下次访问时自动应用。</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 功能演示区域 -->
+        <section class="demo-area content-section">
+            <h2 class="section-title">功能体验区</h2>
+            <p class="section-description">以下内容可用于测试各项无障碍功能</p>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>无障碍设计原则</h3>
+                    <p>无障碍设计的核心是确保所有用户，无论其能力如何，都能平等地访问和使用数字内容。这包括视觉、听觉、运动和认知等各方面的考虑。</p>
+                    <p>现代网页设计应遵循WCAG（Web内容无障碍指南）标准，确保内容的可感知性、可操作性、可理解性和鲁棒性。</p>
+                </div>
+
+                <div class="demo-card">
+                    <h3>技术实现</h3>
+                    <p>本页面使用纯JavaScript实现所有无障碍功能，不依赖任何外部库。功能包括：</p>
+                    <ul>
+                        <li>动态DOM操作</li>
+                        <li>本地存储状态管理</li>
+                        <li>Web Speech API集成</li>
+                        <li>CSS变量主题系统</li>
+                        <li>响应式布局设计</li>
+                    </ul>
+                </div>
+
+                <div class="demo-card">
+                    <h3>使用建议</h3>
+                    <p>为了获得最佳体验，建议尝试以下操作：</p>
+                    <ol>
+                        <li>启用大鼠标功能，观察光标变化</li>
+                        <li>打开十字线，移动鼠标查看定位效果</li>
+                        <li>使用语音朗读，悬停在文字上体验</li>
+                        <li>切换主题，感受不同视觉效果</li>
+                        <li>使用Tab键测试键盘导航</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="demo-tips">
+                <h4>💡 实用提示</h4>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <strong>视觉辅助</strong>
+                        <p>缩放功能可独立于浏览器缩放工作，顶栏始终保持原始大小。</p>
+                    </div>
+                    <div class="tip-item">
+                        <strong>听觉辅助</strong>
+                        <p>语音朗读支持中文，可调节语速和音量以适应不同需求。</p>
+                    </div>
+                    <div class="tip-item">
+                        <strong>操作辅助</strong>
+                        <p>所有按钮都有明确的焦点状态，支持键盘完整操作。</p>
+                    </div>
+                    <div class="tip-item">
+                        <strong>兼容性</strong>
+                        <p>功能在主流现代浏览器中均可正常工作。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 集成指南 -->
+        <section class="integration-guide content-section">
+            <h2 class="section-title">集成指南</h2>
+            <p class="section-description">如何在您的网页中集成这些无障碍功能</p>
+            
+            <div class="guide-cards">
+                <!-- 快速开始 -->
+                <div class="guide-card">
+                    <h3>🚀 快速开始</h3>
+                    <p>只需三个步骤即可在任何网页中启用所有无障碍功能：</p>
+                    <ol>
+                        <li>复制 <code>styles.css</code> 和 <code>script.js</code> 到您的项目</li>
+                        <li>创建您自己的 <code>index.css</code> 文件（见下方CSS配置指南）</li>
+                        <li>在HTML中引入这三个文件并确保HTML结构正确</li>
+                    </ol>
+                    <div class="code-block">
+                        <pre><code>&lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+  &lt;link rel="stylesheet" href="index.css"&gt; &lt;!-- 您创建的自定义样式 --&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header id="topbar" class="topbar"&gt;...&lt;/header&gt;
+  &lt;main&gt;...&lt;/main&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+                    </div>
+                </div>
+
+                <!-- HTML结构 -->
+                <div class="guide-card">
+                    <h3>📝 HTML结构要求</h3>
+                    <p>确保您的HTML包含以下必要的结构：</p>
+                    <div class="code-block">
+                        <pre><code>&lt;header id="topbar" class="topbar"&gt;
+  &lt;div class="topbar-container"&gt;
+    &lt;h1 class="site-title"&gt;您的网站标题&lt;/h1&gt;
+    &lt;nav id="navbar" class="navbar"&gt;&lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+  &lt;!-- 您的主要内容 --&gt;
+&lt;/main&gt;</code></pre>
+                    </div>
+                </div>
+
+                <!-- CSS自定义 -->
+                <div class="guide-card">
+                    <h3>🎨 CSS自定义选项</h3>
+                    <p>创建您自己的 <code>index.css</code> 文件，不要复制原始文件。新项目中只需配置以下内容：</p>
+                    <div class="code-block">
+                        <pre><code>/* 1. 修改全局CSS变量（可选） */
+:root {
+  --primary-color: #1a73e8;    /* 改为您的主题色 */
+  --text-color: #202124;
+  --background-color: #ffffff;
+  --border-color: #dadce0;
+  --hover-background: #f8f9fa;
+}
+
+/* 2. 添加您的页面自定义样式 */
+.page-header {
+    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+}
+
+/* 3. 自定义内容区域样式 */
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* 4. 自定义页脚 */
+.footer {
+    background-color: var(--hover-background);
+    padding: 2rem;
+    text-align: center;
+}</code></pre>
+                    </div>
+                    <p><strong>关键点：</strong></p>
+                    <ul>
+                        <li>修改 <code>--primary-color</code> 改变全站颜色主题</li>
+                        <li>修改 <code>.page-header</code> 的渐变色为您的品牌色</li>
+                        <li>调整 <code>max-width</code> 控制内容宽度</li>
+                        <li>定制页脚、标题等特定区域样式</li>
+                    </ul>
+                </div>
+
+                <!-- 配置修改 -->
+                <div class="guide-card">
+                    <h3>⚙️ 功能配置修改</h3>
+                    <p>在 <code>script.js</code> 中修改以下配置对象：</p>
+                    <div class="code-block">
+                        <pre><code>// 缩放配置
+const ZOOM_CONFIG = {
+    min: 50,           // 最小缩放50%
+    max: 200,          // 最大缩放200%
+    default: 100,      // 默认100%
+    step: 10           // 每次改变10%
+};
+
+// 语音配置
+const SPEECH_CONFIG = {
+    speedMin: 0.5,
+    speedMax: 10,
+    speedDefault: 1,
+    lang: 'zh-CN'      // 支持其他语言代码
+};</code></pre>
+                    </div>
+                </div>
+
+                <!-- 功能启用/禁用 -->
+                <div class="guide-card">
+                    <h3>🔧 功能启用/禁用</h3>
+                    <p>编辑 <code>NAVBAR_FEATURES</code> 数组以启用或禁用特定功能：</p>
+                    <div class="code-block">
+                        <pre><code>// 要禁用某个功能，只需从数组中移除该对象
+const NAVBAR_FEATURES = [
+    // 注释掉或移除要禁用的功能
+    // { id: 'speech-panel', ... },
+    { id: 'zoom-controls', ... },
+    { id: 'theme-control', ... }
+    // 保留您需要的功能
+];</code></pre>
+                    </div>
+                </div>
+
+                <!-- 事件和API -->
+                <div class="guide-card">
+                    <h3>📡 事件与API</h3>
+                    <p>在控制台中访问全局管理器对象：</p>
+                    <div class="code-block">
+                        <pre><code>// 语音控制
+speechManager.speak("要朗读的文本");
+speechManager.setSpeed(1.5);  // 设置语速
+speechManager.setVolume(0.8); // 设置音量
+
+// 缩放控制
+zoomManager.applyZoom(150);   // 设置缩放比例
+
+// 主题控制
+themeManager.toggleTheme();   // 切换主题
+
+// 行朗读
+lineReaderManager.readNextLine();
+lineReaderManager.readPreviousLine();</code></pre>
+                    </div>
+                </div>
+
+                <!-- 浏览器兼容性 -->
+                <div class="guide-card">
+                    <h3>🌐 浏览器兼容性</h3>
+                    <ul>
+                        <li><strong>Chrome/Edge:</strong> 完全支持</li>
+                        <li><strong>Firefox:</strong> 完全支持</li>
+                        <li><strong>Safari:</strong> 完全支持（需14+）</li>
+                        <li><strong>移动浏览器:</strong> 响应式完全支持</li>
+                        <li><strong>IE:</strong> 不支持（建议升级）</li>
+                    </ul>
+                    <p><strong>必需API：</strong>Web Speech API、LocalStorage、ES6+</p>
+                </div>
+
+                <!-- 无障碍最佳实践 -->
+                <div class="guide-card">
+                    <h3>♿ 无障碍最佳实践</h3>
+                    <ul>
+                        <li>使用语义化HTML标签（main, nav, header等）</li>
+                        <li>为图片添加有意义的alt属性</li>
+                        <li>保持高色彩对比度（本项目达到 WCAG AAA 标准）</li>
+                        <li>所有表单元素带有label标签</li>
+                        <li>使用aria-*属性增强语义</li>
+                        <li>支持键盘导航和Tab键访问</li>
+                        <li>测试屏幕阅读器兼容性</li>
+                    </ul>
+                    <p><strong>本项目的对比度优化：</strong></p>
+                    <ul>
+                        <li>浅色模式：21:1 对比度（纯黑文本 vs 纯白背景）</li>
+                        <li>深色模式：15:1+ 对比度（纯白文本 vs 深黑背景）</li>
+                        <li>完全符合 WCAG AAA 标准（推荐比例 7:1）</li>
+                        <li>对色盲、弱视等视力障碍人群友好</li>
+                    </ul>
+                </div>
+
+                <!-- 常见问题 -->
+                <div class="guide-card">
+                    <h3>❓ 常见问题</h3>
+                    <div class="faq-item">
+                        <strong>Q: 语音功能在某些浏览器中不工作？</strong><br>
+                        A: 请检查浏览器是否支持Web Speech API。某些浏览器可能需要启用相关权限。
+                    </div>
+                    <div class="faq-item">
+                        <strong>Q: 如何改变主题颜色？</strong><br>
+                        A: 修改CSS变量 <code>--primary-color</code> 和其他颜色变量。
+                    </div>
+                    <div class="faq-item">
+                        <strong>Q: 能否在移动设备上使用？</strong><br>
+                        A: 完全支持。所有功能都已针对触屏设备优化。
+                    </div>
+                    <div class="faq-item">
+                        <strong>Q: 如何关闭某些功能？</strong><br>
+                        A: 从 <code>NAVBAR_FEATURES</code> 数组中移除相应的功能配置。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术规格 -->
+        <section class="tech-specs content-section">
+            <h2 class="section-title">技术规格</h2>
+            
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>📐 视觉规格</h3>
+                    <ul>
+                        <li>缩放范围：50% - 200%</li>
+                        <li>缩放步长：10%</li>
+                        <li>大鼠标尺寸：64x64像素</li>
+                        <li>十字线颜色：红色 (#ff0000)</li>
+                        <li>深色模式主色：#8ab4f8</li>
+                    </ul>
+                </div>
+
+                <div class="spec-card">
+                    <h3>🔊 语音规格</h3>
+                    <ul>
+                        <li>语言：中文 (zh-CN)</li>
+                        <li>语速范围：0.5 - 10.0</li>
+                        <li>默认语速：1.0</li>
+                        <li>音量范围：0 - 1</li>
+                        <li>默认音量：1.0</li>
+                    </ul>
+                </div>
+
+                <div class="spec-card">
+                    <h3>⚙️ 系统规格</h3>
+                    <ul>
+                        <li>本地存储：所有设置自动保存</li>
+                        <li>快捷键：完整键盘支持</li>
+                        <li>响应式：移动端优化</li>
+                        <li>兼容性：Chrome, Firefox, Edge, Safari</li>
+                        <li>标准：WCAG 2.1 AA</li>
+                        <li><strong>调试：按 Ctrl + Shift + D</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p class="footer-title">无障碍网页功能展示</p>
+                <p class="footer-author">制作组:北魏孝文帝汉化组</p>
+                <p class="footer-copyright">&copy; 2026 无障碍网页示例。遵循 WCAG 2.1 AA 标准设计。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

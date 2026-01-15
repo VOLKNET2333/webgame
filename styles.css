@@ -1,0 +1,1164 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #1a73e8;
+    --text-color: #000000;              /* 纯黑，更高对比度 */
+    --background-color: #ffffff;
+    --border-color: #b3b3b3;            /* 更深灰，增加边框对比度 */
+    --hover-background: #f0f0f0;        /* 更深灰背景 */
+    --focus-outline: 3px solid #1a73e8;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+}
+
+/* 跳过链接 - 无障碍必需 */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-color);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* 顶栏样式 - 不受放大缩小影响 */
+.topbar {
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: scale(1) !important;
+    zoom: 100% !important;
+    font-size: 16px !important; /* 固定字体大小，不受根元素影响 */
+    transition: box-shadow 0.3s ease;
+}
+
+.topbar:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.topbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%; /* 与主要内容区域对齐 */
+    margin: 0 auto;
+    padding: 1em 1.5em; /* 优化内边距 */
+    gap: 1.5em;
+}
+
+.site-title {
+    font-size: 1.5em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    font-weight: 700; /* 加粗字体 */
+    color: var(--primary-color);
+    margin: 0;
+    padding: 0.25em 0;
+    transition: color 0.2s ease;
+}
+
+.site-title:hover {
+    color: #1557b0; /* 悬停时加深颜色 */
+}
+
+/* 导航栏 */
+.navbar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 1em; /* 使用em单位，相对于顶栏的固定字体大小 */
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 0.6em 1.2em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.25em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    color: var(--text-color);
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background-color: #e8f0fe;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+}
+
+.btn:active {
+    background-color: #d2e3fc;
+}
+
+/* 禁用状态 */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 按钮激活状态 */
+.btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+    font-weight: 500;
+}
+
+.btn.active:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+    box-shadow: 0 2px 12px rgba(26, 115, 232, 0.4);
+}
+
+/* 按钮非激活状态 */
+.btn.inactive {
+    background-color: #f8f9fa;
+    color: #5f6368;
+    border-color: #dadce0;
+}
+
+.btn.inactive:hover {
+    background-color: #f1f3f4;
+    color: #202124;
+    border-color: #b6b6b6;
+}
+
+/* 语音控制区域的按钮特殊样式 */
+.hover-read-btn {
+    margin-top: 0.5rem;
+}
+
+.hover-read-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), #0d47a1);
+}
+
+.hover-read-btn.active:hover {
+    background: linear-gradient(135deg, #1557b0, #0d47a1);
+}
+
+
+/* 下拉菜单容器 */
+.dropdown-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* 下拉菜单按钮 */
+.dropdown-menu-btn {
+    position: relative;
+}
+
+/* 下拉菜单 */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 160px;
+    margin-top: 4px;
+}
+
+/* 下拉菜单项 */
+.dropdown-menu-item {
+    display: block;
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.2s ease;
+    font-size: 1.05rem;
+}
+
+.dropdown-menu-item:hover {
+    background-color: var(--hover-background);
+}
+
+.dropdown-menu-item:focus {
+    outline: var(--focus-outline);
+    outline-offset: -2px;
+}
+
+.dropdown-menu-item:first-child {
+    border-radius: 4px 4px 0 0;
+}
+
+.dropdown-menu-item:last-child {
+    border-radius: 0 0 4px 4px;
+}
+
+/* 悬停阅读菜单容器 */
+.hover-read-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-read-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+/* 悬停阅读按钮启用状态 */
+.hover-read-btn.active {
+    background: linear-gradient(135deg, #34a853, #2d7f45);
+    color: white;
+    border-color: #34a853;
+    box-shadow: 0 2px 8px rgba(52, 168, 83, 0.3);
+}
+
+.hover-read-btn.active:hover {
+    background: linear-gradient(135deg, #2d7f45, #1e5631);
+    border-color: #1e5631;
+    box-shadow: 0 2px 12px rgba(52, 168, 83, 0.4);
+}
+
+/* 按钮组 - 不受缩放影响 */
+.button-group {
+    display: flex;
+    gap: 0.25em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    align-items: center;
+}
+
+.button-group .btn {
+    border-radius: 4px;
+    margin: 0 2px; /* 使用像素值，不受缩放影响 */
+}
+
+/* 语音控制容器 */
+.speech-control-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.75rem;
+    background-color: var(--hover-background);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    min-width: 300px;
+}
+
+/* 控制包装器 */
+.control-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.control-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    min-width: 50px;
+}
+
+.slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border-color);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(26, 115, 232, 0.4);
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(26, 115, 232, 0.4);
+}
+
+.value-display {
+    min-width: 45px;
+    text-align: right;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.shortcut-help {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 0.5rem;
+}
+
+/* ============================================
+   快捷键帮助模态框
+   ============================================ */
+
+.help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+    pointer-events: auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.help-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.help-content {
+    position: relative;
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.help-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.help-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.help-section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.help-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 1rem;
+}
+
+.help-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+}
+
+.shortcuts-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.shortcut-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--hover-background);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.shortcut-item:hover {
+    background-color: #e8f0fe;
+}
+
+.shortcut-key {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    min-width: 140px;
+}
+
+.shortcut-desc {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.help-close-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* 缩放指示器 - 不受缩放影响 */
+.zoom-indicator {
+    font-size: 1.3em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    color: #666;
+    padding: 0.5em 1em; /* 使用em单位 */
+    background-color: var(--hover-background);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* 中等屏幕尺寸 (769px - 1024px) */
+@media (max-width: 1024px) {
+    .topbar-container {
+        padding: 0.8em 1.2em;
+        gap: 1.2em;
+    }
+    
+    .btn {
+        padding: 0.5em 1em;
+        font-size: 1.1em;
+    }
+}
+
+/* 小屏幕尺寸 (平板和大型手机) */
+@media (max-width: 768px) {
+    .topbar {
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .topbar-container {
+        flex-direction: column;
+        align-items: stretch; /* 改为拉伸对齐 */
+        padding: 0.8em 1em;
+        gap: 0.8em;
+    }
+
+    .site-title {
+        font-size: 1.3em;
+        text-align: center;
+        padding: 0.5em 0;
+        border-bottom: 1px solid var(--border-color);
+        width: 100%;
+    }
+
+    .navbar {
+        width: 100%;
+        justify-content: center; /* 居中显示按钮 */
+        flex-wrap: wrap;
+        gap: 0.5em;
+    }
+    
+    .btn {
+        padding: 0.5em 0.8em;
+        font-size: 1em;
+        flex: 1; /* 按钮平均分配宽度 */
+        min-width: 120px; /* 最小宽度 */
+        text-align: center;
+    }
+    
+    .button-group {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .button-group .btn {
+        flex: none; /* 按钮组中的按钮不拉伸 */
+        min-width: 60px;
+    }
+
+    .main-content {
+        padding: 0 1rem;
+        margin: 1rem auto;
+    }
+
+
+
+    .help-content {
+        max-width: 90vw;
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .shortcut-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .shortcut-key {
+        width: 100%;
+    }
+
+    .speech-control-container {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* 超小屏幕尺寸 (手机) */
+@media (max-width: 480px) {
+    .topbar-container {
+        padding: 0.6em 0.8em;
+        gap: 0.6em;
+    }
+    
+    .site-title {
+        font-size: 1.2em;
+        padding: 0.4em 0;
+    }
+    
+    .navbar {
+        gap: 0.4em;
+    }
+    
+    .btn {
+        padding: 0.4em 0.6em;
+        font-size: 0.9em;
+        min-width: 100px;
+    }
+    
+    .button-group .btn {
+        min-width: 50px;
+        padding: 0.3em 0.5em;
+        font-size: 0.85em;
+    }
+    
+    .dropdown-menu {
+        min-width: 140px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 键盘焦点显示 */
+:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #e8eaed;
+        --background-color: #202124;
+        --border-color: #3c4043;
+        --hover-background: #292a2d;
+    }
+
+    .topbar {
+        background-color: #1f2937;
+    }
+}
+
+/* ============================================
+   主题模式
+   ============================================ */
+
+/* 浅色模式（默认） */
+html.theme-light {
+    --primary-color: #1a73e8;
+    --text-color: #202124;
+    --background-color: #ffffff;
+    --border-color: #dadce0;
+    --hover-background: #f8f9fa;
+}
+
+/* 深色模式 */
+html.theme-dark {
+    --primary-color: #6ba3ff;            /* 更亮的蓝色 */
+    --text-color: #ffffff;              /* 纯白，最高对比度 */
+    --background-color: #121212;        /* 更深黑 */
+    --border-color: #4a4a4a;            /* 更亮边框 */
+    --hover-background: #1e1e1e;        /* 更亮的悬停背景 */
+}
+
+html.theme-dark .topbar {
+    background-color: #0f0f0f;          /* 更深黑 */
+}
+
+html.theme-dark .site-title {
+    color: #6ba3ff;                     /* 更亮蓝色 */
+}
+
+/* ========== 朗读配置面板样式 ========== */
+.speech-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.speech-panel {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+html.theme-dark .speech-panel {
+    background-color: #1e1e1e;          /* 更深黑 */
+    color: #ffffff;                     /* 纯白 */
+}
+
+.speech-panel h2 {
+    margin-bottom: 20px;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.panel-control-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.panel-control-group .control-label {
+    font-weight: 500;
+    font-size: 32px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.slider-container .slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #ccc 0%, #ccc 100%);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.slider-container .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-container .slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider-value {
+    min-width: 50px;
+    text-align: right;
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* 深色模式下的滑块样式 */
+html.theme-dark .slider-container .slider {
+    background: linear-gradient(90deg, #4a4a4a 0%, #4a4a4a 100%);
+}
+
+html.theme-dark .slider-container .slider::-webkit-slider-thumb {
+    background: #6ba3ff;                /* 更亮蓝色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+html.theme-dark .slider-container .slider::-moz-range-thumb {
+    background: #6ba3ff;                /* 更亮蓝色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+html.theme-dark .slider-value {
+    color: #6ba3ff;                     /* 更亮蓝色 */
+}
+
+.toggle-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.panel-close-btn {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.panel-close-btn:hover {
+    background-color: #1557b0;
+}
+
+.panel-close-btn:active {
+    background-color: #1557b0;
+}
+
+.panel-close-btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+}
+
+html.theme-dark .panel-close-btn {
+    background-color: #6ba3ff;          /* 更亮蓝色 */
+    color: #000000;                     /* 纯黑 */
+}
+
+html.theme-dark .panel-close-btn:hover {
+    background-color: #7fb0ff;          /* 更浅蓝色 */
+}
+
+.speech-panel-btn {
+    padding: 0.6em 1.2em;
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.25em;
+    color: var(--text-color);
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.speech-panel-btn:hover {
+    background-color: #e8f0fe;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.speech-panel-btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+}
+
+/* 非激活状态 - 使用CSS变量以支持深色模式 */
+.speech-panel-btn.inactive {
+    background-color: var(--hover-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.speech-panel-btn.inactive:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+}
+
+/* 深色模式下的非激活状态 */
+html.theme-dark .speech-panel-btn.inactive {
+    background-color: var(--hover-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html.theme-dark .speech-panel-btn.inactive:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.speech-panel-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.speech-panel-btn.active:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+    box-shadow: 0 2px 12px rgba(26, 115, 232, 0.4);
+}
+
+html.theme-dark .speech-panel-btn.active {
+    background-color: #6ba3ff;          /* 更亮蓝色 */
+    border-color: #6ba3ff;
+    color: #000000;                     /* 纯黑 */
+}
+
+html.theme-dark .speech-panel-btn.active:hover {
+    background-color: #7fb0ff;          /* 更浅蓝色 */
+    border-color: #7fb0ff;
+}/* ========== 行朗读浮动面板样式 ========== */
+.line-reader-panel {
+    position: fixed;
+    right: 20px;
+    top: 120px;
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 900;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+html.theme-dark .line-reader-panel {
+    background-color: var(--hover-background); /* 使用CSS变量 */
+    border-color: var(--primary-color); /* 使用CSS变量 */
+}
+
+.line-reader-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+html.theme-dark .line-reader-title {
+    color: var(--primary-color); /* 使用CSS变量 */
+}
+
+.line-reader-btn {
+    padding: 0.6em 1.2em; /* 使用em单位，与其他按钮一致 */
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.25em; /* 使用em单位，与其他按钮一致 */
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.line-reader-btn:hover {
+    background-color: #e8f0fe;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.line-reader-btn:nth-child(4) {
+    align-self: flex-end;
+    padding: 0.4em 0.6em; /* 使用em单位 */
+    min-width: auto;
+}
+
+html.theme-dark .line-reader-btn {
+    background-color: var(--hover-background); /* 使用CSS变量 */
+    border-color: var(--border-color); /* 使用CSS变量 */
+    color: var(--text-color); /* 使用CSS变量 */
+}
+
+html.theme-dark .line-reader-btn:hover {
+    background-color: var(--border-color); /* 使用CSS变量 */
+    border-color: var(--primary-color); /* 使用CSS变量 */
+    color: var(--primary-color); /* 使用CSS变量 */
+}
+
+@media (max-width: 768px) {
+    .line-reader-panel {
+        right: 10px;
+        top: auto;
+        bottom: 20px;
+        min-width: 130px;
+    }
+}
+
+/* ========== 鼠标样式功能样式 ========== */
+
+/* 大鼠标样式 */
+.big-mouse-cursor {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: rgba(26, 115, 232, 0.2);
+    pointer-events: none;
+    z-index: 9999;
+    transition: left 0.05s linear, top 0.05s linear;
+    box-shadow: 0 0 10px rgba(26, 115, 232, 0.5);
+}
+
+html.theme-dark .big-mouse-cursor {
+    border-color: #8ab4f8;
+    background-color: rgba(138, 180, 248, 0.2);
+    box-shadow: 0 0 10px rgba(138, 180, 248, 0.5);
+}
+
+/* 十字线样式 */
+.crosshair-cursor {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+}
+
+.crosshair-horizontal {
+    position: absolute;
+    width: 100vw;
+    height: 2px;
+    background-color: #ff0000;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    opacity: 0.7;
+}
+
+.crosshair-vertical {
+    position: absolute;
+    width: 2px;
+    height: 100vh;
+    background-color: #ff0000;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    opacity: 0.7;
+}
+
+html.theme-dark .crosshair-horizontal,
+html.theme-dark .crosshair-vertical {
+    background-color: #ff6666;
+}
+
+/* 鼠标样式面板按钮 */
+.mouse-style-btn {
+    padding: 0.6em 1.2em;
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.25em;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.mouse-style-btn:hover {
+    background-color: #e8f0fe;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.mouse-style-btn:focus {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+}
+
+.mouse-style-btn.inactive {
+    background-color: var(--hover-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.mouse-style-btn.inactive:hover {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+}
+
+.mouse-style-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.mouse-style-btn.active:hover {
+    background-color: #1557b0;
+    border-color: #1557b0;
+    box-shadow: 0 2px 12px rgba(26, 115, 232, 0.4);
+}
+
+/* 深色模式下的鼠标样式按钮 */
+html.theme-dark .mouse-style-btn.inactive {
+    background-color: var(--hover-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html.theme-dark .mouse-style-btn.inactive:hover {
+    background-color: var(--border-color);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+html.theme-dark .mouse-style-btn.active {
+    background-color: #8ab4f8;
+    border-color: #8ab4f8;
+    color: #202124;
+}
+
+html.theme-dark .mouse-style-btn.active:hover {
+    background-color: #aecbfa;
+    border-color: #aecbfa;
+}
+
+/* 鼠标样式面板 */
+.mouse-style-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.mouse-style-panel {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.mouse-style-panel h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+html.theme-dark .mouse-style-panel {
+    background-color: var(--hover-background);
+}
+
+html.theme-dark .mouse-style-panel h2 {
+    color: var(--text-color);
+}
