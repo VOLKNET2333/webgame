@@ -7,16 +7,21 @@
 
 :root {
     --primary-color: #1a73e8;
-    --text-color: #000000;              /* 纯黑，更高对比度 */
+    --text-color: #000000;
+    /* 纯黑，更高对比度 */
     --background-color: #ffffff;
-    --border-color: #b3b3b3;            /* 更深灰，增加边框对比度 */
-    --hover-background: #f0f0f0;        /* 更深灰背景 */
+    --border-color: #b3b3b3;
+    /* 更深灰，增加边框对比度 */
+    --hover-background: #f0f0f0;
+    /* 更深灰背景 */
     --focus-outline: 3px solid #1a73e8;
 }
 
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -64,6 +69,7 @@ body {
         transform: translateY(-100%);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -72,12 +78,51 @@ body {
 
 .nav-topbar-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     max-width: 100%;
     margin: 0 auto;
     padding: 1em 1.5em;
     gap: 1.5em;
+}
+
+/* GitHub 链接样式 */
+.github-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    color: white;
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.github-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.github-link:active {
+    transform: translateY(0);
+}
+
+.github-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.github-text {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* 顶栏中的按钮组 - 横向排列 */
@@ -127,7 +172,8 @@ body {
 /* 为body添加左侧栏边距 */
 body {
     margin-left: 0;
-    padding-top: 70px; /* 顶部导航栏高度 */
+    padding-top: 70px;
+    /* 顶部导航栏高度 */
     transition: margin-left 0.3s ease;
 }
 
@@ -161,6 +207,7 @@ html.theme-dark .sidebar {
         left: -240px;
         opacity: 0;
     }
+
     to {
         left: 0;
         opacity: 1;
@@ -306,45 +353,54 @@ html.theme-dark .sidebar-nav .dropdown-menu {
         margin-left: 0;
         padding-top: 70px;
     }
-    
+
     body.sidebar-open {
         margin-left: 0;
         overflow: hidden;
     }
-    
+
     .sidebar {
         left: -280px;
         width: 280px;
     }
-    
+
     body.sidebar-open .sidebar {
         left: 0;
         box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
     }
-    
+
     .sidebar-toggle {
         display: block;
     }
-    
+
     .zoom-indicator {
         padding: 8px 12px;
         font-size: 14px;
         margin-bottom: 6px;
     }
-    
+
     .sidebar-btn {
         padding: 12px 14px;
         font-size: 18px;
     }
-    
+
     .sidebar-nav {
         gap: 0.3em;
         padding: 0.8em;
     }
-    
+
     .line-reader-title {
         font-size: 12px;
         padding: 0 14px;
+    }
+
+    /* GitHub 链接响应式 - 在小屏幕上隐藏文字 */
+    .github-text {
+        display: none;
+    }
+
+    .github-link {
+        padding: 8px 12px;
     }
 }
 
@@ -471,24 +527,7 @@ html.theme-dark .btn.inactive {
     margin-top: 0.5rem;
 }
 
-.hover-read-btn.active {
-    background: linear-gradient(135deg, #34a853 0%, #2d7f45 100%);
-    color: white;
-    border-color: #34a853;
-    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
-}
 
-.hover-read-btn.active:hover {
-    background: linear-gradient(135deg, #2d7f45 0%, #1e5631 100%);
-    border-color: #1e5631;
-    box-shadow: 0 6px 16px rgba(52, 168, 83, 0.4);
-}
-    background: linear-gradient(135deg, var(--primary-color), #0d47a1);
-}
-
-.hover-read-btn.active:hover {
-    background: linear-gradient(135deg, #1557b0, #0d47a1);
-}
 
 
 /* 下拉菜单容器 */
@@ -767,6 +806,7 @@ html.theme-dark .sidebar-btn.active {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -800,6 +840,7 @@ html.theme-dark .sidebar-btn.active {
         transform: translateY(20px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -890,7 +931,7 @@ html.theme-dark .sidebar-btn.active {
         padding: 0.8em 1.2em;
         gap: 1.2em;
     }
-    
+
     .btn {
         padding: 0.5em 1em;
         font-size: 1.1em;
@@ -902,10 +943,11 @@ html.theme-dark .sidebar-btn.active {
     .topbar {
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
-    
+
     .topbar-container {
         flex-direction: column;
-        align-items: stretch; /* 改为拉伸对齐 */
+        align-items: stretch;
+        /* 改为拉伸对齐 */
         padding: 0.8em 1em;
         gap: 0.8em;
     }
@@ -920,26 +962,30 @@ html.theme-dark .sidebar-btn.active {
 
     .navbar {
         width: 100%;
-        justify-content: center; /* 居中显示按钮 */
+        justify-content: center;
+        /* 居中显示按钮 */
         flex-wrap: wrap;
         gap: 0.5em;
     }
-    
+
     .btn {
         padding: 0.5em 0.8em;
         font-size: 1em;
-        flex: 1; /* 按钮平均分配宽度 */
-        min-width: 120px; /* 最小宽度 */
+        flex: 1;
+        /* 按钮平均分配宽度 */
+        min-width: 120px;
+        /* 最小宽度 */
         text-align: center;
     }
-    
+
     .button-group {
         width: 100%;
         justify-content: center;
     }
-    
+
     .button-group .btn {
-        flex: none; /* 按钮组中的按钮不拉伸 */
+        flex: none;
+        /* 按钮组中的按钮不拉伸 */
         min-width: 60px;
     }
 
@@ -977,28 +1023,28 @@ html.theme-dark .sidebar-btn.active {
         padding: 0.6em 0.8em;
         gap: 0.6em;
     }
-    
+
     .site-title {
         font-size: 1.2em;
         padding: 0.4em 0;
     }
-    
+
     .navbar {
         gap: 0.4em;
     }
-    
+
     .btn {
         padding: 0.4em 0.6em;
         font-size: 0.9em;
         min-width: 100px;
     }
-    
+
     .button-group .btn {
         min-width: 50px;
         padding: 0.3em 0.5em;
         font-size: 0.85em;
     }
-    
+
     .dropdown-menu {
         min-width: 140px;
     }
@@ -1047,19 +1093,39 @@ html.theme-light {
 
 /* 深色模式 */
 html.theme-dark {
-    --primary-color: #6ba3ff;            /* 更亮的蓝色 */
-    --text-color: #ffffff;              /* 纯白，最高对比度 */
-    --background-color: #121212;        /* 更深黑 */
-    --border-color: #4a4a4a;            /* 更亮边框 */
-    --hover-background: #1e1e1e;        /* 更亮的悬停背景 */
+    --primary-color: #6ba3ff;
+    /* 更亮的蓝色 */
+    --text-color: #ffffff;
+    /* 纯白，最高对比度 */
+    --background-color: #121212;
+    /* 更深黑 */
+    --border-color: #4a4a4a;
+    /* 更亮边框 */
+    --hover-background: #1e1e1e;
+    /* 更亮的悬停背景 */
 }
 
 html.theme-dark .topbar {
-    background-color: #0f0f0f;          /* 更深黑 */
+    background-color: #0f0f0f;
+    /* 更深黑 */
 }
 
 html.theme-dark .site-title {
-    color: #6ba3ff;                     /* 更亮蓝色 */
+    color: #6ba3ff;
+    /* 更亮蓝色 */
+}
+
+/* 深色模式下的 GitHub 链接 */
+html.theme-dark .github-link {
+    background-color: rgba(107, 163, 255, 0.1);
+    border-color: rgba(107, 163, 255, 0.3);
+    color: #8ab4f8;
+}
+
+html.theme-dark .github-link:hover {
+    background-color: rgba(107, 163, 255, 0.2);
+    border-color: rgba(107, 163, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(107, 163, 255, 0.2);
 }
 
 /* ========== 朗读配置面板样式 ========== */
@@ -1088,8 +1154,10 @@ html.theme-dark .site-title {
 }
 
 html.theme-dark .speech-panel {
-    background-color: #1e1e1e;          /* 更深黑 */
-    color: #ffffff;                     /* 纯白 */
+    background-color: #1e1e1e;
+    /* 更深黑 */
+    color: #ffffff;
+    /* 纯白 */
 }
 
 .speech-panel h2 {
@@ -1160,17 +1228,20 @@ html.theme-dark .slider-container .slider {
 }
 
 html.theme-dark .slider-container .slider::-webkit-slider-thumb {
-    background: #6ba3ff;                /* 更亮蓝色 */
+    background: #6ba3ff;
+    /* 更亮蓝色 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 html.theme-dark .slider-container .slider::-moz-range-thumb {
-    background: #6ba3ff;                /* 更亮蓝色 */
+    background: #6ba3ff;
+    /* 更亮蓝色 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 html.theme-dark .slider-value {
-    color: #6ba3ff;                     /* 更亮蓝色 */
+    color: #6ba3ff;
+    /* 更亮蓝色 */
 }
 
 .toggle-checkbox {
@@ -1208,12 +1279,15 @@ html.theme-dark .slider-value {
 }
 
 html.theme-dark .panel-close-btn {
-    background-color: #6ba3ff;          /* 更亮蓝色 */
-    color: #000000;                     /* 纯黑 */
+    background-color: #6ba3ff;
+    /* 更亮蓝色 */
+    color: #000000;
+    /* 纯黑 */
 }
 
 html.theme-dark .panel-close-btn:hover {
-    background-color: #7fb0ff;          /* 更浅蓝色 */
+    background-color: #7fb0ff;
+    /* 更浅蓝色 */
 }
 
 .speech-panel-btn {
@@ -1284,13 +1358,16 @@ html.theme-dark .speech-panel-btn.inactive:hover {
 }
 
 html.theme-dark .speech-panel-btn.active {
-    background-color: #6ba3ff;          /* 更亮蓝色 */
+    background-color: #6ba3ff;
+    /* 更亮蓝色 */
     border-color: #6ba3ff;
-    color: #000000;                     /* 纯黑 */
+    color: #000000;
+    /* 纯黑 */
 }
 
 html.theme-dark .speech-panel-btn.active:hover {
-    background-color: #7fb0ff;          /* 更浅蓝色 */
+    background-color: #7fb0ff;
+    /* 更浅蓝色 */
     border-color: #7fb0ff;
 }
 
@@ -1355,9 +1432,12 @@ html.theme-dark .speech-recognition-btn.inactive {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
     }
+
     50% {
         box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
     }
@@ -1595,11 +1675,6 @@ html.theme-dark .command-name {
 html.theme-dark .command-description {
     color: #bdc1c6;
 }
-}
-
-html.theme-dark .command-description {
-    color: #bdc1c6;
-}
 
 .panel-tips {
     background-color: #f0f7ff;
@@ -1703,15 +1778,21 @@ html.theme-dark .line-reader-title {
 }
 
 html.theme-dark .line-reader-btn {
-    background-color: var(--hover-background); /* 使用CSS变量 */
-    border-color: var(--border-color); /* 使用CSS变量 */
-    color: var(--text-color); /* 使用CSS变量 */
+    background-color: var(--hover-background);
+    /* 使用CSS变量 */
+    border-color: var(--border-color);
+    /* 使用CSS变量 */
+    color: var(--text-color);
+    /* 使用CSS变量 */
 }
 
 html.theme-dark .line-reader-btn:hover {
-    background-color: var(--border-color); /* 使用CSS变量 */
-    border-color: var(--primary-color); /* 使用CSS变量 */
-    color: var(--primary-color); /* 使用CSS变量 */
+    background-color: var(--border-color);
+    /* 使用CSS变量 */
+    border-color: var(--primary-color);
+    /* 使用CSS变量 */
+    color: var(--primary-color);
+    /* 使用CSS变量 */
 }
 
 @media (max-width: 768px) {
@@ -1909,10 +1990,92 @@ theme-button {
     z-index: 1998;
 }
 
+/* ========== 色盲模式面板样式 ========== */
+.colorblind-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.colorblind-panel {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+html.theme-dark .colorblind-panel {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.colorblind-panel h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+html.theme-dark .colorblind-panel h2 {
+    color: #6ba3ff;
+}
+
+.colorblind-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.colorblind-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+}
+
+.colorblind-option:hover {
+    background-color: var(--hover-background);
+}
+
+html.theme-dark .colorblind-option:hover {
+    background-color: #2a2a2a;
+}
+
+.colorblind-option input[type="radio"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+}
+
+html.theme-dark .colorblind-option input[type="radio"] {
+    accent-color: #6ba3ff;
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
     theme-button {
         bottom: 45px;
         right: 90px;
+    }
+
+    .colorblind-panel {
+        width: 95%;
     }
 }
