@@ -1839,7 +1839,7 @@ html.theme-dark .big-mouse-cursor {
 .crosshair-horizontal {
     position: absolute;
     width: 100vw;
-    height: 2px;
+    height: 5px;
     background-color: #ff0000;
     top: 50%;
     left: 0;
@@ -1849,7 +1849,7 @@ html.theme-dark .big-mouse-cursor {
 
 .crosshair-vertical {
     position: absolute;
-    width: 2px;
+    width: 5px;
     height: 100vh;
     background-color: #ff0000;
     left: 50%;

@@ -2568,23 +2568,38 @@ function toggleBigMouse(enabled) {
 
         console.log('大鼠标功能已启用');
     } else {
-        // 恢复原始鼠标样式
-        document.body.style.cursor = originalCursorStyle;
+        // 首先移除鼠标移动监听器，防止在清理过程中触发
+        if (bigMouseMoveListener) {
+            document.removeEventListener('mousemove', bigMouseMoveListener, true);
+            bigMouseMoveListener = null;
+        }
 
         // 移除标志类
         document.body.classList.remove('big-mouse-mode');
 
-        // 移除样式表（可选）
+        // 移除样式表
         if (bigMouseStyleElement) {
             bigMouseStyleElement.remove();
             bigMouseStyleElement = null;
         }
 
-        // 移除鼠标移动监听器
-        if (bigMouseMoveListener) {
-            document.removeEventListener('mousemove', bigMouseMoveListener, true);
-            bigMouseMoveListener = null;
-        }
+        // 恢复原始鼠标样式
+        document.body.style.cursor = originalCursorStyle || '';
+
+        // 清除所有元素上可能被单独设置的大鼠标光标样式
+        // 遍历所有元素，移除通过style属性设置的光标样式
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(element => {
+            // 检查元素是否通过style属性设置了光标样式
+            if (element.style.cursor && element.style.cursor.includes('data:image/svg+xml')) {
+                element.style.cursor = '';
+            }
+        });
+
+        // 强制重新计算样式，确保CSS样式被正确应用
+        document.body.style.display = 'none';
+        document.body.offsetHeight; // 触发重排
+        document.body.style.display = '';
 
         console.log('大鼠标功能已禁用');
     }
@@ -3206,4 +3221,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
