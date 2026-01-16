@@ -170,9 +170,33 @@ li:hover,
 
 /* 主要内容 */
 .main-content {
+    width: 100%;
+    padding: 2rem 2rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-content > * {
+    width: 100%;
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 2rem;
+}
+
+@media (min-width: 769px) {
+    body.sidebar-open .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .main-content > * {
+        max-width: 100%;
+    }
 }
 
 .content-section {
@@ -236,75 +260,76 @@ html.theme-dark .footer {
 
 /* ========== 重新设计的页面样式 ========== */
 
-/* 页面标题区域 */
+/* 页面标题区域 - 使用固定px单位，不受缩放影响 */
 .page-header {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 48px 32px;
     background: linear-gradient(135deg, var(--primary-color) 0%, #0d47a1 100%);
     color: white;
     border-radius: 8px;
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
 }
 
 .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 40px;
+    margin-bottom: 16px;
     font-weight: 700;
 }
 
 .page-subtitle {
-    font-size: 1.2rem;
+    font-size: 18px;
     opacity: 0.9;
     max-width: 800px;
-    margin: 0 auto 2rem;
+    margin: 0 auto 32px;
 }
 
 .header-badges {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-top: 2rem;
+    margin-top: 32px;
 }
 
 .badge {
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.9rem;
+    font-size: 14px;
     font-weight: 500;
     backdrop-filter: blur(10px);
 }
 
-/* 核心功能区域 */
+/* 核心功能区域 - 使用固定px单位 */
 .section-title {
-    font-size: 2rem;
+    font-size: 32px;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     color: var(--text-color);
 }
 
 .section-description {
     text-align: center;
     color: #666;
-    margin-bottom: 3rem;
+    margin-bottom: 48px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    font-size: 16px;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 32px;
+    margin-top: 32px;
 }
 
 .feature-article {
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 24px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -316,53 +341,57 @@ html.theme-dark .footer {
 .feature-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
 .feature-icon {
-    font-size: 2rem;
+    font-size: 32px;
 }
 
 .feature-article h3 {
-    font-size: 1.5rem;
+    font-size: 24px;
     margin: 0;
     color: var(--text-color);
 }
 
 .feature-content p {
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     line-height: 1.6;
+    font-size: 16px;
 }
 
 .feature-details {
     background-color: var(--hover-background);
-    padding: 1rem;
+    padding: 16px;
     border-radius: 6px;
-    margin-top: 1rem;
+    margin-top: 16px;
 }
 
 .feature-details h4 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
     color: var(--primary-color);
+    font-size: 16px;
 }
 
 .feature-details ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
+    margin-left: 24px;
+    margin-bottom: 16px;
 }
 
 .feature-details li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 4px;
+    font-size: 15px;
 }
 
 .feature-note {
     font-style: italic;
     color: #666;
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 16px;
+    padding-top: 16px;
     border-top: 1px solid var(--border-color);
+    font-size: 15px;
 }
 
 /* 功能演示区域 */
@@ -492,6 +521,38 @@ html.theme-dark .footer {
     color: #666;
 }
 
+.footer-credits {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #ddd;
+}
+
+.footer-credits a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-credits a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}
+
+html.theme-dark .footer-credits {
+    color: #aaa;
+    border-top-color: #4a4a4a;
+}
+
+html.theme-dark .footer-credits a {
+    color: #6ba3ff;
+}
+
+html.theme-dark .footer-credits a:hover {
+    color: #8ab4f8;
+}
+
 .footer-badge {
     background-color: var(--primary-color);
     color: white;
@@ -532,7 +593,6 @@ html.theme-dark .footer-badge {
     color: #000000;                     /* 纯黑文本 */
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
     .page-title {
         font-size: 2rem;
@@ -544,6 +604,19 @@ html.theme-dark .footer-badge {
     
     .section-title {
         font-size: 1.75rem;
+    }
+    
+    .content-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .content-section h3 {
+        font-size: 1.1rem;
     }
     
     .features-grid,
@@ -588,3 +661,104 @@ html.theme-dark .footer-badge {
         padding: 1rem;
     }
 }
+
+/* ========== 高级动画效果 ========== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(26, 115, 232, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(26, 115, 232, 0.6);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* 内容区域动画 */
+.content-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.feature-article {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.feature-article:nth-child(1) { animation-delay: 0.1s; }
+.feature-article:nth-child(2) { animation-delay: 0.2s; }
+.feature-article:nth-child(3) { animation-delay: 0.3s; }
+.feature-article:nth-child(4) { animation-delay: 0.4s; }
+
+/* 卡片悬停效果 */
+.demo-card,
+.guide-card,
+.spec-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.demo-card:hover,
+.guide-card:hover,
+.spec-card:hover {
+    transform: translateY(-8px);
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* 页面标题渐入动画 */
+.page-header {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.page-title {
+    animation: slideInFromLeft 0.8s ease-out;
+}
+
+.page-subtitle {
+    animation: slideInFromLeft 0.8s ease-out;
+    animation-delay: 0.1s;
+}
+
+.header-badges {
+    animation: slideInFromLeft 0.8s ease-out;
+    animation-delay: 0.2s;
+}
+
+/* 徽章脉冲效果 */
+.badge {
+    transition: all 0.3s ease;
+}
+
+.badge:hover {
+    animation: pulse 0.6s ease-in-out;
+}
+
+/* 响应式设计 - 移动设备 */

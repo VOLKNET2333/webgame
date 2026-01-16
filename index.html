@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>无障碍网页功能展示</title>
+    <title>北魏老弱病残扶持计划</title>
     <style>
         /* 低版本浏览器兼容性备用方案 */
         .btn {
@@ -23,13 +23,19 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <!-- 顶栏容器 -->
-    <header id="topbar" class="topbar" role="region" aria-label="网页顶栏">
-        <div class="topbar-container">
-            <h1 class="site-title">无障碍网页</h1>
-            <nav id="navbar" class="navbar" role="navigation" aria-label="功能菜单"></nav>
+    <!-- 顶部导航栏 -->
+    <header id="nav-topbar" class="nav-topbar" role="region" aria-label="网页导航栏">
+        <div class="nav-topbar-container">
+            <div class="site-branding">
+                <h1 class="site-name">北魏老弱病残扶持计划</h1>
+            </div>
         </div>
     </header>
+
+    <!-- 左侧功能栏 -->
+    <aside id="sidebar" class="sidebar" role="complementary" aria-label="功能控制栏">
+        <nav id="navbar" class="sidebar-nav" role="navigation" aria-label="功能菜单"></nav>
+    </aside>
 
     <!-- 主要内容区域 -->
     <main class="main-content" role="main">
@@ -444,6 +450,9 @@ lineReaderManager.readPreviousLine();</code></pre>
             </div>
         </div>
     </footer>
+
+    <!-- 日夜切换按钮 -->
+    <theme-button value="light" id="theme-btn" size="3"></theme-button>
 
     <script src="script.js"></script>
 </body>

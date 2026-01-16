@@ -43,81 +43,364 @@ body {
     top: 0;
 }
 
-/* 顶栏样式 - 不受放大缩小影响 */
-.topbar {
-    background-color: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
+/* ========== 顶部导航栏样式 ========== */
+.nav-topbar {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0d47a1 100%);
+    border-bottom: 2px solid #0d47a1;
+    position: fixed;
     top: 0;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: scale(1) !important;
     zoom: 100% !important;
-    font-size: 16px !important; /* 固定字体大小，不受根元素影响 */
-    transition: box-shadow 0.3s ease;
+    font-size: 16px !important;
+    animation: slideDown 0.5s ease-out;
 }
 
-.topbar:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
-.topbar-container {
+.nav-topbar-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    max-width: 100%; /* 与主要内容区域对齐 */
+    max-width: 100%;
     margin: 0 auto;
-    padding: 1em 1.5em; /* 优化内边距 */
+    padding: 1em 1.5em;
     gap: 1.5em;
 }
 
-.site-title {
-    font-size: 1.5em; /* 使用em单位，相对于顶栏的固定字体大小 */
-    font-weight: 700; /* 加粗字体 */
-    color: var(--primary-color);
+/* 顶栏中的按钮组 - 横向排列 */
+.nav-topbar-container .button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.nav-topbar-container .button-group .btn {
+    padding: 8px 12px;
+    font-size: 15px;
+    flex: 1;
+    min-width: 60px;
+    font-weight: 600;
+}
+
+.nav-topbar-container .zoom-indicator {
+    padding: 6px 10px;
+    font-size: 15px;
+    min-width: 50px;
+    font-weight: 600;
+}
+
+.site-branding {
+    margin: 0;
+}
+
+.site-name {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: white;
     margin: 0;
     padding: 0.25em 0;
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.site-title:hover {
-    color: #1557b0; /* 悬停时加深颜色 */
+.site-name:hover {
+    transform: scale(1.05);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 导航栏 */
-.navbar {
-    display: -webkit-box;
-    display: -ms-flexbox;
+/* 为body添加左侧栏边距 */
+body {
+    margin-left: 0;
+    padding-top: 70px; /* 顶部导航栏高度 */
+    transition: margin-left 0.3s ease;
+}
+
+body.sidebar-open {
+    margin-left: 210px;
+}
+
+/* ========== 左侧功能栏样式 ========== */
+.sidebar {
+    position: fixed;
+    left: -200px;
+    top: 70px;
+    width: 200px;
+    height: calc(100vh - 70px);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8eef7 100%);
+    border-right: 2px solid var(--border-color);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+    z-index: 1999;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+html.theme-dark .sidebar {
+    background: linear-gradient(135deg, #292a2d 0%, #202124 100%);
+    border-right-color: #4a4a4a;
+}
+
+@keyframes slideInLeft {
+    from {
+        left: -240px;
+        opacity: 0;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+    }
+}
+
+.sidebar-header {
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+    justify-content: space-between;
     align-items: center;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    gap: 1em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    padding: 1.2em;
+    border-bottom: 2px solid var(--border-color);
+    background: rgba(26, 115, 232, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-/* 按钮样式 */
+.sidebar-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.sidebar-toggle {
+    display: none;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 11;
+}
+
+.sidebar-toggle::before,
+.sidebar-toggle::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: all 0.3s ease;
+    left: 6px;
+}
+
+.sidebar-toggle::before {
+    top: 10px;
+    transform: rotate(45deg);
+}
+
+.sidebar-toggle::after {
+    top: 16px;
+    transform: rotate(-45deg);
+}
+
+/* ========== 左侧导航栏样式 ========== */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1em;
+    font-size: 16px;
+    min-height: 100%;
+}
+
+html.theme-dark .sidebar-nav {
+    background-color: transparent;
+}
+
+.sidebar-nav .btn {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 14px 18px;
+    font-size: 20px;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.sidebar-nav .btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: var(--primary-color);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: top;
+}
+
+.sidebar-nav .btn:hover {
+    background-color: #e8f0fe;
+    transform: translateX(4px);
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.1);
+}
+
+.sidebar-nav .btn:hover::before {
+    transform: scaleY(1);
+}
+
+.sidebar-nav .btn.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0d47a1 100%);
+    color: white;
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.2);
+}
+
+.sidebar-nav .btn.active::before {
+    background-color: white;
+    transform: scaleY(1);
+}
+
+.sidebar-nav .dropdown-menu-container {
+    width: 100%;
+}
+
+.sidebar-nav .dropdown-menu {
+    position: static;
+    border: none;
+    box-shadow: none;
+    background-color: rgba(26, 115, 232, 0.05);
+    border-radius: 0 6px 6px 0;
+    min-width: 100%;
+    margin-top: 0;
+}
+
+html.theme-dark .sidebar-nav .dropdown-menu {
+    background-color: rgba(107, 163, 255, 0.08);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    body {
+        margin-left: 0;
+        padding-top: 70px;
+    }
+    
+    body.sidebar-open {
+        margin-left: 0;
+        overflow: hidden;
+    }
+    
+    .sidebar {
+        left: -280px;
+        width: 280px;
+    }
+    
+    body.sidebar-open .sidebar {
+        left: 0;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    }
+    
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    .zoom-indicator {
+        padding: 8px 12px;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    
+    .sidebar-btn {
+        padding: 12px 14px;
+        font-size: 18px;
+    }
+    
+    .sidebar-nav {
+        gap: 0.3em;
+        padding: 0.8em;
+    }
+    
+    .line-reader-title {
+        font-size: 12px;
+        padding: 0 14px;
+    }
+}
+
+/* ========== 导航栏 ========== */
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5em;
+    font-size: 16px;
+}
+
+/* ========== 按钮样式 ========== */
 .btn {
-    padding: 0.6em 1.2em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    padding: 0.8em 1.2em;
     background-color: var(--hover-background);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1.25em; /* 使用em单位，相对于顶栏的固定字体大小 */
+    font-size: 1em;
     color: var(--text-color);
-    -webkit-transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    -ms-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-weight: 500;
+    position: relative;
+    overflow: visible;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(26, 115, 232, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.btn:active::after {
+    width: 200px;
+    height: 200px;
 }
 
 .btn:hover {
     background-color: #e8f0fe;
     border-color: var(--primary-color);
     color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.15);
 }
 
 .btn:focus {
@@ -127,6 +410,7 @@ body {
 
 .btn:active {
     background-color: #d2e3fc;
+    transform: translateY(0);
 }
 
 /* 禁用状态 */
@@ -137,17 +421,16 @@ body {
 
 /* 按钮激活状态 */
 .btn.active {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0d47a1 100%);
     color: white;
     border-color: var(--primary-color);
-    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
-    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
 }
 
 .btn.active:hover {
-    background-color: #1557b0;
-    border-color: #1557b0;
-    box-shadow: 0 2px 12px rgba(26, 115, 232, 0.4);
+    background: linear-gradient(135deg, #1557b0 0%, #082d6d 100%);
+    border-color: #0d47a1;
+    box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
 }
 
 /* 按钮非激活状态 */
@@ -161,14 +444,45 @@ body {
     background-color: #f1f3f4;
     color: #202124;
     border-color: #b6b6b6;
+    transform: translateY(-2px);
 }
 
-/* 语音控制区域的按钮特殊样式 */
+/* 深色模式按钮样式 */
+html.theme-dark .btn {
+    background-color: #3a3a3c;
+    border-color: #6a6a6c;
+    color: #f5f5f5;
+}
+
+html.theme-dark .btn:hover {
+    background-color: #2a3a5a;
+    border-color: var(--primary-color);
+    color: #ffffff;
+}
+
+html.theme-dark .btn.inactive {
+    background-color: #2a2a2c;
+    color: #a0a0a2;
+    border-color: #4a4a4c;
+}
+
+/* 语音相关按钮 */
 .hover-read-btn {
     margin-top: 0.5rem;
 }
 
 .hover-read-btn.active {
+    background: linear-gradient(135deg, #34a853 0%, #2d7f45 100%);
+    color: white;
+    border-color: #34a853;
+    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+}
+
+.hover-read-btn.active:hover {
+    background: linear-gradient(135deg, #2d7f45 0%, #1e5631 100%);
+    border-color: #1e5631;
+    box-shadow: 0 6px 16px rgba(52, 168, 83, 0.4);
+}
     background: linear-gradient(135deg, var(--primary-color), #0d47a1);
 }
 
@@ -258,17 +572,70 @@ body {
     box-shadow: 0 2px 12px rgba(52, 168, 83, 0.4);
 }
 
-/* 按钮组 - 不受缩放影响 */
+/* 按钮组 - 已废弃，保留以供向后兼容 */
 .button-group {
     display: flex;
-    gap: 0.25em; /* 使用em单位，相对于顶栏的固定字体大小 */
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+    padding: 4px 8px;
 }
 
-.button-group .btn {
-    border-radius: 4px;
-    margin: 0 2px; /* 使用像素值，不受缩放影响 */
+/* 缩放指示器 - 独立样式 */
+.zoom-indicator {
+    display: block;
+    padding: 10px 14px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: #1a73e8;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.4;
+    margin-bottom: 8px;
 }
+
+/* 侧边栏功能按钮 - 统一样式 */
+.sidebar-btn {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 14px 18px;
+    font-size: 20px;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.sidebar-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: var(--primary-color);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: top;
+}
+
+.sidebar-btn:hover {
+    background-color: #e8f0fe;
+    transform: translateX(4px);
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.1);
+}
+
+.sidebar-btn:hover::before {
+    transform: scaleY(1);
+}
+
 
 /* 语音控制容器 */
 .speech-control-container {
@@ -491,18 +858,6 @@ body {
     padding: 0.75rem;
     font-size: 1rem;
     font-weight: 600;
-}
-
-/* 缩放指示器 - 不受缩放影响 */
-.zoom-indicator {
-    font-size: 1.3em; /* 使用em单位，相对于顶栏的固定字体大小 */
-    color: #666;
-    padding: 0.5em 1em; /* 使用em单位 */
-    background-color: var(--hover-background);
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    min-width: 60px;
-    text-align: center;
 }
 
 /* 中等屏幕尺寸 (769px - 1024px) */
@@ -913,63 +1268,40 @@ html.theme-dark .speech-panel-btn.active {
 html.theme-dark .speech-panel-btn.active:hover {
     background-color: #7fb0ff;          /* 更浅蓝色 */
     border-color: #7fb0ff;
-}/* ========== 行朗读浮动面板样式 ========== */
+}/* ========== 行朗读面板样式 - 集成到侧边栏 ========== */
 .line-reader-panel {
-    position: fixed;
-    right: 20px;
-    top: 120px;
-    background-color: var(--background-color);
-    border: 2px solid var(--primary-color);
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 900;
-    min-width: 140px;
+    position: static;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 12px 8px;
+    box-shadow: none;
+    z-index: auto;
+    min-width: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    margin-top: auto;
+    border-top: 2px solid var(--border-color);
+    margin-top: 12px;
 }
 
 html.theme-dark .line-reader-panel {
-    background-color: var(--hover-background); /* 使用CSS变量 */
-    border-color: var(--primary-color); /* 使用CSS变量 */
+    background-color: transparent;
+    border-color: var(--border-color);
 }
 
 .line-reader-title {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 24px;
     color: var(--primary-color);
     text-align: center;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    padding: 10px 14px;
 }
 
 html.theme-dark .line-reader-title {
-    color: var(--primary-color); /* 使用CSS变量 */
-}
-
-.line-reader-btn {
-    padding: 0.6em 1.2em; /* 使用em单位，与其他按钮一致 */
-    background-color: var(--hover-background);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1.25em; /* 使用em单位，与其他按钮一致 */
-    color: var(--text-color);
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    font-weight: 500;
-}
-
-.line-reader-btn:hover {
-    background-color: #e8f0fe;
-    border-color: var(--primary-color);
     color: var(--primary-color);
-}
-
-.line-reader-btn:nth-child(4) {
-    align-self: flex-end;
-    padding: 0.4em 0.6em; /* 使用em单位 */
-    min-width: auto;
 }
 
 html.theme-dark .line-reader-btn {
@@ -1161,4 +1493,28 @@ html.theme-dark .mouse-style-panel {
 
 html.theme-dark .mouse-style-panel h2 {
     color: var(--text-color);
+}
+
+/* ============================================
+   日夜切换按钮 4.0 (theme-button Web Component)
+   基于 Day-night-toggle-button 项目
+   https://github.com/Xiumuzaidiao/Day-night-toggle-button
+   LICENSE: ISC License
+   Copyright(c)2024, Xiumuzaidiao
+   ============================================ */
+
+/* 定位样式 */
+theme-button {
+    position: fixed;
+    bottom: 50px;
+    right: 100px;
+    z-index: 1998;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    theme-button {
+        bottom: 45px;
+        right: 90px;
+    }
 }

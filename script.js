@@ -36,38 +36,54 @@ function saveDebugConfig() {
 // 顶栏功能配置 - 使用const定义
 const NAVBAR_FEATURES = [
     {
-        id: 'zoom-controls',
-        type: 'button-group',
-        label: '页面缩放',
-        buttons: [
-            { id: 'zoom-decrease', text: '缩小（−）', title: '减小页面显示大小，按Ctrl+-', action: 'decreaseZoom', ariaLabel: '缩小页面' },
-            { id: 'zoom-reset', text: '重置', title: '重置页面缩放到100%', action: 'resetZoom', ariaLabel: '重置页面缩放' },
-            { id: 'zoom-increase', text: '放大（+）', title: '增大页面显示大小，按Ctrl++', action: 'increaseZoom', ariaLabel: '放大页面' }
-        ]
+        id: 'zoom-decrease',
+        type: 'single-button',
+        label: '缩小页面',
+        button: { id: 'zoom-decrease', text: '缩小 −', title: '减小页面显示大小，按Ctrl+-', action: 'decreaseZoom', ariaLabel: '缩小页面' }
+    },
+    {
+        id: 'zoom-reset',
+        type: 'single-button',
+        label: '重置缩放',
+        button: { id: 'zoom-reset', text: '重 置', title: '重置页面缩放到100%', action: 'resetZoom', ariaLabel: '重置页面缩放' }
+    },
+    {
+        id: 'zoom-increase',
+        type: 'single-button',
+        label: '放大页面',
+        button: { id: 'zoom-increase', text: '放大 +', title: '增大页面显示大小，按Ctrl++', action: 'increaseZoom', ariaLabel: '放大页面' }
     },
     {
         id: 'mouse-style',
-        type: 'mouse-style-panel',
+        type: 'single-button',
         label: '鼠标样式',
         button: { id: 'mouse-style-btn', text: '🖱️ 鼠标样式', title: '打开鼠标样式设置面板', ariaLabel: '打开鼠标样式设置面板' }
     },
     {
         id: 'speech-panel',
-        type: 'speech-panel',
+        type: 'single-button',
         label: '页面朗读',
         button: { id: 'speech-panel-btn', text: '📖 页面朗读', title: '打开朗读配置面板', ariaLabel: '打开页面朗读配置面板' }
-    },
-    {
-        id: 'theme-control',
-        type: 'single-button',
-        label: '深色模式',
-        button: { id: 'theme-toggle', text: '🌙 深色模式', title: '切换浅色/深色模式', action: 'toggleTheme', ariaLabel: '切换深色模式' }
     },
     {
         id: 'keyboard-help',
         type: 'single-button',
         label: '快捷键帮助',
         button: { id: 'keyboard-help-btn', text: '⌨️ 快捷键', title: '查看快捷键帮助', action: 'showKeyboardHelp', ariaLabel: '快捷键帮助' }
+    },
+    {
+        id: 'line-reader-prev',
+        type: 'single-button',
+        label: '上一行',
+        button: { id: 'line-reader-prev', text: '⬆️ 上一行', title: '朗读上一行', action: 'readPreviousLine', ariaLabel: '朗读上一行' },
+        isLineReader: true
+    },
+    {
+        id: 'line-reader-next',
+        type: 'single-button',
+        label: '下一行',
+        button: { id: 'line-reader-next', text: '⬇️ 下一行', title: '朗读下一行', action: 'readNextLine', ariaLabel: '朗读下一行' },
+        isLineReader: true
     }
 ];
 
@@ -881,7 +897,6 @@ class ThemeManager {
         document.documentElement.classList.add('theme-' + theme);
         this.currentTheme = theme;
         this.saveTheme(theme);
-        this.updateThemeButton();
     }
 
     // 切换主题
@@ -890,20 +905,6 @@ class ThemeManager {
         this.applyTheme(newTheme);
         const message = newTheme === THEME_CONFIG.dark ? '已切换到深色模式' : '已切换到浅色模式';
         this.announceChange(message);
-    }
-
-    // 更新按钮状态
-    updateThemeButton() {
-        const btn = document.getElementById('theme-toggle');
-        if (btn) {
-            if (this.currentTheme === THEME_CONFIG.dark) {
-                btn.textContent = '🌙 深色模式';
-                btn.classList.add('active');
-            } else {
-                btn.textContent = '☀️ 浅色模式';
-                btn.classList.remove('active');
-            }
-        }
     }
 
     // 无障碍公告
@@ -1054,30 +1055,57 @@ class ZoomManager {
 class NavbarRenderer {
     constructor() {
         this.navbar = document.getElementById('navbar');
+        this.sidebar = document.getElementById('sidebar');
+        this.sidebarToggle = document.getElementById('sidebar-toggle');
+        window.navbarRendererInstance = this;
+        this.setupSidebarToggle();
+    }
+
+    setupSidebarToggle() {
+        if (this.sidebarToggle) {
+            this.sidebarToggle.addEventListener('click', () => {
+                document.body.classList.toggle('sidebar-open');
+                const isOpen = document.body.classList.contains('sidebar-open');
+                this.sidebarToggle.setAttribute('aria-expanded', isOpen);
+            });
+        }
     }
 
     render() {
+        // 清空导航栏
+        this.navbar.innerHTML = '';
+
+        // 添加缩放指示器
+        const indicator = document.createElement('span');
+        indicator.id = 'zoom-indicator';
+        indicator.className = 'zoom-indicator';
+        indicator.textContent = '100%';
+        indicator.setAttribute('aria-label', '当前缩放级别');
+        this.navbar.appendChild(indicator);
+
         NAVBAR_FEATURES.forEach(feature => {
-            if (feature.type === 'button-group') {
-                this.renderButtonGroup(feature);
-            } else if (feature.type === 'single-button') {
+            if (feature.type === 'single-button') {
                 this.renderSingleButton(feature);
             } else if (feature.type === 'dropdown-menu') {
                 this.renderDropdownMenu(feature);
-            } else if (feature.type === 'speech-panel') {
-                this.renderSpeechPanel(feature);
             } else if (feature.type === 'speech-control') {
                 this.renderSpeechControl(feature);
-            } else if (feature.type === 'mouse-style-panel') {
-                this.renderMouseStylePanel(feature);
             }
         });
     }
 
     renderSingleButton(feature) {
+        // 为行朗读按钮添加标题（仅首个按钮）
+        if (feature.isLineReader && feature.id === 'line-reader-prev') {
+            const title = document.createElement('div');
+            title.className = 'line-reader-title';
+            title.textContent = '按行朗读';
+            this.navbar.appendChild(title);
+        }
+        
         const btn = document.createElement('button');
         btn.id = feature.button.id;
-        btn.className = 'btn';
+        btn.className = 'btn sidebar-btn';
         btn.textContent = feature.button.text;
         btn.title = feature.button.title;
         btn.setAttribute('aria-label', feature.button.ariaLabel);
@@ -1089,9 +1117,35 @@ class NavbarRenderer {
         
         // 绑定点击事件
         btn.addEventListener('click', () => {
+            // 缩放按钮
+            if ((feature.id === 'zoom-decrease' || feature.id === 'zoom-reset' || feature.id === 'zoom-increase') && zoomManager && zoomManager[feature.button.action]) {
+                zoomManager[feature.button.action]();
+            }
+            // 鼠标样式按钮
+            else if (feature.id === 'mouse-style') {
+                const navbarRenderer = window.navbarRendererInstance;
+                if (navbarRenderer) {
+                    navbarRenderer.renderMouseStylePanel(feature);
+                }
+            }
+            // 页面朗读按钮
+            else if (feature.id === 'speech-panel') {
+                const navbarRenderer = window.navbarRendererInstance;
+                if (navbarRenderer) {
+                    navbarRenderer.renderSpeechPanel(feature);
+                }
+            }
             // 快捷键帮助按钮
-            if (feature.id === 'keyboard-help' && keyboardHelpManager) {
+            else if (feature.id === 'keyboard-help' && keyboardHelpManager) {
                 keyboardHelpManager.showKeyboardHelp();
+            }
+            // 行朗读按钮
+            else if ((feature.id === 'line-reader-prev' || feature.id === 'line-reader-next') && lineReaderManager) {
+                if (feature.id === 'line-reader-prev') {
+                    lineReaderManager.readPreviousLine();
+                } else {
+                    lineReaderManager.readNextLine();
+                }
             }
             // 语音启用按钮
             else if (feature.id === 'speech-enable' && speechManager) {
@@ -1629,42 +1683,6 @@ class NavbarRenderer {
         document.body.appendChild(panelOverlay);
     }
 
-    renderButtonGroup(feature) {
-        const group = document.createElement('div');
-        group.className = 'button-group';
-        group.setAttribute('role', 'group');
-        group.setAttribute('aria-label', feature.label);
-
-        // 为缩放功能添加指示器
-        if (feature.id === 'zoom-controls') {
-            const indicator = document.createElement('span');
-            indicator.id = 'zoom-indicator';
-            indicator.className = 'zoom-indicator';
-            indicator.textContent = '100%';
-            indicator.setAttribute('aria-label', '当前缩放级别');
-            group.appendChild(indicator);
-        }
-
-        feature.buttons.forEach(button => {
-            const btn = document.createElement('button');
-            btn.id = button.id;
-            btn.className = 'btn';
-            btn.textContent = button.text;
-            btn.title = button.title;
-            btn.setAttribute('aria-label', button.ariaLabel);
-            
-            // 绑定点击事件
-            btn.addEventListener('click', () => {
-                if (zoomManager && zoomManager[button.action]) {
-                    zoomManager[button.action]();
-                }
-            });
-
-            group.appendChild(btn);
-        });
-
-        this.navbar.appendChild(group);
-    }
 }
 
 // ============================================
@@ -1697,6 +1715,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 渲染导航栏
     const navbarRenderer = new NavbarRenderer();
     navbarRenderer.render();
+
+    // 初始化时打开左侧栏（在桌面上）
+    if (window.innerWidth > 768) {
+        document.body.classList.add('sidebar-open');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        if (sidebarToggle) {
+            sidebarToggle.setAttribute('aria-expanded', 'true');
+        }
+    }
 
     // 创建行朗读浮动面板
     createLineReaderPanel();
@@ -1744,79 +1771,68 @@ function setupLineReaderShortcuts() {
 }
 
 // ============================================
-// 创建行朗读面板
+// 创建行朗读面板（已集成到侧边栏中）
 // ============================================
 
 function createLineReaderPanel() {
-    // 创建浮动面板
-    const floatingPanel = document.createElement('div');
-    floatingPanel.id = 'line-reader-panel';
-    floatingPanel.className = 'line-reader-panel';
-    floatingPanel.style.display = 'none';
+    // 此函数现已集成到 NavbarRenderer.renderSingleButton() 中处理行朗读
+    // 以下代码保留用于监听语音启用/禁用事件，自动显示/隐藏行朗读按钮
     
-    const title = document.createElement('div');
-    title.className = 'line-reader-title';
-    title.textContent = '行朗读';
-    floatingPanel.appendChild(title);
-    
-    // 上一行按钮
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'btn line-reader-btn';
-    prevBtn.textContent = '⬆️ 上一行';
-    prevBtn.title = '朗读上一行';
-    prevBtn.addEventListener('click', () => {
-        if (lineReaderManager) {
-            lineReaderManager.readPreviousLine();
-        }
-    });
-    floatingPanel.appendChild(prevBtn);
-    
-    // 下一行按钮
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'btn line-reader-btn';
-    nextBtn.textContent = '⬇️ 下一行';
-    nextBtn.title = '朗读下一行';
-    nextBtn.addEventListener('click', () => {
-        if (lineReaderManager) {
-            lineReaderManager.readNextLine();
-        }
-    });
-    floatingPanel.appendChild(nextBtn);
-    
-    document.body.appendChild(floatingPanel);
-    
-    // 保存面板引用到全局变量，方便其他函数访问
-    window.lineReaderPanel = floatingPanel;
-    
-    // 监听语音启用/禁用事件，自动显示/隐藏面板
+    // 监听语音启用/禁用事件，自动显示/隐藏行朗读按钮
     if (speechManager && speechManager.toggleEnabled) {
         // 保存原始toggleEnabled方法
         const originalToggleEnabled = speechManager.toggleEnabled;
         
-        // 重写toggleEnabled来同步面板显示
+        // 重写toggleEnabled来同步行朗读按钮显示
         speechManager.toggleEnabled = function() {
             originalToggleEnabled.call(this);
-            // 语音启用时显示面板，禁用时隐藏
-            if (window.lineReaderPanel) {
-                window.lineReaderPanel.style.display = this.enabled ? 'flex' : 'none';
+            // 语音启用时显示行朗读按钮，禁用时隐藏
+            const titleElement = document.querySelector('.line-reader-title');
+            const prevBtn = document.getElementById('line-reader-prev');
+            const nextBtn = document.getElementById('line-reader-next');
+            
+            if (titleElement || prevBtn || nextBtn) {
+                const display = this.enabled ? 'block' : 'none';
+                if (titleElement) titleElement.style.display = display;
+                if (prevBtn) prevBtn.style.display = display;
+                if (nextBtn) nextBtn.style.display = display;
             }
         };
     }
     
-    // 添加一个函数来手动切换面板显示
+    // 添加一个函数来手动切换行朗读按钮显示
     window.toggleLineReaderPanel = function() {
-        if (window.lineReaderPanel) {
-            const isVisible = window.lineReaderPanel.style.display !== 'none';
-            window.lineReaderPanel.style.display = isVisible ? 'none' : 'flex';
+        const titleElement = document.querySelector('.line-reader-title');
+        const prevBtn = document.getElementById('line-reader-prev');
+        const nextBtn = document.getElementById('line-reader-next');
+        
+        if (titleElement || prevBtn || nextBtn) {
+            const isVisible = (titleElement && titleElement.style.display !== 'none') || 
+                             (prevBtn && prevBtn.style.display !== 'none') || 
+                             (nextBtn && nextBtn.style.display !== 'none');
+            const display = isVisible ? 'none' : 'block';
+            if (titleElement) titleElement.style.display = display;
+            if (prevBtn) prevBtn.style.display = display;
+            if (nextBtn) nextBtn.style.display = display;
             return !isVisible;
         }
         return false;
     };
     
-    // 初始显示检查：如果语音已启用，显示面板
-    if (speechManager && speechManager.enabled && window.lineReaderPanel) {
-        window.lineReaderPanel.style.display = 'flex';
-    }
+    // 初始显示检查：如果语音已启用，显示行朗读按钮
+    setTimeout(() => {
+        if (speechManager && speechManager.enabled) {
+            const titleElement = document.querySelector('.line-reader-title');
+            const prevBtn = document.getElementById('line-reader-prev');
+            const nextBtn = document.getElementById('line-reader-next');
+            
+            if (titleElement || prevBtn || nextBtn) {
+                if (titleElement) titleElement.style.display = 'block';
+                if (prevBtn) prevBtn.style.display = 'block';
+                if (nextBtn) nextBtn.style.display = 'block';
+            }
+        }
+    }, 100);
 }
 
 // ============================================
@@ -2259,4 +2275,253 @@ document.addEventListener('keydown', (e) => {
 // 全局快捷方式
 window.showDebug = () => debugManager.showDebugPanel();
 window.logDebug = () => debugManager.logDebugInfo();
+
+/* ============================================
+   日夜切换按钮 4.0 Web Component
+   基于 Day-night-toggle-button 项目
+   https://github.com/Xiumuzaidiao/Day-night-toggle-button
+   LICENSE: ISC License
+   Copyright(c)2024, Xiumuzaidiao
+   ============================================ */
+
+(() => {
+  const func = (root, initTheme, changeTheme) => {
+    const $ = (s) => {
+      let dom = root.querySelectorAll(s);
+      return dom.length == 1 ? dom[0] : dom;
+    };
+    let mainButton = $(".main-button");
+    let daytimeBackground = $(".daytime-background");
+    let cloud = $(".cloud");
+    let cloudList = $(".cloud-son");
+    let cloudLight = $(".cloud-light");
+    let components = $(".components");
+    let moon = $(".moon");
+    let stars = $(".stars");
+    let star = $(".star");
+    let isMoved = false;
+    let isClicked = false;
+    
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      toggleThemeBasedOnSystem();
+    });
+    
+    const toggleThemeBasedOnSystem = () => {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        if (!isMoved) {
+          components.onclick();
+        }
+      } else {
+        if (isMoved) {
+          components.onclick();
+        }
+      }
+    };
+    
+    components.onclick = () => {
+      if (isMoved) {
+        mainButton.style.transform = "translateX(0)";
+        mainButton.style.backgroundColor = "rgba(255, 195, 35,1)";
+        mainButton.style.boxShadow = "3em 3em 5em rgba(0, 0, 0, 0.5), inset  -3em -5em 3em -3em rgba(0, 0, 0, 0.5), inset  4em 5em 2em -2em rgba(255, 230, 80,1)";
+        daytimeBackground[0].style.transform = "translateX(0)";
+        daytimeBackground[1].style.transform = "translateX(0)";
+        daytimeBackground[2].style.transform = "translateX(0)";
+        cloud.style.transform = "translateY(10em)";
+        cloudLight.style.transform = "translateY(10em)";
+        components.style.backgroundColor = "rgba(70, 133, 192,1)";
+        moon[0].style.opacity = "0";
+        moon[1].style.opacity = "0";
+        moon[2].style.opacity = "0";
+        stars.style.transform = "translateY(-125em)";
+        stars.style.opacity = "0";
+        changeTheme("light");
+      } else {
+        mainButton.style.transform = "translateX(110em)";
+        mainButton.style.backgroundColor = "rgba(195, 200,210,1)";
+        mainButton.style.boxShadow = "3em 3em 5em rgba(0, 0, 0, 0.5), inset  -3em -5em 3em -3em rgba(0, 0, 0, 0.5), inset  4em 5em 2em -2em rgba(255, 255, 210,1)";
+        daytimeBackground[0].style.transform = "translateX(110em)";
+        daytimeBackground[1].style.transform = "translateX(80em)";
+        daytimeBackground[2].style.transform = "translateX(50em)";
+        cloud.style.transform = "translateY(80em)";
+        cloudLight.style.transform = "translateY(80em)";
+        components.style.backgroundColor = "rgba(25,30,50,1)";
+        moon[0].style.opacity = "1";
+        moon[1].style.opacity = "1";
+        moon[2].style.opacity = "1";
+        stars.style.transform = "translateY(-62.5em)";
+        stars.style.opacity = "1";
+        changeTheme("dark");
+      }
+      isClicked = true;
+      setTimeout(function () {
+        isClicked = false;
+      }, 500);
+      isMoved = !isMoved;
+    };
+
+    mainButton.addEventListener("mousemove", function () {
+      if (isClicked) return;
+      if (isMoved) {
+        mainButton.style.transform = "translateX(100em)";
+        daytimeBackground[0].style.transform = "translateX(100em)";
+        daytimeBackground[1].style.transform = "translateX(73em)";
+        daytimeBackground[2].style.transform = "translateX(46em)";
+        star[0].style.top = "10em";
+        star[0].style.left = "36em";
+        star[1].style.top = "40em";
+        star[1].style.left = "87em";
+        star[2].style.top = "26em";
+        star[2].style.left = "16em";
+        star[3].style.top = "38em";
+        star[3].style.left = "63em";
+        star[4].style.top = "20.5em";
+        star[4].style.left = "72em";
+        star[5].style.top = "51.5em";
+        star[5].style.left = "35em";
+      } else {
+        mainButton.style.transform = "translateX(10em)";
+        daytimeBackground[0].style.transform = "translateX(10em)";
+        daytimeBackground[1].style.transform = "translateX(7em)";
+        daytimeBackground[2].style.transform = "translateX(4em)";
+        cloudList[0].style.right = "-24em";
+        cloudList[0].style.bottom = "10em";
+        cloudList[1].style.right = "-12em";
+        cloudList[1].style.bottom = "-27em";
+        cloudList[2].style.right = "17em";
+        cloudList[2].style.bottom = "-43em";
+        cloudList[3].style.right = "46em";
+        cloudList[3].style.bottom = "-39em";
+        cloudList[4].style.right = "70em";
+        cloudList[4].style.bottom = "-65em";
+        cloudList[5].style.right = "109em";
+        cloudList[5].style.bottom = "-54em";
+        cloudList[6].style.right = "-23em";
+        cloudList[6].style.bottom = "10em";
+        cloudList[7].style.right = "-11em";
+        cloudList[7].style.bottom = "-26em";
+        cloudList[8].style.right = "18em";
+        cloudList[8].style.bottom = "-42em";
+        cloudList[9].style.right = "47em";
+        cloudList[9].style.bottom = "-38em";
+        cloudList[10].style.right = "74em";
+        cloudList[10].style.bottom = "-64em";
+        cloudList[11].style.right = "110em";
+        cloudList[11].style.bottom = "-55em";
+      }
+    });
+
+    mainButton.addEventListener("mouseout", function () {
+      if (isClicked) return;
+      if (isMoved) {
+        mainButton.style.transform = "translateX(110em)";
+        daytimeBackground[0].style.transform = "translateX(110em)";
+        daytimeBackground[1].style.transform = "translateX(80em)";
+        daytimeBackground[2].style.transform = "translateX(50em)";
+        star[0].style.top = "11em";
+        star[0].style.left = "39em";
+        star[1].style.top = "39em";
+        star[1].style.left = "91em";
+        star[2].style.top = "26em";
+        star[2].style.left = "19em";
+        star[3].style.top = "37em";
+        star[3].style.left = "66em";
+        star[4].style.top = "21em";
+        star[4].style.left = "75em";
+        star[5].style.top = "51em";
+        star[5].style.left = "38em";
+      } else {
+        mainButton.style.transform = "translateX(0em)";
+        daytimeBackground[0].style.transform = "translateX(0em)";
+        daytimeBackground[1].style.transform = "translateX(0em)";
+        daytimeBackground[2].style.transform = "translateX(0em)";
+        cloudList[0].style.right = "-20em";
+        cloudList[0].style.bottom = "10em";
+        cloudList[1].style.right = "-10em";
+        cloudList[1].style.bottom = "-25em";
+        cloudList[2].style.right = "20em";
+        cloudList[2].style.bottom = "-40em";
+        cloudList[3].style.right = "50em";
+        cloudList[3].style.bottom = "-35em";
+        cloudList[4].style.right = "75em";
+        cloudList[4].style.bottom = "-60em";
+        cloudList[5].style.right = "110em";
+        cloudList[5].style.bottom = "-50em";
+        cloudList[6].style.right = "-20em";
+        cloudList[6].style.bottom = "10em";
+        cloudList[7].style.right = "-10em";
+        cloudList[7].style.bottom = "-25em";
+        cloudList[8].style.right = "20em";
+        cloudList[8].style.bottom = "-40em";
+        cloudList[9].style.right = "50em";
+        cloudList[9].style.bottom = "-35em";
+        cloudList[10].style.right = "75em";
+        cloudList[10].style.bottom = "-60em";
+        cloudList[11].style.right = "110em";
+        cloudList[11].style.bottom = "-50em";
+      }
+    });
+
+    const getRandomDirection = () => {
+      const directions = ["2em", "-2em"];
+      return directions[Math.floor(Math.random() * directions.length)];
+    };
+
+    const moveElementRandomly = (element) => {
+      const randomDirectionX = getRandomDirection();
+      const randomDirectionY = getRandomDirection();
+      element.style.transform = `translate(${randomDirectionX}, ${randomDirectionY})`;
+    };
+
+    const cloudSons = root.querySelectorAll(".cloud-son");
+    setInterval(() => {
+      cloudSons.forEach(moveElementRandomly);
+    }, 1000);
+
+    if (initTheme === "dark") {
+      components.onclick();
+    }
+  };
+
+  class ThemeButton extends HTMLElement {
+    constructor() {
+      super();
+    }
+    connectedCallback() {
+      const initTheme = this.getAttribute("value") || "light";
+      const size = +this.getAttribute("size") || 3;
+      const shadow = this.attachShadow({ mode: "closed" });
+      const container = document.createElement("div");
+      container.setAttribute("class", "container");
+      container.setAttribute("style", `font-size: ${(size / 3).toFixed(2)}px`);
+      container.innerHTML =
+        '<div class="components"><div class="main-button"><div class="moon"></div><div class="moon"></div><div class="moon"></div></div><div class="daytime-background"></div><div class="daytime-background"></div><div class="daytime-background"></div><div class="cloud"><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div></div><div class="cloud-light"><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div><div class="cloud-son"></div></div><div class="stars"><div class="star big"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div><div class="star big"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div><div class="star medium"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div><div class="star medium"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div><div class="star small"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div><div class="star small"><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div><div class="star-son"></div></div></div></div>';
+      const style = document.createElement("style");
+      style.textContent =
+        "* { margin: 0; padding: 0; transition: 0.7s; -webkit-tap-highlight-color:rgba(0,0,0,0); } .container { position: absolute;top: 50%;left: 50%;margin-top: -35em;margin-left: -90em;width: 180em; height: 70em; display: inline-block; vertical-align: bottom; transform: translate3d(0, 0, 0); } .components{ position:fixed; width: 180em; height: 70em; background-color: rgba(70, 133, 192,1); border-radius: 100em; box-shadow: inset 0 0 5em 3em rgba(0, 0, 0, 0.5); overflow: hidden; transition: 0.7s; transition-timing-function: cubic-bezier( 0,0.5, 1,1); cursor: pointer; } .main-button{ margin: 7.5em 0 0 7.5em; width: 55em; height:55em; background-color: rgba(255, 195, 35,1); border-radius: 50%; box-shadow:3em 3em 5em rgba(0, 0, 0, 0.5), inset -3em -5em 3em -3em rgba(0, 0, 0, 0.5), inset 4em 5em 2em -2em rgba(255, 230, 80,1); transition: 1.0s; transition-timing-function: cubic-bezier(0.56, 1.35, 0.52, 1.00); } .moon{ position: absolute; background-color: rgba(150, 160, 180, 1); box-shadow:inset 0em 0em 1em 1em rgba(0, 0, 0, 0.3) ; border-radius: 50%; transition: 0.5s; opacity: 0; } .moon:nth-child(1){ top: 7.5em; left: 25em; width: 12.5em; height: 12.5em; } .moon:nth-child(2){ top: 20em; left: 7.5em; width: 20em; height: 20em; } .moon:nth-child(3){ top: 32.5em; left: 32.5em; width: 12.5em; height: 12.5em; } .daytime-background { position: absolute; border-radius: 50%; transition: 1.0s; transition-timing-function: cubic-bezier(0.56, 1.35, 0.52, 1.00); } .daytime-background:nth-child(2){ top: -20em; left: -20em; width: 110em; height:110em; background-color: rgba(255, 255, 255,0.2); z-index: -2; } .daytime-background:nth-child(3){ top: -32.5em; left: -17.5em; width: 135em; height:135em; background-color: rgba(255, 255, 255,0.1); z-index: -3; } .daytime-background:nth-child(4){ top: -45em; left: -15em; width: 160em; height:160em; background-color: rgba(255, 255, 255,0.05); z-index: -4; } .cloud,.cloud-light{ transform: translateY(10em); transition: 1.0s; transition-timing-function: cubic-bezier(0.56, 1.35, 0.52, 1.00); } .cloud-son{ position: absolute; background-color: #fff; border-radius: 50%; z-index: -1; transition: transform 6s,right 1s,bottom 1s; } .cloud-son:nth-child(6n+1){ right: -20em; bottom: 10em; width: 50em; height: 50em; } .cloud-son:nth-child(6n+2) { right: -10em; bottom: -25em; width: 60em; height: 60em; } .cloud-son:nth-child(6n+3) { right: 20em; bottom: -40em; width: 60em; height: 60em; } .cloud-son:nth-child(6n+4) { right: 50em; bottom: -35em; width: 60em; height: 60em; } .cloud-son:nth-child(6n+5) { right: 75em; bottom: -60em; width: 75em; height: 75em; } .cloud-son:nth-child(6n+6) { right: 110em; bottom: -50em; width: 60em; height: 60em; } .cloud{ z-index: -2; } .cloud-light{ position: absolute; right: 0em; bottom: 25em; opacity: 0.5; z-index: -3; } .stars{ transform: translateY(-125em); z-index: -2; transition: 1.0s; transition-timing-function: cubic-bezier(0.56, 1.35, 0.52, 1.00); } .big { --size: 7.5em; } .medium { --size: 5em; } .small { --size: 3em; } .star { position: absolute; width: calc(2*var(--size)); height: calc(2*var(--size)); } .star:nth-child(1){ top: 11em; left: 39em; animation-name: star; animation-duration: 3.5s; } .star:nth-child(2){ top: 39em; left: 91em; animation-name: star; animation-duration: 4.1s; } .star:nth-child(3){ top: 26em; left: 19em; animation-name: star; animation-duration: 4.9s; } .star:nth-child(4){ top: 37em; left: 66em; animation-name: star; animation-duration: 5.3s; } .star:nth-child(5){ top: 21em; left: 75em; animation-name: star; animation-duration: 3s; } .star:nth-child(6){ top: 51em; left: 38em; animation-name: star; animation-duration: 2.2s; } @keyframes star { 0%,20%{ transform: scale(0); } 20%,100% { transform: scale(1); } } .star-son{ float: left; } .star-son:nth-child(1) { --pos: left 0; } .star-son:nth-child(2) { --pos: right 0; } .star-son:nth-child(3) { --pos: 0 bottom; } .star-son:nth-child(4) { --pos: right bottom; } .star-son { width: var(--size); height: var(--size); background-image: radial-gradient(circle var(--size) at var(--pos), transparent var(--size), #fff); } .star{ transform: scale(1); transition-timing-function: cubic-bezier(0.56, 1.35, 0.52, 1.00); transition: 1s; animation-iteration-count:infinite; animation-direction: alternate; animation-timing-function: linear; }";
+      const changeTheme = (detail) => {
+        this.dispatchEvent(new CustomEvent("change", { detail }));
+      };
+      func(container, initTheme, changeTheme);
+      shadow.appendChild(style);
+      shadow.appendChild(container);
+    }
+  }
+
+  customElements.define("theme-button", ThemeButton);
+})();
+
+// 监听日夜按钮的change事件，与主题管理器同步
+document.addEventListener('DOMContentLoaded', function() {
+  const themeBtn = document.getElementById('theme-btn');
+  if (themeBtn) {
+    themeBtn.addEventListener('change', function(e) {
+      if (themeManager) {
+        const newTheme = e.detail === 'dark' ? 'dark' : 'light';
+        if (themeManager.currentTheme !== newTheme) {
+          themeManager.applyTheme(newTheme);
+        }
+      }
+    });
+  }
+});
 
