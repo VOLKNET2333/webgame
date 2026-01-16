@@ -2516,6 +2516,8 @@ function setupAccessibility() {
 // 大鼠标功能
 let bigMouseEnabled = false;
 let originalCursorStyle = '';
+let bigMouseStyleElement = null;
+let bigMouseMoveListener = null;
 
 function toggleBigMouse(enabled) {
     bigMouseEnabled = enabled;
@@ -2524,13 +2526,65 @@ function toggleBigMouse(enabled) {
         // 保存原始鼠标样式
         originalCursorStyle = document.body.style.cursor;
 
-        // 设置大鼠标光标 - 使用更大的箭头形状SVG（64x64像素）
-        document.body.style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><path d=\'M4,4 L56,28 L32,32 L28,56 Z\' fill=\'%23000\' stroke=\'%23fff\' stroke-width=\'2\'/></svg>") 4 4, auto';
+        // 大鼠标光标 SVG 数据 URI
+        const bigMouseCursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><path d=\'M4,4 L56,28 L32,32 L28,56 Z\' fill=\'%23000\' stroke=\'%23fff\' stroke-width=\'2\'/></svg>") 4 4, auto';
+
+        // 设置 body 的光标
+        document.body.style.cursor = bigMouseCursor;
+
+        // 创建样式表，强制所有可交互元素使用大鼠标样式
+        if (!bigMouseStyleElement) {
+            bigMouseStyleElement = document.createElement('style');
+            bigMouseStyleElement.id = 'big-mouse-style';
+            bigMouseStyleElement.textContent = `
+                /* 大鼠标模式：强制所有元素使用大鼠标光标 */
+                body.big-mouse-mode {
+                    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><path d='M4,4 L56,28 L32,32 L28,56 Z' fill='%23000' stroke='%23fff' stroke-width='2'/></svg>") 4 4, auto !important;
+                }
+                
+                body.big-mouse-mode * {
+                    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><path d='M4,4 L56,28 L32,32 L28,56 Z' fill='%23000' stroke='%23fff' stroke-width='2'/></svg>") 4 4, auto !important;
+                }
+            `;
+            document.head.appendChild(bigMouseStyleElement);
+        }
+
+        // 添加标志类到 body
+        document.body.classList.add('big-mouse-mode');
+
+        // 添加鼠标移动监听器，实时强制替换光标
+        if (!bigMouseMoveListener) {
+            bigMouseMoveListener = (e) => {
+                // 强制设置当前悬停元素的光标
+                const element = document.elementFromPoint(e.clientX, e.clientY);
+                if (element) {
+                    element.style.cursor = bigMouseCursor;
+                }
+                // 确保 body 光标始终是大鼠标
+                document.body.style.cursor = bigMouseCursor;
+            };
+            document.addEventListener('mousemove', bigMouseMoveListener, true);
+        }
 
         console.log('大鼠标功能已启用');
     } else {
         // 恢复原始鼠标样式
         document.body.style.cursor = originalCursorStyle;
+
+        // 移除标志类
+        document.body.classList.remove('big-mouse-mode');
+
+        // 移除样式表（可选）
+        if (bigMouseStyleElement) {
+            bigMouseStyleElement.remove();
+            bigMouseStyleElement = null;
+        }
+
+        // 移除鼠标移动监听器
+        if (bigMouseMoveListener) {
+            document.removeEventListener('mousemove', bigMouseMoveListener, true);
+            bigMouseMoveListener = null;
+        }
 
         console.log('大鼠标功能已禁用');
     }

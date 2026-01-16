@@ -93,57 +93,14 @@
 - 中文识别准确度高，环境安静时效果最佳
 - 需要浏览器授权麦克风使用
 
-### 导航与交互
-
-#### 8. 左侧功能栏 (Sidebar)
-```html
-<aside id="sidebar" class="sidebar" role="complementary" aria-label="功能控制栏">
-    <nav id="navbar" class="sidebar-nav" role="navigation" aria-label="功能菜单"></nav>
-</aside>
-```
-
-**功能**：
-- 动态生成的功能按钮导航
-- 支持响应式设计（移动设备自动隐藏）
-- 包含所有 8 项辅助功能的入口
-- 集成行朗读按钮（仅在朗读启用时显示）
-
-#### 9. 顶部导航栏 (Nav Topbar)
-```html
-<header id="nav-topbar" class="nav-topbar" role="region" aria-label="网页导航栏">
-    <div class="nav-topbar-container">
-        <div class="site-branding">
-            <h1 class="site-name">北魏老弱病残扶持计划</h1>
-        </div>
-    </div>
-</header>
-```
-
-**功能**：
-- 网站标题和品牌信息
-- 顶部固定导航栏（不随页面滚动）
-- 语义化 HTML 结构，支持屏幕阅读器
-
-#### 10. 日夜切换按钮 (Web Component)
-```html
-<theme-button value="dark" id="theme-btn" size="3"></theme-button>
-```
-
-**特点**：
-- 采用 Web Components 技术实现的原生 HTML 组件
-- 紧凑的声明方式，集成到 HTML 中
-- 所有逻辑和样式内置于 script.js
-- 与 ThemeManager 自动同步主题状态
-- 支持流畅的动画过渡
-
-#### 11. 快捷键帮助 (KeyboardHelpManager)
+#### 8. 快捷键帮助 (KeyboardHelpManager)
 - **打开方式**：点击"⌨️ 快捷键"按钮或按 `Ctrl + Shift + H`
 - **显示内容**：所有支持的快捷键和功能说明
 - **模态对话框**：独立窗口显示，点击外部或按 ESC 关闭
 
 ### 调试与开发功能
 
-#### 12. 调试面板 (DebugManager)
+#### 9. 调试面板 (DebugManager)
 - **快捷键**：`Ctrl + Shift + D` 打开/关闭
 - **显示信息**：
   - 浏览器信息（User Agent、语言、平台等）
@@ -154,12 +111,6 @@
   - 设备信息（分辨率、DPI、是否移动设备）
 
 ### 无障碍功能
-
-#### ARIA 和语义化
-- **跳过链接 (Skip Link)**：`<a href="#main-content" class="skip-link">跳到主要内容</a>`
-- **ARIA 标签**：所有交互元素都有 `aria-label`、`aria-haspopup`、`aria-expanded` 等属性
-- **角色定义**：`role="navigation"`、`role="dialog"`、`role="group"` 等
-- **Live Region**：`aria-live="polite"` 用于动态内容公告
 
 #### 键盘导航
 - 所有功能都可通过键盘访问
@@ -200,6 +151,7 @@
 <!-- 主页面内容 -->
 <main id="main-content">
     <!-- 网页内容放在这里 -->
+
 </main>
 
 <!-- 样式表 -->
@@ -213,10 +165,8 @@
 
 ```
 webgame/
-├── index.html          # 主 HTML 文件（包含所有 HTML 元素）
 ├── styles.css          # 完整的样式表（2041 行）
 ├── script.js           # 核心 JavaScript（3129 行，包含所有功能和 Web Component）
-├── index.css           # 自定义补充样式（可选）
 ├── LICENSE             # 许可证信息
 └── README.md           # 本文件
 ```
@@ -245,38 +195,7 @@ script.js 采用 OOP 设计，由以下 8 个管理类组成：
 - 属性：`value`（初始主题），`id`（DOM 标识），`size`（按钮大小）
 - 事件：`change` 事件与 ThemeManager 同步
 
-### 数据持久化
-
-所有用户设置都存储在 localStorage 中：
-
-```javascript
-// 存储键名
-'pageZoomLevel'        // 缩放级别 (50-200)
-'pageTheme'            // 当前主题 ('light' / 'dark')
-'speechSettings'       // 语音速度和音量
-'speechEnabled'        // 朗读功能启用状态
-'hoverReadEnabled'     // 悬停阅读启用状态
-'colorblindMode'       // 色盲滤镜模式
-```
-
 ## 使用指南
-
-### 快速开始
-
-1. **在浏览器中打开 `index.html`**
-   - 自动初始化所有管理器
-   - 自动加载用户保存的设置
-   - 左侧功能栏自动渲染
-
-2. **使用功能**
-   - 点击左侧按钮打开各功能面板
-   - 使用快捷键快速操作
-   - 所有设置自动保存
-
-3. **屏幕阅读器用户**
-   - 首先按 Tab 键到"跳到主要内容"链接
-   - 然后开启语音朗读功能
-   - 使用 Alt + ↑/↓ 逐行阅读
 
 ### 快捷键参考表
 
