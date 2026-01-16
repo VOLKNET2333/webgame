@@ -595,6 +595,7 @@ html.theme-dark .btn.inactive {
     width: 100%;
     box-sizing: border-box;
     line-height: 1.4;
+    margin-top: 8px;
     margin-bottom: 8px;
 }
 
@@ -634,6 +635,29 @@ html.theme-dark .btn.inactive {
 
 .sidebar-btn:hover::before {
     transform: scaleY(1);
+}
+
+/* sidebar-btn 的激活/非激活状态 */
+.sidebar-btn.inactive {
+    opacity: 0.6;
+    color: #999999;
+}
+
+.sidebar-btn.active {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left-color: #ffc107;
+}
+
+html.theme-dark .sidebar-btn.inactive {
+    opacity: 0.6;
+    color: #707072;
+}
+
+html.theme-dark .sidebar-btn.active {
+    background-color: #695200;
+    color: #ffc107;
+    border-left-color: #ff9800;
 }
 
 
@@ -1056,7 +1080,7 @@ html.theme-dark .site-title {
     background-color: var(--background-color);
     border-radius: 8px;
     padding: 24px;
-    max-width: 400px;
+    max-width: 600px;
     width: 90%;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
     max-height: 80vh;
@@ -1268,7 +1292,381 @@ html.theme-dark .speech-panel-btn.active {
 html.theme-dark .speech-panel-btn.active:hover {
     background-color: #7fb0ff;          /* 更浅蓝色 */
     border-color: #7fb0ff;
-}/* ========== 行朗读面板样式 - 集成到侧边栏 ========== */
+}
+
+/* ========== 语音识别按钮样式 ========== */
+.speech-recognition-btn {
+    background-color: #f0f0f0;
+    color: #202124;
+    border: 1px solid #b3b3b3;
+}
+
+.speech-recognition-btn:hover {
+    background-color: #e8e8e8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.speech-recognition-btn.active {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+    color: white;
+    border-color: #ff5252;
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
+    animation: pulse 1s infinite;
+}
+
+.speech-recognition-btn.active:hover {
+    background: linear-gradient(135deg, #ff7a7a 0%, #ff6565 100%);
+    box-shadow: 0 0 16px rgba(255, 107, 107, 0.6);
+}
+
+.speech-recognition-btn.inactive {
+    background-color: #f5f5f5;
+    color: #999999;
+    border-color: #d0d0d0;
+}
+
+html.theme-dark .speech-recognition-btn {
+    background-color: #3a3a3c;
+    color: #f5f5f5;
+    border-color: #6a6a6c;
+}
+
+html.theme-dark .speech-recognition-btn:hover {
+    background-color: #4a4a4c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+html.theme-dark .speech-recognition-btn.active {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+    color: white;
+    border-color: #ff5252;
+    box-shadow: 0 0 12px rgba(255, 107, 107, 0.5);
+}
+
+html.theme-dark .speech-recognition-btn.active:hover {
+    background: linear-gradient(135deg, #ff7a7a 0%, #ff6565 100%);
+    box-shadow: 0 0 16px rgba(255, 107, 107, 0.7);
+}
+
+html.theme-dark .speech-recognition-btn.inactive {
+    background-color: #2a2a2c;
+    color: #707072;
+    border-color: #4a4a4c;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 107, 107, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+    }
+}
+
+/* ========== 语音识别面板样式 ========== */
+.speech-recognition-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.speech-recognition-panel {
+    background-color: var(--background-color);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+html.theme-dark .speech-recognition-panel {
+    background-color: var(--hover-background);
+    color: var(--text-color);
+}
+
+.speech-recognition-panel h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    font-size: 1.5rem;
+}
+
+html.theme-dark .speech-recognition-panel h2 {
+    color: var(--text-color);
+}
+
+.speech-recognition-panel h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.8rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+html.theme-dark .speech-recognition-panel h3 {
+    color: #7fb0ff;
+}
+
+.panel-control-group {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-label {
+    display: block;
+    font-weight: 500;
+    color: var(--text-color);
+    cursor: pointer;
+    flex: 1;
+}
+
+html.theme-dark .control-label {
+    color: #f5f5f5;
+}
+
+.toggle-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 1rem 0;
+}
+
+.control-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.start-button {
+    background-color: #1a73e8;
+    color: white;
+}
+
+.start-button:hover {
+    background-color: #1557b0;
+    box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+}
+
+.start-button:active {
+    background-color: #0f47a6;
+}
+
+.stop-button {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.stop-button:hover {
+    background-color: #ff5252;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.stop-button:active {
+    background-color: #ff3333;
+}
+
+html.theme-dark .start-button {
+    background-color: #5b8def;
+}
+
+html.theme-dark .start-button:hover {
+    background-color: #7fb0ff;
+}
+
+html.theme-dark .stop-button {
+    background-color: #ff5252;
+}
+
+html.theme-dark .stop-button:hover {
+    background-color: #ff7a7a;
+}
+
+.status-text {
+    padding: 10px;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-weight: 500;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.status-text.listening {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+html.theme-dark .status-text.listening {
+    background-color: #695200;
+    color: #ffc107;
+    border-color: #ff9800;
+}
+
+.status-text.stopped {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #4caf50;
+}
+
+html.theme-dark .status-text.stopped {
+    background-color: #1b5e20;
+    color: #81c784;
+    border-color: #4caf50;
+}
+
+.commands-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: #202124;
+}
+
+html.theme-dark .commands-title {
+    color: #f5f5f5;
+}
+
+.commands-list {
+    background-color: var(--hover-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 12px;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+html.theme-dark .commands-list {
+    background-color: #3a3a3c;
+    border-color: var(--border-color);
+}
+
+.command-item {
+    display: flex;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.command-item:last-child {
+    border-bottom: none;
+}
+
+html.theme-dark .command-item {
+    border-bottom-color: var(--border-color);
+}
+
+.command-name {
+    font-weight: 600;
+    color: var(--primary-color);
+    min-width: 50px;
+    flex-shrink: 0;
+}
+
+html.theme-dark .command-name {
+    color: #7fb0ff;
+}
+
+.command-description {
+    color: #666666;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+html.theme-dark .command-description {
+    color: #bdc1c6;
+}
+}
+
+html.theme-dark .command-description {
+    color: #bdc1c6;
+}
+
+.panel-tips {
+    background-color: #f0f7ff;
+    border-left: 4px solid var(--primary-color);
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin-top: 1rem;
+}
+
+html.theme-dark .panel-tips {
+    background-color: #1a2a3a;
+    border-left-color: #7fb0ff;
+    color: #7fb0ff;
+}
+
+.panel-tips p {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.panel-tips ul {
+    margin-left: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.panel-tips li {
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+    font-size: 0.9rem;
+}
+
+.close-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999999;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background-color: #e8e8e8;
+    color: #202124;
+}
+
+html.theme-dark .close-button {
+    color: #bdc1c6;
+}
+
+html.theme-dark .close-button:hover {
+    background-color: #4a4a4c;
+    color: #f5f5f5;
+}
+
+/* ========== 行朗读面板样式 - 集成到侧边栏 ========== */
 .line-reader-panel {
     position: static;
     background-color: transparent;

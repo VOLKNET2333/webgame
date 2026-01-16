@@ -66,6 +66,12 @@ const NAVBAR_FEATURES = [
         button: { id: 'speech-panel-btn', text: '📖 页面朗读', title: '打开朗读配置面板', ariaLabel: '打开页面朗读配置面板' }
     },
     {
+        id: 'speech-recognition',
+        type: 'single-button',
+        label: '语音识别',
+        button: { id: 'speech-recognition-btn', text: '🎤 语音控制', title: '打开语音识别设置面板', ariaLabel: '语音识别' }
+    },
+    {
         id: 'keyboard-help',
         type: 'single-button',
         label: '快捷键帮助',
@@ -585,6 +591,21 @@ class SpeechManager {
                 container.setAttribute('aria-hidden', 'true');
             }
         }
+        
+        // 更新行朗读按钮的显示状态
+        const lineReaderPrev = document.getElementById('line-reader-prev');
+        const lineReaderNext = document.getElementById('line-reader-next');
+        const lineReaderTitle = document.querySelector('.line-reader-title');
+        
+        if (this.enabled) {
+            if (lineReaderPrev) lineReaderPrev.style.display = '';
+            if (lineReaderNext) lineReaderNext.style.display = '';
+            if (lineReaderTitle) lineReaderTitle.style.display = '';
+        } else {
+            if (lineReaderPrev) lineReaderPrev.style.display = 'none';
+            if (lineReaderNext) lineReaderNext.style.display = 'none';
+            if (lineReaderTitle) lineReaderTitle.style.display = 'none';
+        }
     }
 
     // 更新鼠标悬停阅读按钮状态
@@ -924,6 +945,187 @@ class ThemeManager {
 }
 
 // ============================================
+// 语音识别功能实现
+// ============================================
+
+class SpeechRecognitionManager {
+    constructor() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            console.warn('您的浏览器不支持 Web Speech API');
+            this.supported = false;
+            return;
+        }
+        
+        this.supported = true;
+        this.recognition = new SpeechRecognition();
+        this.isListening = false;
+        this.enabled = false; // 是否启用语音识别
+        this.isContinuous = true; // 持续识别
+        
+        // 语言设置
+        this.recognition.lang = 'zh-CN';
+        this.recognition.continuous = this.isContinuous;
+        this.recognition.interimResults = false;
+        
+        // 命令映射
+        this.commands = {
+            '放大': () => {
+                if (zoomManager) zoomManager.increaseZoom();
+            },
+            '缩小': () => {
+                if (zoomManager) zoomManager.decreaseZoom();
+            },
+            '重置': () => {
+                if (zoomManager) zoomManager.resetZoom();
+            },
+            '下滑': () => {
+                // 检查是否有全局的 WaterfallScroll 实例
+                if (window.waterfallScroll && window.waterfallScroll.scrollNext) {
+                    window.waterfallScroll.scrollNext();
+                } else {
+                    // 标准网页滚动 - 模拟鼠标滚轮，滚动一个视口高度
+                    const scrollAmount = window.innerHeight;
+                    window.scrollBy({
+                        top: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            '上滑': () => {
+                // 检查是否有全局的 WaterfallScroll 实例
+                if (window.waterfallScroll && window.waterfallScroll.scrollPrev) {
+                    window.waterfallScroll.scrollPrev();
+                } else {
+                    // 标准网页滚动 - 模拟鼠标滚轮，滚动一个视口高度
+                    const scrollAmount = window.innerHeight;
+                    window.scrollBy({
+                        top: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            '启用朗读': () => {
+                if (speechManager && !speechManager.enabled) speechManager.toggleEnabled();
+            },
+            '关闭朗读': () => {
+                if (speechManager && speechManager.enabled) speechManager.toggleEnabled();
+            },
+            '下一行': () => {
+                if (lineReaderManager) lineReaderManager.readNextLine();
+            },
+            '上一行': () => {
+                if (lineReaderManager) lineReaderManager.readPreviousLine();
+            }
+        };
+        
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        // 识别开始
+        this.recognition.onstart = () => {
+            this.isListening = true;
+            console.log('[语音识别] 开始监听');
+        };
+        
+        // 识别结果
+        this.recognition.onresult = (event) => {
+            let transcript = '';
+            
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const isFinal = event.results[i].isFinal;
+                transcript += event.results[i][0].transcript;
+                
+                if (isFinal) {
+                    this.processCommand(transcript);
+                }
+            }
+        };
+        
+        // 识别出错
+        this.recognition.onerror = (event) => {
+            console.warn('[语音识别] 错误:', event.error);
+        };
+        
+        // 识别结束
+        this.recognition.onend = () => {
+            this.isListening = false;
+            console.log('[语音识别] 识别结束');
+            
+            // 如果启用了持续识别，重新启动
+            if (this.isContinuous && this.enabled) {
+                this.start();
+            }
+        };
+    }
+    
+    processCommand(transcript) {
+        // 规范化文本（移除空格、转小写）
+        const text = transcript.toLowerCase().trim();
+        
+        console.log('[语音识别] 识别文本:', text);
+        
+        // 遍历命令进行匹配
+        for (const [command, action] of Object.entries(this.commands)) {
+            if (text.includes(command)) {
+                console.log('[语音识别] 执行命令:', command);
+                try {
+                    action();
+                    
+                    // 语音反馈 - 行朗读命令不需要反馈
+                    if (speechManager && speechManager.enabled && command !== '下一行' && command !== '上一行') {
+                        speechManager.speak(`已执行：${command}`);
+                    }
+                } catch (error) {
+                    console.error('[语音识别] 执行命令失败:', error);
+                }
+                break;
+            }
+        }
+    }
+    
+    start() {
+        if (!this.supported) {
+            console.warn('浏览器不支持语音识别');
+            return;
+        }
+        
+        try {
+            this.enabled = true;
+            this.recognition.start();
+        } catch (error) {
+            console.warn('[语音识别] 启动失败:', error);
+        }
+    }
+    
+    stop() {
+        if (!this.supported) return;
+        
+        try {
+            this.enabled = false;
+            this.recognition.stop();
+        } catch (error) {
+            console.warn('[语音识别] 停止失败:', error);
+        }
+    }
+    
+    toggle() {
+        if (!this.supported) {
+            console.warn('浏览器不支持语音识别');
+            return;
+        }
+        
+        if (this.isListening) {
+            this.stop();
+        } else {
+            this.start();
+        }
+    }
+}
+
+// ============================================
 // 页面缩放功能实现
 // ============================================
 
@@ -1100,6 +1302,10 @@ class NavbarRenderer {
             const title = document.createElement('div');
             title.className = 'line-reader-title';
             title.textContent = '按行朗读';
+            // 只在朗读功能启用时显示标题
+            if (!speechManager || !speechManager.enabled) {
+                title.style.display = 'none';
+            }
             this.navbar.appendChild(title);
         }
         
@@ -1109,6 +1315,11 @@ class NavbarRenderer {
         btn.textContent = feature.button.text;
         btn.title = feature.button.title;
         btn.setAttribute('aria-label', feature.button.ariaLabel);
+        
+        // 行朗读按钮只在朗读功能启用时显示
+        if (feature.isLineReader && (!speechManager || !speechManager.enabled)) {
+            btn.style.display = 'none';
+        }
         
         // 为启用语音按钮添加初始样式
         if (feature.id === 'speech-enable') {
@@ -1154,6 +1365,13 @@ class NavbarRenderer {
             // 鼠标悬停阅读按钮
             else if (feature.id === 'hover-read' && speechManager) {
                 speechManager.toggleHoverRead();
+            }
+            // 语音识别面板按钮
+            else if (feature.id === 'speech-recognition') {
+                const navbarRenderer = window.navbarRendererInstance;
+                if (navbarRenderer) {
+                    navbarRenderer.renderSpeechRecognitionPanel(feature);
+                }
             }
             // 主题切换按钮
             else if (themeManager && themeManager[feature.button.action]) {
@@ -1253,18 +1471,28 @@ class NavbarRenderer {
     }
 
     renderSpeechPanel(feature) {
-        // 创建面板按钮
-        const btn = document.createElement('button');
-        btn.id = feature.button.id;
-        btn.className = 'btn speech-panel-btn inactive';
-        btn.textContent = feature.button.text;
-        btn.title = feature.button.title;
-        btn.setAttribute('aria-label', feature.button.ariaLabel);
+        // 获取导航栏中的按钮（由 renderSingleButton 创建）
+        const btn = document.getElementById(feature.button.id);
+        if (!btn) return;
+        
+        // 检查面板是否已存在
+        let panelOverlay = document.getElementById('speech-panel-overlay');
+        
+        if (panelOverlay) {
+            // 面板已存在，直接切换显示状态
+            const isOpen = panelOverlay.style.display !== 'none';
+            panelOverlay.style.display = isOpen ? 'none' : 'flex';
+            btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            return;
+        }
+        
+        // 面板不存在，创建它
+        // 设置按钮属性
         btn.setAttribute('aria-haspopup', 'dialog');
         btn.setAttribute('aria-expanded', 'false');
         
         // 创建配置面板
-        const panelOverlay = document.createElement('div');
+        panelOverlay = document.createElement('div');
         panelOverlay.id = 'speech-panel-overlay';
         panelOverlay.className = 'speech-panel-overlay';
         panelOverlay.style.display = 'none';
@@ -1428,15 +1656,11 @@ class NavbarRenderer {
             }
         });
         
-        // 按钮点击事件
-        btn.addEventListener('click', () => {
-            const isOpen = panelOverlay.style.display !== 'none';
-            panelOverlay.style.display = isOpen ? 'none' : 'flex';
-            btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-        });
+        // 初始化显示状态
+        panelOverlay.style.display = 'flex';
+        btn.setAttribute('aria-expanded', 'true');
         
-        // 添加到导航栏和body
-        this.navbar.appendChild(btn);
+        // 只添加面板到body（按钮已由 renderSingleButton 创建）
         document.body.appendChild(panelOverlay);
     }
 
@@ -1567,18 +1791,28 @@ class NavbarRenderer {
     }
 
     renderMouseStylePanel(feature) {
-        // 创建面板按钮
-        const btn = document.createElement('button');
-        btn.id = feature.button.id;
-        btn.className = 'btn mouse-style-btn inactive';
-        btn.textContent = feature.button.text;
-        btn.title = feature.button.title;
-        btn.setAttribute('aria-label', feature.button.ariaLabel);
+        // 获取导航栏中的按钮（由 renderSingleButton 创建）
+        const btn = document.getElementById(feature.button.id);
+        if (!btn) return;
+        
+        // 检查面板是否已存在
+        let panelOverlay = document.getElementById('mouse-style-panel-overlay');
+        
+        if (panelOverlay) {
+            // 面板已存在，直接切换显示状态
+            const isOpen = panelOverlay.style.display !== 'none';
+            panelOverlay.style.display = isOpen ? 'none' : 'flex';
+            btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            return;
+        }
+        
+        // 面板不存在，创建它
+        // 设置按钮属性
         btn.setAttribute('aria-haspopup', 'dialog');
         btn.setAttribute('aria-expanded', 'false');
         
         // 创建配置面板
-        const panelOverlay = document.createElement('div');
+        panelOverlay = document.createElement('div');
         panelOverlay.id = 'mouse-style-panel-overlay';
         panelOverlay.className = 'mouse-style-panel-overlay';
         panelOverlay.style.display = 'none';
@@ -1671,15 +1905,181 @@ class NavbarRenderer {
             }
         });
         
-        // 按钮点击事件
-        btn.addEventListener('click', () => {
+        // 初始化显示状态
+        panelOverlay.style.display = 'flex';
+        btn.setAttribute('aria-expanded', 'true');
+        
+        // 只添加面板到body（按钮已由 renderSingleButton 创建）
+        document.body.appendChild(panelOverlay);
+    }
+
+    renderSpeechRecognitionPanel(feature) {
+        // 获取导航栏中的按钮（由 renderSingleButton 创建）
+        const btn = document.getElementById(feature.button.id);
+        if (!btn) return;
+        
+        // 检查面板是否已存在
+        let panelOverlay = document.getElementById('speech-recognition-panel-overlay');
+        
+        if (panelOverlay) {
+            // 面板已存在，直接切换显示状态
             const isOpen = panelOverlay.style.display !== 'none';
             panelOverlay.style.display = isOpen ? 'none' : 'flex';
             btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            return;
+        }
+        
+        // 面板不存在，创建它
+        // 设置按钮属性
+        btn.setAttribute('aria-haspopup', 'dialog');
+        btn.setAttribute('aria-expanded', 'false');
+        
+        // 创建配置面板
+        panelOverlay = document.createElement('div');
+        panelOverlay.id = 'speech-recognition-panel-overlay';
+        panelOverlay.className = 'speech-recognition-panel-overlay';
+        panelOverlay.style.display = 'none';
+        panelOverlay.setAttribute('role', 'dialog');
+        panelOverlay.setAttribute('aria-labelledby', 'speech-recognition-panel-title');
+        panelOverlay.setAttribute('aria-modal', 'true');
+        
+        const panel = document.createElement('div');
+        panel.className = 'speech-recognition-panel';
+        
+        // 标题
+        const title = document.createElement('h2');
+        title.id = 'speech-recognition-panel-title';
+        title.textContent = '语音识别设置';
+        panel.appendChild(title);
+        
+        // 启动按钮
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = 'panel-control-group button-group';
+        
+        const startBtn = document.createElement('button');
+        startBtn.className = 'control-button start-button';
+        startBtn.textContent = '🎤 开始语音控制';
+        startBtn.addEventListener('click', () => {
+            if (speechRecognitionManager) {
+                speechRecognitionManager.start();
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'block';
+                statusText.textContent = '状态：正在监听...';
+                statusText.className = 'status-text listening';
+                // 更新按钮样式
+                btn.classList.add('active');
+                btn.classList.remove('inactive');
+            }
         });
         
-        // 添加到导航栏和body
-        this.navbar.appendChild(btn);
+        const stopBtn = document.createElement('button');
+        stopBtn.className = 'control-button stop-button';
+        stopBtn.textContent = '⏹️ 停止语音控制';
+        stopBtn.style.display = speechRecognitionManager && speechRecognitionManager.isListening ? 'block' : 'none';
+        stopBtn.addEventListener('click', () => {
+            if (speechRecognitionManager) {
+                speechRecognitionManager.stop();
+                startBtn.style.display = 'block';
+                stopBtn.style.display = 'none';
+                statusText.textContent = '状态：已停止';
+                statusText.className = 'status-text stopped';
+                // 更新按钮样式
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            }
+        });
+        
+        buttonGroup.appendChild(startBtn);
+        buttonGroup.appendChild(stopBtn);
+        panel.appendChild(buttonGroup);
+        
+        // 状态显示
+        const statusText = document.createElement('div');
+        statusText.className = 'status-text ' + (speechRecognitionManager && speechRecognitionManager.isListening ? 'listening' : 'stopped');
+        statusText.textContent = speechRecognitionManager && speechRecognitionManager.isListening ? '状态：正在监听...' : '状态：已停止';
+        panel.appendChild(statusText);
+        
+        // 命令提示
+        const commandsTitle = document.createElement('h3');
+        commandsTitle.textContent = '支持的语音命令';
+        commandsTitle.className = 'commands-title';
+        panel.appendChild(commandsTitle);
+        
+        const commandsList = document.createElement('div');
+        commandsList.className = 'commands-list';
+        
+        const commands = [
+            { name: '放大', description: '放大页面（最大 200%）' },
+            { name: '缩小', description: '缩小页面（最小 50%）' },
+            { name: '重置', description: '重置页面缩放到 100%' },
+            { name: '下滑', description: '向下滚动页面' },
+            { name: '上滑', description: '向上滚动页面' },
+            { name: '启用朗读', description: '启用页面朗读功能' },
+            { name: '关闭朗读', description: '关闭页面朗读功能' },
+            { name: '下一行', description: '朗读下一行内容' },
+            { name: '上一行', description: '朗读上一行内容' }
+        ];
+        
+        commands.forEach(cmd => {
+            const cmdItem = document.createElement('div');
+            cmdItem.className = 'command-item';
+            
+            const cmdName = document.createElement('span');
+            cmdName.className = 'command-name';
+            cmdName.textContent = cmd.name;
+            
+            const cmdDesc = document.createElement('span');
+            cmdDesc.className = 'command-description';
+            cmdDesc.textContent = cmd.description;
+            
+            cmdItem.appendChild(cmdName);
+            cmdItem.appendChild(cmdDesc);
+            commandsList.appendChild(cmdItem);
+        });
+        
+        panel.appendChild(commandsList);
+        
+        // 说明文字
+        const tips = document.createElement('div');
+        tips.className = 'panel-tips';
+        tips.innerHTML = `
+            <p><strong>使用提示：</strong></p>
+            <ul>
+                <li>点击"开始语音控制"启用语音识别</li>
+                <li>按照支持的命令清单说出相应的语音命令</li>
+                <li>语音识别支持汉语普通话</li>
+                <li>在安静的环境中使用效果最佳</li>
+                <li>如浏览器要求授权麦克风权限，请点击允许</li>
+            </ul>
+        `;
+        panel.appendChild(tips);
+        
+        // 关闭按钮
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'close-button';
+        closeBtn.textContent = '×';
+        closeBtn.title = '关闭面板';
+        closeBtn.addEventListener('click', () => {
+            panelOverlay.style.display = 'none';
+            btn.setAttribute('aria-expanded', 'false');
+        });
+        panel.appendChild(closeBtn);
+        
+        panelOverlay.appendChild(panel);
+        
+        // 点击遮罩关闭面板
+        panelOverlay.addEventListener('click', (e) => {
+            if (e.target === panelOverlay) {
+                panelOverlay.style.display = 'none';
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+        
+        // 初始化显示状态
+        panelOverlay.style.display = 'flex';
+        btn.setAttribute('aria-expanded', 'true');
+        
+        // 只添加面板到body（按钮已由 renderSingleButton 创建）
         document.body.appendChild(panelOverlay);
     }
 
@@ -1695,6 +2095,7 @@ let themeManager;
 let speechManager;
 let lineReaderManager;
 let keyboardHelpManager;
+let speechRecognitionManager;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 初始化主题管理器
@@ -1711,6 +2112,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初始化快捷键帮助管理器
     keyboardHelpManager = new KeyboardHelpManager();
+    
+    // 初始化语音识别管理器
+    speechRecognitionManager = new SpeechRecognitionManager();
 
     // 渲染导航栏
     const navbarRenderer = new NavbarRenderer();

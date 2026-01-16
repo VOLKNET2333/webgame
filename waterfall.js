@@ -535,6 +535,15 @@ function createNavigationIndicator(waterfall) {
   updateIndicator();
 }
 
+// 为语音识别提供公共方法
+WaterfallScroll.prototype.scrollNext = function() {
+  return this.nextBox();
+};
+
+WaterfallScroll.prototype.scrollPrev = function() {
+  return this.previousBox();
+};
+
 // 导出类（如果使用模块）
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = WaterfallScroll;
