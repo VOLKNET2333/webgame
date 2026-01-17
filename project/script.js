@@ -22,6 +22,96 @@ let DEBUG_CONFIG = {
     }
 })();
 
+// ============================================
+// 公共工具函数
+// ============================================
+
+/**
+ * 无障碍公告函数 - 统一管理所有无障碍公告
+ * @param {string} message - 要公告的消息
+ * @returns {void}
+ */
+function announceChange(message) {
+    let liveRegion = document.getElementById('aria-live-region');
+    if (!liveRegion) {
+        liveRegion = document.createElement('div');
+        liveRegion.id = 'aria-live-region';
+        liveRegion.setAttribute('aria-live', 'polite');
+        liveRegion.setAttribute('aria-atomic', 'true');
+        liveRegion.style.position = 'absolute';
+        liveRegion.style.left = '-10000px';
+        document.body.appendChild(liveRegion);
+    }
+    liveRegion.textContent = message;
+}
+
+/**
+ * 安全的本地存储操作
+ * @param {string} key - 存储键名
+ * @param {any} value - 存储值
+ * @returns {boolean} - 是否成功
+ */
+function safeLocalStorageSet(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (e) {
+        console.warn(`无法保存到 localStorage (${key}):`, e.message);
+        return false;
+    }
+}
+
+/**
+ * 安全的本地存储读取
+ * @param {string} key - 存储键名
+ * @param {any} defaultValue - 默认值
+ * @returns {any} - 读取的值或默认值
+ */
+function safeLocalStorageGet(key, defaultValue = null) {
+    try {
+        const saved = localStorage.getItem(key);
+        return saved ? JSON.parse(saved) : defaultValue;
+    } catch (e) {
+        console.warn(`无法从 localStorage 读取 (${key}):`, e.message);
+        return defaultValue;
+    }
+}
+
+/**
+ * 防抖函数
+ * @param {Function} func - 要执行的函数
+ * @param {number} wait - 等待时间（毫秒）
+ * @returns {Function} - 防抖后的函数
+ */
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+/**
+ * 节流函数
+ * @param {Function} func - 要执行的函数
+ * @param {number} limit - 限制时间（毫秒）
+ * @returns {Function} - 节流后的函数
+ */
+function throttle(func, limit) {
+    let inThrottle;
+    return function (...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
 
 
 // 顶栏功能配置 - 使用const定义
@@ -200,7 +290,7 @@ class SpeechManager {
     // 切换鼠标悬停阅读功能
     toggleHoverRead() {
         if (!this.enabled) {
-            this.announceChange('请先启用语音功能');
+            announceChange('请先启用语音功能');
             return;
         }
 
@@ -208,7 +298,7 @@ class SpeechManager {
         this.saveHoverReadState();
         this.updateHoverReadButton();
         const message = this.hoverReadEnabled ? '鼠标悬停阅读已启用' : '鼠标悬停阅读已禁用';
-        this.announceChange(message);
+        announceChange(message);
         console.log('Hover read toggled, enabled:', this.hoverReadEnabled);
     }
 
@@ -235,7 +325,7 @@ class SpeechManager {
 
         this.updateEnabledButton();
         const message = this.enabled ? '语音功能已启用' : '语音功能已禁用';
-        this.announceChange(message);
+        announceChange(message);
         console.log('Speech toggled, enabled:', this.enabled);
     }
 
@@ -304,21 +394,21 @@ class SpeechManager {
         console.log('toggleSpeech called, enabled:', this.enabled, 'isSpeaking:', this.isSpeaking);
 
         if (!this.enabled) {
-            this.announceChange('请先启用语音功能');
+            announceChange('请先启用语音功能');
             return;
         }
 
         if (this.isSpeaking) {
             this.stop();
         } else {
-            this.announceChange('请将鼠标悬停在要阅读的内容上');
+            announceChange('请将鼠标悬停在要阅读的内容上');
         }
     }
 
     // 执行语音阅读
     speak(text) {
         if (!this.enabled) {
-            this.announceChange('语音功能不可用');
+            announceChange('语音功能不可用');
             return;
         }
 
@@ -332,7 +422,7 @@ class SpeechManager {
     // 使用Web Speech API进行语音阅读
     speakWithWebSpeechAPI(text) {
         if (!this.synth || !this.SpeechSynthesisUtterance) {
-            this.announceChange('语音功能不可用');
+            announceChange('语音功能不可用');
             return;
         }
 
@@ -356,7 +446,7 @@ class SpeechManager {
                 this.isSpeaking = true;
                 this.updateSpeechButton();
                 const preview = text.substring(0, 30) + (text.length > 30 ? '...' : '');
-                this.announceChange(`开始阅读: ${preview}`);
+                announceChange(`开始阅读: ${preview}`);
             };
 
             utterance.onend = () => {
@@ -373,7 +463,7 @@ class SpeechManager {
                 } else if (event.error === 'synthesis_failed') {
                     errorMsg = '语音合成失败';
                 }
-                this.announceChange(`阅读失败: ${errorMsg}`);
+                announceChange(`阅读失败: ${errorMsg}`);
                 this.isSpeaking = false;
                 this.updateSpeechButton();
             };
@@ -386,7 +476,7 @@ class SpeechManager {
 
             this.synth.speak(utterance);
         } catch (error) {
-            this.announceChange(`语音错误: ${error.message}`);
+            announceChange(`语音错误: ${error.message}`);
         }
     }
 
@@ -402,7 +492,7 @@ class SpeechManager {
             this.isSpeaking = true;
             this.updateSpeechButton();
             const preview = text.substring(0, 30) + (text.length > 30 ? '...' : '');
-            this.announceChange(`开始阅读: ${preview}`);
+            announceChange(`开始阅读: ${preview}`);
 
             // 获取语速参数
             const rate = Math.max(SPEECH_CONFIG.speedMin, Math.min(SPEECH_CONFIG.speedMax, this.settings.speed || SPEECH_CONFIG.speedDefault));
@@ -424,7 +514,7 @@ class SpeechManager {
             this.updateSpeechButton();
         } catch (error) {
             console.error('微软TTS错误:', error);
-            this.announceChange(`阅读失败: ${error.message}`);
+            announceChange(`阅读失败: ${error.message}`);
             this.isSpeaking = false;
             this.updateSpeechButton();
         }
@@ -474,7 +564,7 @@ class SpeechManager {
         return new Promise((resolve, reject) => {
             try {
                 // 如果一切都失败了，显示提示信息
-                this.announceChange('已读取文本，但无法播放语音。请使用支持语音合成的浏览器。');
+                announceChange('已读取文本，但无法播放语音。请使用支持语音合成的浏览器。');
                 resolve();
             } catch (error) {
                 reject(error);
@@ -488,7 +578,7 @@ class SpeechManager {
         this.settings.speed = speed;
         this.saveSettings();
         this.updateSpeedDisplay();
-        this.announceChange(`语速: ${(speed * 100).toFixed(0)}%`);
+        announceChange(`语速: ${(speed * 100).toFixed(0)}%`);
     }
 
     // 设置音量
@@ -497,7 +587,7 @@ class SpeechManager {
         this.settings.volume = volume;
         this.saveSettings();
         this.updateVolumeDisplay();
-        this.announceChange(`音量: ${(volume * 100).toFixed(0)}%`);
+        announceChange(`音量: ${(volume * 100).toFixed(0)}%`);
     }
 
     // 更新语速显示
@@ -598,20 +688,6 @@ class SpeechManager {
         }
     }
 
-    // 无障碍公告
-    announceChange(message) {
-        let liveRegion = document.getElementById('aria-live-region');
-        if (!liveRegion) {
-            liveRegion = document.createElement('div');
-            liveRegion.id = 'aria-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.style.position = 'absolute';
-            liveRegion.style.left = '-10000px';
-            document.body.appendChild(liveRegion);
-        }
-        liveRegion.textContent = message;
-    }
 }
 
 // ============================================
@@ -891,23 +967,9 @@ class ThemeManager {
         const newTheme = this.currentTheme === THEME_CONFIG.light ? THEME_CONFIG.dark : THEME_CONFIG.light;
         this.applyTheme(newTheme);
         const message = newTheme === THEME_CONFIG.dark ? '已切换到深色模式' : '已切换到浅色模式';
-        this.announceChange(message);
+        announceChange(message);
     }
 
-    // 无障碍公告
-    announceChange(message) {
-        let liveRegion = document.getElementById('aria-live-region');
-        if (!liveRegion) {
-            liveRegion = document.createElement('div');
-            liveRegion.id = 'aria-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.style.position = 'absolute';
-            liveRegion.style.left = '-10000px';
-            document.body.appendChild(liveRegion);
-        }
-        liveRegion.textContent = message;
-    }
 }
 
 // ============================================
@@ -1015,19 +1077,6 @@ class ColorBlindManager {
         }
     }
 
-    announceChange(message) {
-        let liveRegion = document.getElementById('aria-live-region');
-        if (!liveRegion) {
-            liveRegion = document.createElement('div');
-            liveRegion.id = 'aria-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.style.position = 'absolute';
-            liveRegion.style.left = '-10000px';
-            document.body.appendChild(liveRegion);
-        }
-        liveRegion.textContent = message;
-    }
 }
 
 // ============================================
@@ -1256,9 +1305,9 @@ class ZoomManager {
         if (newZoom <= ZOOM_CONFIG.max) {
             this.applyZoom(newZoom);
             this.updateZoomDisplay();
-            this.announceChange(`页面已放大到 ${newZoom}%`);
+            announceChange(`页面已放大到 ${newZoom}%`);
         } else {
-            this.announceChange(`已达到最大缩放级别 ${ZOOM_CONFIG.max}%`);
+            announceChange(`已达到最大缩放级别 ${ZOOM_CONFIG.max}%`);
         }
     }
 
@@ -1268,9 +1317,9 @@ class ZoomManager {
         if (newZoom >= ZOOM_CONFIG.min) {
             this.applyZoom(newZoom);
             this.updateZoomDisplay();
-            this.announceChange(`页面已缩小到 ${newZoom}%`);
+            announceChange(`页面已缩小到 ${newZoom}%`);
         } else {
-            this.announceChange(`已达到最小缩放级别 ${ZOOM_CONFIG.min}%`);
+            announceChange(`已达到最小缩放级别 ${ZOOM_CONFIG.min}%`);
         }
     }
 
@@ -1278,7 +1327,7 @@ class ZoomManager {
     resetZoom() {
         this.applyZoom(ZOOM_CONFIG.default);
         this.updateZoomDisplay();
-        this.announceChange(`页面缩放已重置为 ${ZOOM_CONFIG.default}%`);
+        announceChange(`页面缩放已重置为 ${ZOOM_CONFIG.default}%`);
     }
 
     // 更新缩放显示
@@ -1319,21 +1368,6 @@ class ZoomManager {
         });
     }
 
-    // 无障碍公告
-    announceChange(message) {
-        // 创建隐藏的aria-live区域来通知屏幕阅读器
-        let liveRegion = document.getElementById('aria-live-region');
-        if (!liveRegion) {
-            liveRegion = document.createElement('div');
-            liveRegion.id = 'aria-live-region';
-            liveRegion.setAttribute('aria-live', 'polite');
-            liveRegion.setAttribute('aria-atomic', 'true');
-            liveRegion.style.position = 'absolute';
-            liveRegion.style.left = '-10000px';
-            document.body.appendChild(liveRegion);
-        }
-        liveRegion.textContent = message;
-    }
 }
 
 // ============================================
@@ -2108,7 +2142,7 @@ class NavbarRenderer {
             radio.checked = colorblindManager.currentMode === key;
             radio.addEventListener('change', () => {
                 colorblindManager.applyMode(key);
-                colorblindManager.announceChange(`已切换到${mode.name}`);
+                announceChange(`已切换到${mode.name}`);
             });
 
             optionLabel.appendChild(radio);
@@ -2985,7 +3019,7 @@ window.logDebug = () => debugManager.logDebugInfo();
     const func = (root, initTheme, changeTheme) => {
         const $ = (s) => {
             let dom = root.querySelectorAll(s);
-            return dom.length == 1 ? dom[0] : dom;
+            return dom.length === 1 ? dom[0] : dom;
         };
         let mainButton = $(".main-button");
         let daytimeBackground = $(".daytime-background");
