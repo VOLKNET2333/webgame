@@ -318,9 +318,9 @@ observer.observe(document.documentElement, { attributes: true });
 ## 项目结构
 
 ```
-webgame/
-├── styles.css          # 完整的样式表（2041 行）
-├── script.js           # 核心 JavaScript（3129 行，包含所有功能和 Web Component）
+webgame
+├── project\styles.css          # 完整的样式表（2041 行）
+├── project\script.js           # 核心 JavaScript（3129 行，包含所有功能和 Web Component）
 ├── LICENSE             # 许可证信息
 └── README.md           # 本文件
 ```

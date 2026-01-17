@@ -2,11 +2,11 @@
 // 页面增强动画效果
 // ============================================
 
-(function() {
+(function () {
   'use strict';
 
   // 页面加载动画
-  window.addEventListener('load', function() {
+  window.addEventListener('load', function () {
     document.body.classList.add('page-loaded');
 
     // 添加页面加载完成的淡入效果
@@ -45,7 +45,7 @@
   }, observerOptions);
 
   // 观察所有需要动画的元素
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const animatedElements = document.querySelectorAll('.stat-card, .feature-card, .tech-card, .benefit-item, .challenge-item, .need-item, .solution-card, .roadmap-phase');
     animatedElements.forEach(el => observer.observe(el));
   });
@@ -81,7 +81,7 @@
   // 平滑滚动增强
   function smoothScrollEnhancement() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+      anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (href === '#') return;
 
@@ -214,7 +214,7 @@
     const rippleElements = document.querySelectorAll('.btn, .highlight-card, .stat-card');
 
     rippleElements.forEach(element => {
-      element.addEventListener('click', function(e) {
+      element.addEventListener('click', function (e) {
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
@@ -267,7 +267,7 @@
     const themeBtn = document.getElementById('theme-btn');
     if (!themeBtn) return;
 
-    themeBtn.addEventListener('click', function() {
+    themeBtn.addEventListener('click', function () {
       document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
 
       // 添加切换动画效果
@@ -312,7 +312,7 @@
   }
 
   // 初始化所有增强效果
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // 等待script.js加载完成后再初始化
     setTimeout(() => {
       // 基础增强
@@ -320,6 +320,9 @@
       animateStats();
       animateProgressBars();
       enhanceThemeTransition();
+
+      // 鼠标辉光效果（在所有页面启用）
+      createMouseGlow();
 
       // 视觉增强（可选，不影响性能）
       if (window.innerWidth > 768) {
