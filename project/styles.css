@@ -453,7 +453,6 @@ html.theme-dark .sidebar-nav .dropdown-menu {
 .btn:hover {
     background-color: #e8f0fe;
     border-color: var(--primary-color);
-    color: var(--primary-color);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(26, 115, 232, 0.15);
 }
