@@ -359,24 +359,9 @@ function initWaterfallScroll() {
       container.style.opacity = '1';
     }
 
-    // 强制显示第一个盒子（覆盖任何可能的CSS隐藏）
-    const firstBox = document.querySelector('.waterfall-box.box-1');
-    if (firstBox) {
-      firstBox.style.opacity = '1';
-      firstBox.style.visibility = 'visible';
-      firstBox.style.transform = 'translate(-50%, -50%) scale(1)';
-      firstBox.style.zIndex = '3';
-      firstBox.classList.add('active');
-      firstBox.classList.remove('hidden', 'previous', 'next');
-    }
-
-    // 隐藏其他盒子
-    boxes.forEach((box, index) => {
-      if (index !== 0) {
-        box.classList.add('hidden');
-        box.classList.remove('active', 'previous', 'next');
-      }
-    });
+    // 使用统一的盒子状态管理，不单独处理第一个盒子
+    // 让CSS和WaterfallScroll类统一管理所有盒子的状态
+    // 不设置内联样式，让CSS规则生效
   } catch (error) {
     console.error('瀑布式滚动初始化失败:', error);
     // 如果初始化失败，稍后重试
@@ -536,11 +521,11 @@ function createNavigationIndicator(waterfall) {
 }
 
 // 为语音识别提供公共方法
-WaterfallScroll.prototype.scrollNext = function() {
+WaterfallScroll.prototype.scrollNext = function () {
   return this.nextBox();
 };
 
-WaterfallScroll.prototype.scrollPrev = function() {
+WaterfallScroll.prototype.scrollPrev = function () {
   return this.previousBox();
 };
 

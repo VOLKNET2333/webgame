@@ -20,9 +20,11 @@
             display: inline-block;
         }
     </style>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="project/styles.css">
     <link rel="stylesheet" href="waterfall.css">
+    <link rel="stylesheet" href="animations.css">
+    <link rel="stylesheet" href="enhanced-styles.css">
+    <link rel="stylesheet" href="micro-interactions.css">
     <script src="waterfall.js" defer></script>
 
 </head>
@@ -49,14 +51,69 @@
     <main id="waterfall-container" class="waterfall-container" role="main" aria-label="项目介绍内容">
         <section class="waterfall-box box-1" data-box="1" aria-labelledby="box1-title">
             <div class="box-content">
-                <h2 id="box1-title">网页作用介绍</h2>
-                <p>本网页是"北魏老弱病残扶持计划"的核心展示平台，旨在通过现代化的无障碍网页技术，为残障人士、老年人及其他有特殊需求的人群提供便捷、友好的在线服务体验。</p>
-                <p>我们致力于打破数字鸿沟，让每个人都能平等地享受互联网带来的便利，通过智能辅助功能帮助用户更好地理解和使用网页内容。</p>
+                <!-- 简洁首页布局 -->
+                <div class="homepage-intro">
+                    <!-- 主标题区域 -->
+                    <div class="main-title-section">
+                        <img src="img/accessibility-universal.svg" alt="无障碍通用访问图标" class="decorative-image main-image animate-bounceIn" aria-hidden="true">
+                        <h1 id="box1-title" class="animate-fadeInDown animate-delay-2">北魏老弱病残扶持计划</h1>
+                        <div class="title-subtitle animate-fadeInUp animate-delay-3">
+                            <span class="subtitle-text">无障碍数字服务平台</span>
+                            <div class="subtitle-line"></div>
+                        </div>
+                    </div>
+
+                    <!-- 核心介绍区域 -->
+                    <div class="core-intro-section">
+                        <div class="intro-text">
+                            <p class="lead-text">
+                                本网页旨在为残障人士、老年人及其他有特殊需求的人群提供一个现代化、无障碍的在线服务平台。我们致力于打破数字鸿沟，让每个人都能平等享受互联网带来的便利。
+                            </p>
+                        </div>
+
+                        <!-- 核心功能亮点 -->
+                        <div class="highlights-section">
+                            <div class="highlight-card hover-lift animate-fadeInLeft animate-delay-4">
+                                <div class="highlight-icon animate-pulse">🎯</div>
+                                <h3 class="highlight-title">核心目标</h3>
+                                <p class="highlight-text">通过技术创新，为弱势群体创造更加包容、友好的数字环境</p>
+                            </div>
+
+                            <div class="highlight-card hover-lift animate-fadeInUp animate-delay-5">
+                                <div class="highlight-icon animate-pulse">✨</div>
+                                <h3 class="highlight-title">主要功能</h3>
+                                <ul class="highlight-list">
+                                    <li>智能语音朗读与识别</li>
+                                    <li>动态页面缩放与主题切换</li>
+                                    <li>无障碍导航支持</li>
+                                </ul>
+                            </div>
+
+                            <div class="highlight-card hover-lift animate-fadeInRight animate-delay-6">
+                                <div class="highlight-icon animate-pulse">🤝</div>
+                                <h3 class="highlight-title">服务宗旨</h3>
+                                <p class="highlight-text">帮助特殊需求人群更好地融入社会，享受数字时代的便利</p>
+                            </div>
+                        </div>
+
+                        <!-- 行动号召 -->
+                        <div class="cta-section">
+                            <p class="cta-text">探索我们的无障碍功能，体验更友好的数字世界</p>
+                            <div class="cta-hint">向下滚动了解更多</div>
+                            <div class="scroll-indicator">
+                                <div class="scroll-dot"></div>
+                                <div class="scroll-dot"></div>
+                                <div class="scroll-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="waterfall-box box-2" data-box="2" aria-labelledby="box2-title">
             <div class="box-content">
+                <img src="img/accessibility-wheelchair.svg" alt="轮椅无障碍图标" class="decorative-image section-image" aria-hidden="true">
                 <h2 id="box2-title">残障人士现状与困难</h2>
                 <p>在中国，有超过8500万残障人士，他们面临着诸多挑战：</p>
                 <ul>
@@ -64,12 +121,13 @@
                     <li><strong>社会偏见：</strong>残障人士在就业、教育和社会参与方面面临歧视</li>
                     <li><strong>物理障碍：</strong>公共场所的无障碍设施不完善，限制了他们的活动范围</li>
                 </ul>
-                <p>了解详情</p>
+                <p><a href="disability-status.html" class="btn">了解详情</a></p>
             </div>
         </section>
 
         <section class="waterfall-box box-3" data-box="3" aria-labelledby="box3-title">
             <div class="box-content">
+                <img src="img/voice-sound.svg" alt="语音声波图标" class="decorative-image section-image" aria-hidden="true">
                 <h2 id="box3-title">本项目功能特色</h2>
                 <p>"北魏老弱病残扶持计划"集成了多项创新功能：</p>
                 <ul>
@@ -80,13 +138,49 @@
                     <li><strong>个性化鼠标样式：</strong>为运动障碍用户提供更易操作的鼠标指针</li>
                     <li><strong>实时帮助系统：</strong>随时提供使用指导和问题解答</li>
                 </ul>
-                <p>了解详情</p>
+                <p><a href="project-features.html" class="btn">了解详情</a></p>
             </div>
         </section>
     </main>
 
     <script src="waterfall.js"></script>
-    <script src="script.js"></script>
+    <script src="project/script.js"></script>
+    <script src="enhanced-animations.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 检查是否有返回目标信息
+            const returnToBox = sessionStorage.getItem('returnToBox');
+
+            if (returnToBox) {
+                // 清除sessionStorage中的信息，避免重复跳转
+                sessionStorage.removeItem('returnToBox');
+
+                // 尝试跳转到对应的盒子
+                function tryGoToBox() {
+                    // 检查waterfallScroll对象是否已定义
+                    if (typeof waterfallScroll !== 'undefined' && typeof waterfallScroll.goToBox === 'function') {
+                        // 将字符串转换为数字（盒子索引从0开始）
+                        const boxIndex = parseInt(returnToBox);
+                        console.log('尝试跳转到盒子索引:', boxIndex, '对应盒子:', boxIndex + 1);
+                        const success = waterfallScroll.goToBox(boxIndex);
+                        if (success) {
+                            console.log('成功跳转到盒子索引:', boxIndex);
+                        } else {
+                            console.warn('跳转到盒子索引失败:', boxIndex);
+                        }
+                    } else {
+                        console.warn('waterfallScroll对象未定义，将在100ms后重试');
+                        // 如果waterfallScroll对象未定义，等待100ms后重试
+                        setTimeout(tryGoToBox, 100);
+                    }
+                }
+
+                // 延迟执行，确保waterfall.js已加载
+                setTimeout(tryGoToBox, 200);
+            }
+        });
+    </script>
 </body>
 
 </html>

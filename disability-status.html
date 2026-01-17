@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>残障人士现状与困难 - 北魏老弱病残扶持计划</title>
+  <style>
+    /* 低版本浏览器兼容性备用方案 */
+    .btn {
+      padding: 0.6em 1.2em;
+      background-color: #f0f0f0;
+      border: 1px solid #b3b3b3;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1.25em;
+      color: #000000;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: inline-block;
+    }
+  </style>
+  <link rel="stylesheet" href="project/styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="micro-interactions.css">
+</head>
+
+<body>
+  <!-- 顶部导航栏 -->
+  <header id="nav-topbar" class="nav-topbar" role="region" aria-label="网页导航栏">
+    <div class="nav-topbar-container">
+      <div class="site-branding">
+        <h1 class="site-name">北魏老弱病残扶持计划</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- 左侧功能栏 -->
+  <aside id="sidebar" class="sidebar" role="complementary" aria-label="功能控制栏">
+    <nav id="navbar" class="sidebar-nav" role="navigation" aria-label="功能菜单"></nav>
+  </aside>
+
+  <!-- 日夜切换按钮 -->
+  <theme-button value="dark" id="theme-btn" size="3"></theme-button>
+
+  <!-- 主页面内容 -->
+  <main id="main-content" class="content-container" role="main" aria-label="残障人士现状与困难详情">
+    <div class="content-wrapper">
+      <article class="content-article">
+        <header class="article-header">
+          <img src="img/community-support.svg" alt="社区支持装饰图" class="decorative-image header-image animate-bounceIn" aria-hidden="true">
+          <h1 class="article-title animate-fadeInDown animate-delay-2">残障人士现状与困难</h1>
+          <p class="article-subtitle animate-fadeInUp animate-delay-3">深入了解中国残障人士面临的挑战与困境</p>
+        </header>
+
+        <section class="article-section" aria-labelledby="statistics-title">
+          <h2 id="statistics-title">📊 统计数据</h2>
+          <div class="stats-grid">
+            <div class="stat-card hover-lift animate-fadeInUp animate-delay-1">
+              <div class="stat-icon">👥</div>
+              <div class="stat-number">8500万+</div>
+              <div class="stat-label">中国残障人士总数</div>
+              <div class="stat-desc">根据中国残疾人联合会最新数据</div>
+              <div class="stat-progress">
+                <div class="progress-bar" style="width: 100%"></div>
+              </div>
+              <div class="stat-trend">📈 年增长率约2.5%</div>
+            </div>
+            <div class="stat-card hover-lift animate-fadeInUp animate-delay-1">
+              <div class="stat-icon">🏡</div>
+              <div class="stat-number">60%</div>
+              <div class="stat-label">生活在农村地区</div>
+              <div class="stat-desc">医疗资源和康复服务相对匮乏</div>
+              <div class="stat-progress">
+                <div class="progress-bar" style="width: 60%"></div>
+              </div>
+              <div class="stat-trend">🏙️ 城市地区占40%</div>
+            </div>
+            <div class="stat-card hover-lift animate-fadeInUp animate-delay-1">
+              <div class="stat-icon">📚</div>
+              <div class="stat-number">30%</div>
+              <div class="stat-label">未完成义务教育</div>
+              <div class="stat-desc">教育资源分配不均</div>
+              <div class="stat-progress">
+                <div class="progress-bar" style="width: 30%"></div>
+              </div>
+              <div class="stat-trend">🎓 70%完成义务教育</div>
+            </div>
+            <div class="stat-card hover-lift animate-fadeInUp animate-delay-1">
+              <div class="stat-icon">💼</div>
+              <div class="stat-number">40%</div>
+              <div class="stat-label">就业率低于平均水平</div>
+              <div class="stat-desc">面临就业歧视和岗位限制</div>
+              <div class="stat-progress">
+                <div class="progress-bar" style="width: 40%"></div>
+              </div>
+              <div class="stat-trend">📊 全国平均就业率65%</div>
+            </div>
+
+            <!-- 交互式统计图表 -->
+            <div class="stats-chart-container">
+              <h3>📈 残障人士分布与趋势</h3>
+              <div class="stats-chart">
+                <div class="chart-bar">
+                  <div class="chart-label">视障人士</div>
+                  <div class="chart-bar-inner" style="width: 25%">
+                    <span class="chart-value">25%</span>
+                  </div>
+                </div>
+                <div class="chart-bar">
+                  <div class="chart-label">听障人士</div>
+                  <div class="chart-bar-inner" style="width: 20%">
+                    <span class="chart-value">20%</span>
+                  </div>
+                </div>
+                <div class="chart-bar">
+                  <div class="chart-label">肢体残疾</div>
+                  <div class="chart-bar-inner" style="width: 35%">
+                    <span class="chart-value">35%</span>
+                  </div>
+                </div>
+                <div class="chart-bar">
+                  <div class="chart-label">智力障碍</div>
+                  <div class="chart-bar-inner" style="width: 15%">
+                    <span class="chart-value">15%</span>
+                  </div>
+                </div>
+                <div class="chart-bar">
+                  <div class="chart-label">多重残疾</div>
+                  <div class="chart-bar-inner" style="width: 5%">
+                    <span class="chart-value">5%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="chart-legend">
+                <div class="legend-item"><span class="legend-color" style="background-color: #4a90e2"></span>视障人士</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: #50c878"></span>听障人士</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: #ff6b6b"></span>肢体残疾</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: #ffa500"></span>智力障碍</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: #9c27b0"></span>多重残疾</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section" aria-labelledby="challenges-title">
+          <h2 id="challenges-title">🚧 主要挑战</h2>
+
+          <div class="challenge-category">
+            <h3>1. 数字鸿沟</h3>
+            <div class="challenge-list">
+              <div class="challenge-item">
+                <h4>网站无障碍设计缺失</h4>
+                <p>大多数网站缺乏基本的无障碍设计，导致视障、听障人士难以获取信息。屏幕阅读器兼容性差，缺少替代文本描述。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>移动应用适配不足</h4>
+                <p>移动应用普遍缺乏无障碍功能，触控操作对运动障碍用户不友好，字体大小调整功能有限。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>数字技能培训缺乏</h4>
+                <p>针对残障人士的数字技能培训项目少，学习资源不足，导致数字素养普遍较低。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="challenge-category">
+            <h3>2. 社会偏见与歧视</h3>
+            <div class="challenge-list">
+              <div class="challenge-item">
+                <h4>就业歧视</h4>
+                <p>企业招聘时存在隐性歧视，认为残障人士工作效率低、需要特殊照顾，导致就业机会有限。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>教育不平等</h4>
+                <p>特殊教育资源不足，普通学校缺乏无障碍设施和专门师资，融合教育推进缓慢。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>社会参与度低</h4>
+                <p>公共场所的无障碍设施不完善，限制了残障人士的社会活动和人际交往。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="challenge-category">
+            <h3>3. 物理障碍</h3>
+            <div class="challenge-list">
+              <div class="challenge-item">
+                <h4>无障碍设施不完善</h4>
+                <p>许多公共场所缺乏轮椅坡道、无障碍卫生间、盲道等基本设施，或设施维护不到位。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>交通出行困难</h4>
+                <p>公共交通无障碍改造进展缓慢，出租车拒载残障人士现象时有发生。</p>
+              </div>
+              <div class="challenge-item">
+                <h4>居住环境障碍</h4>
+                <p>老旧小区缺乏电梯，住宅设计未考虑残障人士需求，居家生活不便。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section" aria-labelledby="needs-title">
+          <h2 id="needs-title">💡 迫切需求</h2>
+          <div class="needs-list">
+            <div class="need-item">
+              <div class="need-icon">🌐</div>
+              <div class="need-content">
+                <h3>数字包容性</h3>
+                <p>推动网站和应用的无障碍设计，提供数字技能培训，缩小数字鸿沟。</p>
+              </div>
+            </div>
+            <div class="need-item">
+              <div class="need-icon">🏢</div>
+              <div class="need-content">
+                <h3>就业支持</h3>
+                <p>建立残障人士就业支持体系，提供职业培训和就业指导，消除就业歧视。</p>
+              </div>
+            </div>
+            <div class="need-item">
+              <div class="need-icon">🏫</div>
+              <div class="need-content">
+                <h3>教育公平</h3>
+                <p>完善特殊教育体系，推进融合教育，提供平等的教育机会。</p>
+              </div>
+            </div>
+            <div class="need-item">
+              <div class="need-icon">♿</div>
+              <div class="need-content">
+                <h3>无障碍环境</h3>
+                <p>加快无障碍设施建设，完善相关法律法规，创造包容性社会环境。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="article-section" aria-labelledby="solutions-title">
+          <h2 id="solutions-title">🔧 解决方案</h2>
+          <div class="solutions-grid">
+            <div class="solution-card">
+              <h3>技术解决方案</h3>
+              <ul>
+                <li>开发无障碍网页和应用</li>
+                <li>推广辅助技术设备</li>
+                <li>建立数字包容性平台</li>
+                <li>提供远程康复服务</li>
+              </ul>
+            </div>
+            <div class="solution-card">
+              <h3>政策支持</h3>
+              <ul>
+                <li>完善无障碍环境建设法规</li>
+                <li>制定反歧视就业政策</li>
+                <li>增加特殊教育投入</li>
+                <li>建立社会保障体系</li>
+              </ul>
+            </div>
+            <div class="solution-card">
+              <h3>社会参与</h3>
+              <ul>
+                <li>提高公众意识教育</li>
+                <li>鼓励企业社会责任</li>
+                <li>发展志愿者服务</li>
+                <li>建立支持网络</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 脚本文件（放在 body 末尾） -->
+        <script src="project/script.js"></script>
+        <script src="enhanced-animations.js"></script>
+
+        <!-- 页面特定交互脚本 -->
+        <script>
+          // 页面加载完成后初始化交互功能
+          document.addEventListener('DOMContentLoaded', function () {
+            // 1. 统计卡片点击动画
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+              card.addEventListener('click', function () {
+                this.classList.toggle('card-expanded');
+
+                // 添加点击动画
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                  this.style.transform = '';
+                }, 200);
+
+                // 显示/隐藏详细信息
+                const details = this.querySelector('.stat-details');
+                if (details) {
+                  details.style.display = details.style.display === 'block' ? 'none' : 'block';
+                }
+              });
+
+              // 添加键盘支持
+              card.setAttribute('tabindex', '0');
+              card.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  this.click();
+                }
+              });
+            });
+
+            // 2. 进度条动画效果
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+              const width = bar.style.width;
+              bar.style.width = '0%';
+
+              setTimeout(() => {
+                bar.style.transition = 'width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                bar.style.width = width;
+              }, 300);
+            });
+
+            // 3. 图表交互效果 - 优化：根据百分比调整长度，添加动画效果，确保按比例调整大小
+            const chartBars = document.querySelectorAll('.chart-bar');
+            chartBars.forEach((bar, index) => {
+              const innerBar = bar.querySelector('.chart-bar-inner');
+              const value = bar.querySelector('.chart-value');
+
+              // 获取百分比值
+              const widthText = innerBar.style.width;
+              const percentage = parseFloat(widthText);
+
+              // 设置CSS变量，确保图表条按比例调整大小
+              innerBar.style.setProperty('--chart-width', widthText);
+
+              // 初始设置为0%
+              innerBar.style.width = '0%';
+              innerBar.style.transition = 'width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+
+              // 延迟执行动画，创建交错效果
+              setTimeout(() => {
+                innerBar.style.width = widthText;
+
+                // 百分比数值动画
+                if (value) {
+                  let current = 0;
+                  const target = percentage;
+                  const increment = target / 30; // 分30步完成
+
+                  const counter = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                      current = target;
+                      clearInterval(counter);
+                    }
+                    value.textContent = Math.round(current) + '%';
+                  }, 50);
+                }
+              }, 300 + (index * 200)); // 交错延迟
+
+              // 悬停效果
+              bar.addEventListener('mouseenter', function () {
+                innerBar.style.transition = 'transform 0.3s ease, width 0.3s ease';
+                innerBar.style.transform = 'scaleX(1.05)';
+
+                if (value) {
+                  value.style.transform = 'translateY(-50%) scale(1.2)';
+                  value.style.opacity = '1';
+                }
+              });
+
+              bar.addEventListener('mouseleave', function () {
+                innerBar.style.transform = 'scaleX(1)';
+
+                if (value) {
+                  value.style.transform = 'translateY(-50%) scale(1)';
+                  value.style.opacity = '1';
+                }
+              });
+            });
+
+            // 4. 挑战项目点击效果
+            const challengeItems = document.querySelectorAll('.challenge-item');
+            challengeItems.forEach(item => {
+              item.addEventListener('click', function () {
+                this.classList.toggle('expanded');
+
+                // 添加旋转箭头效果
+                const arrow = this.querySelector('h4');
+                if (arrow) {
+                  const beforeStyle = window.getComputedStyle(arrow, '::before');
+                  if (this.classList.contains('expanded')) {
+                    arrow.style.setProperty('--arrow-rotation', '90deg');
+                  } else {
+                    arrow.style.setProperty('--arrow-rotation', '0deg');
+                  }
+                }
+              });
+
+              // 添加键盘支持
+              item.setAttribute('tabindex', '0');
+              item.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  this.click();
+                }
+              });
+            });
+
+            // 5. 平滑滚动到章节
+            const sectionLinks = document.querySelectorAll('a[href^="#"]');
+            sectionLinks.forEach(link => {
+              link.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                  e.preventDefault();
+                  const targetElement = document.querySelector(targetId);
+                  if (targetElement) {
+                    window.scrollTo({
+                      top: targetElement.offsetTop - 100,
+                      behavior: 'smooth'
+                    });
+                  }
+                }
+              });
+            });
+
+            // 6. 添加CSS变量用于箭头旋转
+            const style = document.createElement('style');
+            style.textContent = `
+                .challenge-item h4::before {
+                    transition: transform 0.3s ease;
+                    transform: rotate(var(--arrow-rotation, 0deg));
+                }
+                
+                .stat-card.card-expanded {
+                    transform: scale(1.05) !important;
+                    z-index: 10;
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2) !important;
+                }
+                
+                .stat-details {
+                    display: none;
+                    margin-top: 15px;
+                    padding-top: 15px;
+                    border-top: 1px solid var(--border-color);
+                    font-size: 0.9rem;
+                    color: var(--text-color);
+                    opacity: 0.8;
+                }
+                
+                .challenge-item.expanded {
+                    background: linear-gradient(135deg, var(--primary-color) 0%, rgba(74, 144, 226, 0.1) 100%) !important;
+                    border-left-width: 8px !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // 7. 为统计卡片添加详细信息区域
+            statCards.forEach((card, index) => {
+              const details = document.createElement('div');
+              details.className = 'stat-details';
+
+              const detailsText = [
+                '基于2025年中国残疾人联合会最新统计数据，涵盖所有残疾类型。',
+                '农村地区残障人士面临医疗资源匮乏、康复服务不足等挑战。',
+                '教育资源分配不均，特殊教育学校数量不足，师资力量薄弱。',
+                '企业招聘存在隐性歧视，适合残障人士的岗位类型有限。'
+              ];
+
+              if (detailsText[index]) {
+                details.textContent = detailsText[index];
+                card.appendChild(details);
+              }
+            });
+
+            // 8. 页面加载动画
+            const contentWrapper = document.querySelector('.content-wrapper');
+            if (contentWrapper) {
+              contentWrapper.style.opacity = '0';
+              contentWrapper.style.transform = 'translateY(20px)';
+
+              setTimeout(() => {
+                contentWrapper.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                contentWrapper.style.opacity = '1';
+                contentWrapper.style.transform = 'translateY(0)';
+              }, 300);
+            }
+
+            // 9. 分享页面功能
+            const shareButton = document.getElementById('share-page');
+            if (shareButton) {
+              shareButton.addEventListener('click', function () {
+                // 检查Web Share API是否可用
+                if (navigator.share) {
+                  navigator.share({
+                    title: '残障人士现状与困难 - 北魏老弱病残扶持计划',
+                    text: '深入了解中国残障人士面临的挑战与困境，查看详细统计数据和分析。',
+                    url: window.location.href
+                  })
+                    .then(() => {
+                      console.log('分享成功');
+                      // 显示成功提示
+                      showNotification('页面分享成功！', 'success');
+                    })
+                    .catch((error) => {
+                      console.error('分享失败:', error);
+                      // 显示错误提示
+                      showNotification('分享失败，请手动复制链接。', 'error');
+                      // 备用方案：复制链接到剪贴板
+                      copyToClipboard(window.location.href);
+                    });
+                } else {
+                  // Web Share API不可用，使用备用方案
+                  copyToClipboard(window.location.href);
+                  showNotification('链接已复制到剪贴板！', 'success');
+                }
+              });
+
+              // 添加键盘支持
+              shareButton.setAttribute('tabindex', '0');
+              shareButton.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  this.click();
+                }
+              });
+            }
+
+            // 10. 回到顶部按钮功能
+            const backToTopButton = document.getElementById('back-to-top');
+            if (backToTopButton) {
+              // 监听滚动事件，显示/隐藏回到顶部按钮
+              window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                  backToTopButton.style.display = 'inline-block';
+                } else {
+                  backToTopButton.style.display = 'none';
+                }
+              });
+
+              // 点击回到顶部
+              backToTopButton.addEventListener('click', function () {
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              });
+
+              // 添加键盘支持
+              backToTopButton.setAttribute('tabindex', '0');
+              backToTopButton.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  this.click();
+                }
+              });
+            }
+
+            // 辅助函数：显示通知
+            function showNotification(message, type = 'info') {
+              // 移除现有的通知
+              const existingNotification = document.querySelector('.notification');
+              if (existingNotification) {
+                existingNotification.remove();
+              }
+
+              // 创建通知元素
+              const notification = document.createElement('div');
+              notification.className = `notification notification-${type}`;
+              notification.textContent = message;
+              notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background-color: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 10000;
+                font-size: 1rem;
+                font-weight: 500;
+                animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+                animation-fill-mode: forwards;
+              `;
+
+              // 添加动画样式
+              const style = document.createElement('style');
+              style.textContent = `
+                @keyframes slideIn {
+                  from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                  }
+                  to {
+                    transform: translateX(0);
+                    opacity: 1;
+                  }
+                }
+                @keyframes fadeOut {
+                  from {
+                    opacity: 1;
+                  }
+                  to {
+                    opacity: 0;
+                  }
+                }
+              `;
+              document.head.appendChild(style);
+
+              document.body.appendChild(notification);
+
+              // 3秒后自动移除
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.remove();
+                }
+              }, 3000);
+            }
+
+            // 辅助函数：复制到剪贴板
+            function copyToClipboard(text) {
+              const textarea = document.createElement('textarea');
+              textarea.value = text;
+              textarea.style.position = 'fixed';
+              textarea.style.opacity = '0';
+              document.body.appendChild(textarea);
+              textarea.select();
+
+              try {
+                const successful = document.execCommand('copy');
+                return successful;
+              } catch (err) {
+                console.error('复制失败:', err);
+                return false;
+              } finally {
+                document.body.removeChild(textarea);
+              }
+            }
+
+            console.log('残障人士现状页面交互功能已初始化');
+          });
+        </script>
+
+        <footer class="article-footer">
+          <div class="back-link">
+            <a href="index.html" class="btn" onclick="sessionStorage.setItem('returnToBox', '1');">返回首页</a>
+            <button id="back-to-top" class="btn" style="display: none;">回到顶部</button>
+            <button id="share-page" class="btn">分享页面</button>
+          </div>
+          <div class="article-meta">
+            <p>最后更新：2026年1月</p>
+            <p>数据来源：中国残疾人联合会、世界卫生组织</p>
+          </div>
+          <div class="keyboard-shortcuts">
+            <p>键盘快捷键：<kbd>↑</kbd><kbd>↓</kbd> 导航 | <kbd>Home</kbd> 顶部 | <kbd>End</kbd> 底部 | <kbd>P</kbd> 打印</p>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </main>
+
+  <style>
+    /* 内容容器样式 */
+    .content-container {
+      margin-left: 0;
+      padding: 100px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      transition: margin-left 0.3s ease;
+    }
+
+    .content-wrapper {
+      background-color: var(--background-color);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+    }
+
+    /* 文章样式 */
+    .article-header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 3px solid var(--primary-color);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 装饰图片样式 */
+    .decorative-image {
+      max-width: 150px;
+      max-height: 150px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      opacity: 0.12;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 12px rgba(26, 115, 232, 0.15));
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .decorative-image.header-image {
+      max-width: 180px;
+      max-height: 180px;
+    }
+
+    html.theme-dark .decorative-image {
+      opacity: 0.18;
+      filter: drop-shadow(0 4px 12px rgba(107, 163, 255, 0.25));
+    }
+
+    .article-header:hover .decorative-image {
+      opacity: 0.2;
+      transform: scale(1.08) rotate(2deg);
+    }
+
+    html.theme-dark .article-header:hover .decorative-image {
+      opacity: 0.25;
+    }
+
+    .article-title {
+      font-size: 2.8rem;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .article-subtitle {
+      font-size: 1.4rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    /* 章节样式 */
+    .article-section {
+      margin-bottom: 60px;
+    }
+
+    .article-section h2 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .article-section h3 {
+      font-size: 1.6rem;
+      color: var(--text-color);
+      margin: 30px 0 20px;
+    }
+
+    .article-section h4 {
+      font-size: 1.3rem;
+      color: var(--primary-color);
+      margin: 20px 0 10px;
+    }
+
+    /* 统计网格 - 增强版 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin: 30px 0;
+    }
+
+    /* 图表容器跨越整个网格宽度 */
+    .stats-chart-container {
+      grid-column: 1 / -1;
+      margin: 40px 0 50px;
+      padding: 30px;
+      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px 25px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary-color);
+    }
+
+    .stat-card:hover::before {
+      left: 100%;
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      opacity: 0.9;
+      display: block;
+    }
+
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+      display: inline-block;
+    }
+
+    .stat-number::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      border-radius: 2px;
+    }
+
+    .stat-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-color);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-desc {
+      font-size: 0.95rem;
+      color: var(--text-color);
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    /* 挑战类别 - 增强版 */
+    .challenge-category {
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .challenge-category h3 {
+      position: relative;
+      display: inline-block;
+      padding-left: 40px;
+    }
+
+    .challenge-category h3::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: var(--primary-color);
+      border-radius: 50%;
+      opacity: 0.2;
+    }
+
+    .challenge-list {
+      display: grid;
+      gap: 25px;
+    }
+
+    .challenge-item {
+      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
+      border-left: 5px solid var(--primary-color);
+      padding: 25px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .challenge-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary-color), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .challenge-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .challenge-item:hover::before {
+      opacity: 1;
+    }
+
+    .challenge-item h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-size: 1.3rem;
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .challenge-item h4::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .challenge-item:hover h4::before {
+      transform: translateX(5px);
+    }
+
+    .challenge-item p {
+      color: var(--text-color);
+      line-height: 1.7;
+      margin: 0;
+      padding-left: 30px;
+    }
+
+    /* 需求列表 - 增强版 */
+    .needs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .need-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 35px 25px;
+      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
+      border-radius: 16px;
+      border: 2px solid var(--border-color);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .need-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), #ff6b6b, #4ecdc4, var(--primary-color));
+      background-size: 200% 100%;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    .need-item:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary-color);
+    }
+
+    .need-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
+      border-radius: 50%;
+      color: white;
+      transition: all 0.4s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .need-item:hover .need-icon {
+      transform: rotate(15deg) scale(1.1);
+      box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+    }
+
+    .need-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .need-content h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    .need-content h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .need-item:hover .need-content h3::after {
+      width: 80px;
+    }
+
+    .need-content p {
+      color: var(--text-color);
+      line-height: 1.7;
+      font-size: 1.05rem;
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    @keyframes gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* 解决方案网格 - 增强版 */
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 35px;
+      margin: 40px 0;
+    }
+
+    .solution-card {
+      background: linear-gradient(135deg, var(--background-color) 0%, var(--hover-background) 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 35px 30px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solution-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .solution-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: var(--primary-color);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .solution-card:hover::before {
+      opacity: 1;
+    }
+
+    .solution-card h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 15px;
+    }
+
+    .solution-card h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .solution-card:hover h3::after {
+      width: 100px;
+    }
+
+    .solution-card ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .solution-card li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+      padding-left: 40px;
+      transition: all 0.3s ease;
+      color: var(--text-color);
+      font-size: 1.05rem;
+    }
+
+    .solution-card li:last-child {
+      border-bottom: none;
+    }
+
+    .solution-card li:hover {
+      color: var(--primary-color);
+      transform: translateX(5px);
+    }
+
+    .solution-card li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .solution-card li:hover:before {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+    }
+
+    /* 为每个解决方案卡片添加独特的装饰元素 */
+    .solution-card:nth-child(1)::after {
+      content: '💻';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.5rem;
+      opacity: 0.1;
+      transition: opacity 0.3s ease;
+    }
+
+    .solution-card:nth-child(2)::after {
+      content: '📜';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.5rem;
+      opacity: 0.1;
+      transition: opacity 0.3s ease;
+    }
+
+    .solution-card:nth-child(3)::after {
+      content: '🤝';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.5rem;
+      opacity: 0.1;
+      transition: opacity 0.3s ease;
+    }
+
+    .solution-card:hover::after {
+      opacity: 0.2;
+    }
+
+    /* 交互式统计图表样式 - 优化：确保图表条按比例调整大小 */
+    .stats-chart-container {
+      margin: 40px 0 50px;
+      padding: 30px;
+      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      width: 100%;
+      /* 确保容器宽度为100% */
+      box-sizing: border-box;
+      /* 包含内边距在宽度计算中 */
+    }
+
+    .stats-chart-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      border-color: var(--primary-color);
+    }
+
+    .stats-chart-container h3 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      font-size: 1.6rem;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .stats-chart-container h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      border-radius: 2px;
+    }
+
+    .stats-chart {
+      margin-bottom: 25px;
+      width: 100%;
+      /* 确保图表宽度为100% */
+    }
+
+    .chart-bar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 15px;
+      width: 100%;
+      /* 确保每个图表条宽度为100% */
+    }
+
+    .chart-label {
+      width: 120px;
+      min-width: 120px;
+      /* 固定最小宽度 */
+      font-weight: 600;
+      color: var(--text-color);
+      font-size: 1.1rem;
+      text-align: right;
+      flex-shrink: 0;
+      /* 防止标签缩小 */
+    }
+
+    .chart-bar-inner {
+      flex: 1;
+      height: 40px;
+      background: linear-gradient(90deg, #4a90e2, #50c878);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+      min-width: 0;
+      /* 允许flex项目缩小到0 */
+    }
+
+    .chart-bar:nth-child(1) .chart-bar-inner {
+      background: linear-gradient(90deg, #4a90e2, #5aa0f0);
+    }
+
+    .chart-bar:nth-child(2) .chart-bar-inner {
+      background: linear-gradient(90deg, #50c878, #60d888);
+    }
+
+    .chart-bar:nth-child(3) .chart-bar-inner {
+      background: linear-gradient(90deg, #ff6b6b, #ff7b7b);
+    }
+
+    .chart-bar:nth-child(4) .chart-bar-inner {
+      background: linear-gradient(90deg, #ffa500, #ffb530);
+    }
+
+    .chart-bar:nth-child(5) .chart-bar-inner {
+      background: linear-gradient(90deg, #9c27b0, #ac37c0);
+    }
+
+    .chart-bar:hover .chart-bar-inner {
+      transform: scaleX(1.02);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-value {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      opacity: 1;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      /* 防止点击事件干扰 */
+    }
+
+    .chart-bar:hover .chart-value {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* 确保图表条按比例调整大小的额外CSS */
+    .chart-bar-inner[style*="width"] {
+      /* 确保内联样式宽度生效 */
+      flex: none;
+      /* 覆盖flex: 1，使用固定宽度 */
+      width: var(--chart-width, 0%);
+      /* 使用CSS变量 */
+    }
+
+    /* 响应式设计：确保在小屏幕上图表条仍然按比例显示 */
+    @media (max-width: 768px) {
+      .chart-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .chart-label {
+        width: 100%;
+        text-align: left;
+        min-width: auto;
+      }
+
+      .chart-bar-inner {
+        width: 100% !important;
+        /* 在小屏幕上使用全宽 */
+      }
+
+      .chart-bar-inner[style*="width"] {
+        width: var(--chart-width, 0%) !important;
+      }
+    }
+
+    .chart-legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* 进度条样式增强 */
+    .stat-progress {
+      margin-top: 15px;
+      height: 8px;
+      background-color: var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), #4a90e2);
+      border-radius: 4px;
+      position: relative;
+      transition: width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    /* 文章页脚 */
+    .article-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .back-link {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .back-link .btn {
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      margin: 0;
+    }
+
+    .back-link .btn:hover {
+      background-color: #1557b0;
+      transform: translateY(-2px);
+    }
+
+    .article-meta {
+      text-align: right;
+      color: var(--text-color);
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .content-container {
+        padding: 80px 15px 30px;
+      }
+
+      .content-wrapper {
+        padding: 25px;
+      }
+
+      .article-title {
+        font-size: 2.2rem;
+      }
+
+      .article-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .stats-grid,
+      .needs-list,
+      .solutions-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article-footer {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .article-meta {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .article-title {
+        font-size: 1.8rem;
+      }
+
+      .article-section h2 {
+        font-size: 1.6rem;
+      }
+
+      .stat-card,
+      .need-item,
+      .solution-card {
+        padding: 20px;
+      }
+    }
+
+    /* 深色模式适配 */
+    html.theme-dark .content-wrapper {
+      background-color: #1a1a1a;
+      border-color: #333;
+    }
+
+    html.theme-dark .stat-card,
+    html.theme-dark .challenge-item,
+    html.theme-dark .need-item,
+    html.theme-dark .solution-card {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border-color: #444;
+    }
+
+    html.theme-dark .stat-card:hover,
+    html.theme-dark .need-item:hover,
+    html.theme-dark .solution-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    html.theme-dark .challenge-item {
+      background-color: #2a2a2a;
+      border-left-color: var(--primary-color);
+    }
+
+    html.theme-dark .article-footer {
+      border-top-color: #333;
+    }
+
+    html.theme-dark .solution-card li {
+      border-bottom-color: #444;
+    }
+
+    /* 键盘快捷键提示样式 */
+    .keyboard-shortcuts {
+      background: rgba(74, 144, 226, 0.05);
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin: 15px 0;
+      transition: all 0.3s ease;
+    }
+
+    .keyboard-shortcuts:hover {
+      background: rgba(74, 144, 226, 0.1);
+      border-color: var(--primary-color);
+    }
+
+    .keyboard-shortcuts kbd {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin: 0 2px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 深色模式适配 */
+    html.theme-dark .keyboard-shortcuts {
+      background: rgba(74, 144, 226, 0.05);
+      border-color: #444;
+    }
+
+    html.theme-dark .keyboard-shortcuts:hover {
+      background: rgba(74, 144, 226, 0.1);
+      border-color: var(--primary-color);
+    }

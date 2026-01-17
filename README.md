@@ -155,11 +155,165 @@
 </main>
 
 <!-- 样式表 -->
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="project/styles.css">
 
 <!-- 脚本文件（放在 body 末尾） -->
-<script src="script.js"></script>
+<script src="project/script.js"></script>
 ```
+
+### 让您的网页适配深浅色模式
+
+本项目使用 CSS 自定义属性（CSS Variables）实现深浅色模式切换。要让您的网页内容正确适配深浅色模式，请遵循以下指南：
+
+#### 1. 使用 CSS 自定义属性定义颜色
+
+在您的 CSS 中，使用项目定义的 CSS 自定义属性，而不是硬编码颜色值：
+
+```css
+/* ✅ 正确：使用 CSS 自定义属性 */
+.my-element {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border-color: var(--border-color);
+}
+
+/* ❌ 错误：硬编码颜色值 */
+.my-element {
+  color: #202124; /* 浅色模式颜色 */
+  background-color: #ffffff;
+}
+```
+
+#### 2. 可用的 CSS 自定义属性
+
+项目定义了以下 CSS 自定义属性，这些属性会根据当前主题自动切换：
+
+| 变量名 | 浅色模式值 | 深色模式值 | 描述 |
+|--------|------------|------------|------|
+| `--primary-color` | `#1a73e8` | `#6ba3ff` | 主要颜色（按钮、链接等） |
+| `--text-color` | `#202124` | `#ffffff` | 主要文本颜色 |
+| `--background-color` | `#ffffff` | `#121212` | 页面背景颜色 |
+| `--border-color` | `#dadce0` | `#4a4a4a` | 边框颜色 |
+| `--hover-background` | `#f8f9fa` | `#1e1e1e` | 悬停背景颜色 |
+
+#### 3. 为自定义组件添加主题适配
+
+如果您添加了自定义的 UI 组件，请确保它们支持深浅色模式：
+
+```css
+/* 自定义按钮示例 */
+.custom-button {
+  padding: 12px 24px;
+  border: 2px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: var(--hover-background);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* 自定义卡片示例 */
+.custom-card {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+html.theme-dark .custom-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+```
+
+#### 4. 图片和媒体内容适配
+
+对于图片和媒体内容，可以使用 CSS 滤镜或提供不同版本的资源：
+
+```css
+/* 方法1：使用 CSS 滤镜调整图片亮度 */
+.theme-adaptive-image {
+  filter: brightness(1);
+}
+
+html.theme-dark .theme-adaptive-image {
+  filter: brightness(0.8);
+}
+
+/* 方法2：使用不同图片源（需要准备两套资源） */
+.theme-adaptive-img {
+  content: url('light-image.jpg');
+}
+
+html.theme-dark .theme-adaptive-img {
+  content: url('dark-image.jpg');
+}
+```
+
+#### 5. 使用主题类名进行精确控制
+
+HTML 元素会根据当前主题添加相应的类名：
+- 浅色模式：`<html class="theme-light">`
+- 深色模式：`<html class="theme-dark">`
+
+您可以使用这些类名进行精确的样式控制：
+
+```css
+/* 仅在深色模式下应用的样式 */
+html.theme-dark .dark-mode-only {
+  display: block;
+}
+
+html.theme-light .dark-mode-only {
+  display: none;
+}
+
+/* 仅在浅色模式下应用的样式 */
+html.theme-light .light-mode-only {
+  display: block;
+}
+
+html.theme-dark .light-mode-only {
+  display: none;
+}
+```
+
+#### 6. JavaScript 中的主题检测
+
+在 JavaScript 中，您可以检测当前主题并做出相应调整：
+
+```javascript
+// 检测当前主题
+const currentTheme = document.documentElement.classList.contains('theme-dark') ? 'dark' : 'light';
+
+// 监听主题变化
+const themeBtn = document.getElementById('theme-btn');
+if (themeBtn) {
+  themeBtn.addEventListener('change', function(e) {
+    const newTheme = e.detail; // 'light' 或 'dark'
+    console.log('主题已切换为:', newTheme);
+    // 在这里执行主题相关的逻辑
+  });
+}
+
+// 或者监听 DOM 类名变化
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.attributeName === 'class') {
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      console.log('主题变化:', isDark ? '深色模式' : '浅色模式');
+    }
+  });
+});
+
+observer.observe(document.documentElement, { attributes: true });
+```
+
 
 ## 项目结构
 
@@ -239,52 +393,7 @@ script.js 采用 OOP 设计，由以下 8 个管理类组成：
   - DOM API - 动态 DOM 操作
   - SVG API - 色盲滤镜实现
 
-## 开发说明
-
-### 添加新功能
-
-1. **创建管理类**：继承基本模式，实现 `init()` 和状态管理
-2. **注册到初始化流程**：在 `DOMContentLoaded` 中创建实例
-3. **添加 HTML 元素**（如需要）：更新 `NavbarRenderer.render()`
-4. **添加样式**：在 styles.css 中添加对应的 CSS
-5. **添加快捷键**（如需要）：在相应管理类中实现
-
-### 调试技巧
-
-打开浏览器控制台，可使用全局调试对象：
-
-```javascript
-// 页面缩放
-debugPageZoom.getCurrentZoom()      // 获取当前缩放
-debugPageZoom.setZoom(150)          // 设置为 150%
-
-// 主题
-debugPageZoom.getCurrentTheme()     // 获取当前主题
-debugPageZoom.toggleTheme()         // 切换主题
-
-// 语音
-debugPageZoom.isSpeaking()          // 是否正在朗读
-debugPageZoom.readText('测试')      // 朗读文本
-
-// 打开调试面板
-window.showDebug()                  // 显示调试信息
-window.logDebug()                   // 在控制台输出
-```
-
 ## 许可证
 
 MIT License - 详见 LICENSE 文件
 
-## 更新日志
-
-### v2.0（最新）
-- ✅ 完整重写代码架构，采用类设计
-- ✅ 新增色盲模式（5 种滤镜类型）
-- ✅ 新增语音识别和控制
-- ✅ 新增行朗读功能
-- ✅ 优化 CSS，移除重复选择器
-- ✅ 增强无障碍支持
-- ✅ 完善调试面板
-
-### v1.0
-- 基础功能：缩放、主题、朗读

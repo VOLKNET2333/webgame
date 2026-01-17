@@ -58,12 +58,14 @@ body {
 .waterfall-box {
   position: fixed;
   /* 使用fixed定位实现视差效果 */
-  top: calc(35px + (100vh - 35px) / 2);
+  top: calc(70px + (100vh - 70px) / 2);
   left: calc(65px + 50%);
   transform: translate(-50%, -50%) scale(0.3);
-  width: 95%;
-  max-width: 1400px;
-  min-height: 800px;
+  width: 100%;
+  max-width: 1250px;
+  min-height: 650px;
+  max-height: 850px;
+  /* 添加最大高度限制 */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(250, 250, 250, 0.99) 100%);
   border-radius: 24px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
@@ -82,15 +84,15 @@ body {
   /* 初始隐藏 */
   will-change: transform, opacity;
   backface-visibility: hidden;
+  box-sizing: border-box;
+  /* 确保padding和border包含在尺寸内 */
+  overflow: hidden;
+  /* 隐藏溢出的内容 */
 }
 
-/* 第一个盒子默认显示 - 使用!important确保优先级 */
+/* 第一个盒子默认显示 - 由JavaScript控制 */
 .waterfall-box.box-1 {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: translate(-50%, -50%) scale(1) !important;
-  z-index: 3 !important;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  /* 移除!important规则，让JavaScript统一控制 */
 }
 
 /* 深色模式下的盒子样式 */
@@ -106,106 +108,244 @@ html.theme-dark .waterfall-box {
 .box-content {
   max-width: 90%;
   width: 100%;
+  padding: 20px 30px;
+  /* 进一步减少padding：从30px 40px减少到20px 30px */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  /* 确保内容区域填满整个盒子 */
+  overflow-y: auto;
+  /* 允许内容滚动 */
+  overflow-x: hidden;
+  /* 隐藏水平滚动 */
 }
 
 .box-content h2 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: #1a73e8;
   text-align: center;
   font-weight: 700;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.box-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #1a73e8, #6ba3ff);
+  border-radius: 2px;
 }
 
 html.theme-dark .box-content h2 {
   color: #6ba3ff;
 }
 
+html.theme-dark .box-content h2::after {
+  background: linear-gradient(90deg, #6ba3ff, #8ab4f8);
+}
+
 .box-content p {
   font-size: 1.2rem;
   line-height: 1.8;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: #333;
-}
-
-.box-1 .box-content p {
-  margin-bottom: 0.1rem;
-}
-
-.box-1 .box-content p:last-of-type {
-  margin-bottom: 0;
-}
-
-.box-2 .box-content p:last-of-type,
-.box-3 .box-content p:last-of-type {
   text-align: center;
-  font-weight: 600;
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #87CEEB;
 }
 
-.box-2 .box-content p:last-of-type:hover,
-.box-3 .box-content p:last-of-type:hover {
-  transform: scale(1.1);
-  color: #0047ab;
+.box-content p:last-of-type {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.box-2 .box-content p:first-of-type,
+.box-3 .box-content p:first-of-type {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 html.theme-dark .box-content p {
   color: #e8eaed;
 }
 
-html.theme-dark .box-2 .box-content p:last-of-type:hover,
-html.theme-dark .box-3 .box-content p:last-of-type:hover {
-  color: #0047ab;
+html.theme-dark .box-2 .box-content p:first-of-type,
+html.theme-dark .box-3 .box-content p:first-of-type {
+  color: #c0c6d0;
 }
 
 .box-content ul {
   list-style-type: none;
   padding-left: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.box-2 .box-content ul {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.box-3 .box-content ul {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
 }
 
 .box-content li {
   font-size: 1.1rem;
   line-height: 1.7;
-  margin-bottom: 0.5rem;
-  padding-left: 1.5rem;
+  padding: 1rem 1.2rem 1rem 3rem;
   position: relative;
   color: #444;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(26, 115, 232, 0.1);
+  transition: all 0.3s ease;
+}
+
+.box-content li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.15);
+  border-color: rgba(26, 115, 232, 0.2);
 }
 
 html.theme-dark .box-content li {
   color: #d1d5db;
+  background: rgba(35, 40, 50, 0.9);
+  border: 1px solid rgba(107, 163, 255, 0.1);
+}
+
+html.theme-dark .box-content li:hover {
+  box-shadow: 0 8px 20px rgba(107, 163, 255, 0.2);
+  border-color: rgba(107, 163, 255, 0.2);
 }
 
 .box-content li:before {
-  content: "•";
+  content: "✓";
   color: #1a73e8;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
   position: absolute;
-  left: 0;
-  top: -2px;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: rgba(26, 115, 232, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 html.theme-dark .box-content li:before {
   color: #6ba3ff;
+  background: rgba(107, 163, 255, 0.1);
 }
 
 .box-content strong {
   color: #1a73e8;
   font-weight: 600;
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1.15rem;
 }
 
 html.theme-dark .box-content strong {
   color: #8ab4f8;
 }
 
-/* 盒子状态样式 */
+/* 按钮样式优化 */
+.box-content .btn {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(26, 115, 232, 0.3);
+  margin: 0 auto;
+  display: block;
+  width: fit-content;
+  min-width: 200px;
+}
+
+.box-content .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(26, 115, 232, 0.4);
+  background: linear-gradient(135deg, #0d47a1, #1a73e8);
+}
+
+.box-content .btn:active {
+  transform: translateY(-1px);
+}
+
+html.theme-dark .box-content .btn {
+  background: linear-gradient(135deg, #6ba3ff, #1a73e8);
+  box-shadow: 0 6px 20px rgba(107, 163, 255, 0.3);
+}
+
+html.theme-dark .box-content .btn:hover {
+  background: linear-gradient(135deg, #1a73e8, #6ba3ff);
+  box-shadow: 0 10px 25px rgba(107, 163, 255, 0.4);
+}
+
+/* 按钮容器 - 确保按钮有足够的空间 */
+.box-content p:last-of-type {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  flex-shrink: 0;
+  /* 防止按钮容器被压缩 */
+}
+
+/* 移除旧的按钮悬停效果 */
+.box-2 .box-content p:last-of-type,
+.box-3 .box-content p:last-of-type {
+  text-align: center;
+  font-weight: normal;
+  font-size: inherit;
+  cursor: default;
+  transition: none;
+  color: inherit;
+}
+
+.box-2 .box-content p:last-of-type:hover,
+.box-3 .box-content p:last-of-type:hover {
+  transform: none;
+  color: inherit;
+}
+
+html.theme-dark .box-2 .box-content p:last-of-type:hover,
+html.theme-dark .box-3 .box-content p:last-of-type:hover {
+  color: inherit;
+}
+
+/* 盒子状态样式 - 统一过渡动画 */
 .waterfall-box.active {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
-  z-index: 3;
+  z-index: 2001;
   box-shadow: 0 40px 100px rgba(26, 115, 232, 0.2),
     0 20px 50px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -214,20 +354,20 @@ html.theme-dark .box-content strong {
 }
 
 .waterfall-box.previous {
-  transform: translate(-50%, -50%) scale(0.15) translateY(-280px);
-  opacity: 0.15;
+  transform: translate(-50%, -50%) scale(0.1);
+  opacity: 0;
   z-index: 2;
   visibility: visible;
-  filter: blur(8px);
+  filter: blur(10px);
   pointer-events: none;
 }
 
 .waterfall-box.next {
-  transform: translate(-50%, -50%) scale(0.15) translateY(280px);
-  opacity: 0.15;
+  transform: translate(-50%, -50%) scale(0.1);
+  opacity: 0;
   z-index: 2;
   visibility: visible;
-  filter: blur(8px);
+  filter: blur(10px);
   pointer-events: none;
 }
 
@@ -243,9 +383,9 @@ html.theme-dark .box-content strong {
 /* 响应式设计 */
 @media (max-width: 1024px) {
   .waterfall-box {
-    width: 95%;
-    min-height: 500px;
-    padding: 30px;
+    width: 100%;
+    min-height: 650px;
+    padding: 5px;
   }
 
   .box-content h2 {
@@ -256,6 +396,11 @@ html.theme-dark .box-content strong {
   .box-content li {
     font-size: 1.1rem;
   }
+
+  .box-content {
+    padding: 20px 30px;
+    /* 保持与其他盒子一致的padding */
+  }
 }
 
 @media (max-width: 768px) {
@@ -264,9 +409,9 @@ html.theme-dark .box-content strong {
   }
 
   .waterfall-box {
-    width: 98%;
-    min-height: 400px;
-    padding: 25px;
+    width: 100%;
+    min-height: 650px;
+    padding: 5px;
   }
 
   .box-content h2 {
@@ -283,12 +428,18 @@ html.theme-dark .box-content strong {
     padding-left: 1.2rem;
     margin-bottom: 0.6rem;
   }
+
+  .box-content {
+    padding: 20px 25px;
+    /* 保持与其他盒子一致的padding */
+  }
 }
 
 @media (max-width: 480px) {
   .waterfall-box {
-    min-height: 350px;
-    padding: 20px;
+    width: 100%;
+    min-height: 650px;
+    padding: 5px;
   }
 
   .box-content h2 {
@@ -303,6 +454,55 @@ html.theme-dark .box-content strong {
   .box-content li {
     font-size: 0.95rem;
     padding-left: 1rem;
+  }
+
+  /* 第二个和第三个盒子的响应式优化 */
+  .box-2 .box-content ul,
+  .box-3 .box-content ul {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .box-content li {
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+  }
+
+  .box-content li:before {
+    left: 0.8rem;
+    width: 20px;
+    height: 20px;
+    font-size: 1rem;
+  }
+
+  .box-content strong {
+    font-size: 1rem;
+  }
+
+  .box-content .btn {
+    padding: 0.8rem 1.8rem;
+    font-size: 1.05rem;
+    min-width: 180px;
+  }
+
+  .box-2 .box-content p:first-of-type,
+  .box-3 .box-content p:first-of-type {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .box-content {
+    padding: 15px 12px;
+    /* 保持与其他盒子一致的padding */
+  }
+
+  /* 确保所有盒子在移动端有相同的宽度 */
+  .waterfall-box {
+    width: 95%;
+  }
+
+  .box-content {
+    max-width: 90%;
+    width: 100%;
   }
 }
 
@@ -321,32 +521,37 @@ html.theme-dark .waterfall-box:focus-visible {
 /* 高对比度模式支持 */
 @media (prefers-contrast: more) {
   .waterfall-box {
-    border: 2px solid rgba(26, 115, 232, 0.4);
-  }
-
-  html.theme-dark .waterfall-box {
-    border: 2px solid rgba(107, 163, 255, 0.4);
-  }
-}
-
-/* 平滑滚动 */
-html {
-  scroll-behavior: smooth;
-}
-
-/* 减少动画偏好 */
-@media (prefers-reduced-motion: reduce) {
-  .waterfall-box {
-    transition: opacity 0.2s ease, z-index 0.2s ease;
-    transform: none !important;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
-
-  .waterfall-box.active {
-    transform: translate(-50%, -50%) scale(1) !important;
+    position: fixed;
+    /* 使用fixed定位实现视差效果 */
+    top: calc(70px + (100vh - 70px) / 2);
+    left: calc(65px + 50%);
+    transform: translate(-50%, -50%) scale(0.3);
+    width: 100%;
+    max-width: 1250px;
+    min-height: 650px;
+    max-height: 850px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(250, 250, 250, 0.99) 100%);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+      0 10px 25px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    opacity: 0;
+    /* 初始为透明，由JS控制显示 */
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(26, 115, 232, 0.15);
+    visibility: hidden;
+    /* 初始隐藏 */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    box-sizing: border-box;
+    /* 确保padding和border包含在尺寸内 */
+    overflow: hidden;
+    /* 隐藏溢出的内容 */
   }
 
   .waterfall-box.previous,
@@ -376,4 +581,672 @@ html {
 .hover-read-btn.active:hover {
   background: linear-gradient(135deg, #1557b0, #0d47a1);
   border-color: #0d47a1;
+}
+
+/* ============================================
+   第一个盒子 - 简洁首页布局
+   ============================================ */
+
+/* 所有盒子使用相同的样式 */
+.box-1 .box-content,
+.box-2 .box-content,
+.box-3 .box-content {
+  /* 使用与其他盒子相同的样式 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* 移除第一个盒子的特殊滚动条，所有盒子使用相同的滚动行为 */
+}
+
+/* 简洁首页布局容器 */
+.homepage-intro {
+  width: 100%;
+  /* 移除max-width限制，使用与其他盒子相同的最大宽度 */
+  text-align: center;
+  /* 确保内容填充可用空间 */
+  height: 100%;
+  /* 确保填满父容器 */
+  overflow-x: hidden;
+  /* 隐藏水平滚动 */
+  /* 移除flex属性，让.box-content统一处理布局 */
+  /* 移除overflow-y: auto，因为.box-content已经有滚动功能 */
+  padding: 0;
+  /* 移除所有padding，让.box-content控制padding */
+  margin: 0;
+  /* 移除所有margin */
+}
+
+/* 主标题区域 */
+.main-title-section {
+  margin-bottom: 15px;
+  /* 从20px减少到15px */
+}
+
+.box-1 .box-content h1 {
+  font-size: 2rem;
+  /* 从2.2rem减少到2rem，使标题更小 */
+  font-weight: 800;
+  color: #1a73e8;
+  margin-bottom: 4px;
+  /* 从6px减少到4px */
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  text-shadow: 0 4px 20px rgba(26, 115, 232, 0.15);
+}
+
+.title-subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  /* 从6px减少到4px */
+  margin-top: 1px;
+  /* 从2px减少到1px */
+}
+
+.subtitle-text {
+  font-size: 0.9rem;
+  /* 从1rem减少到0.9rem */
+  color: #5f6368;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.subtitle-line {
+  width: 25px;
+  /* 从30px减少到25px */
+  height: 2px;
+  background: linear-gradient(90deg, #1a73e8, transparent);
+}
+
+/* 核心介绍区域 */
+.core-intro-section {
+  width: 100%;
+  /* 移除flex: 1，让所有盒子使用相同的布局逻辑 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-text {
+  margin-bottom: 15px;
+  /* 从20px减少到15px */
+}
+
+.lead-text {
+  font-size: 0.9rem;
+  /* 从1rem减少到0.9rem */
+  line-height: 1.3;
+  /* 从1.4减少到1.3 */
+  color: #444;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 6px;
+  /* 从8px减少到6px */
+}
+
+/* 核心功能亮点区域 */
+.highlights-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  /* 从12px减少到10px */
+  margin-bottom: 12px;
+  /* 从15px减少到12px */
+}
+
+.highlight-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 14px 12px;
+  /* 从16px 14px减少到14px 12px */
+  box-shadow:
+    0 4px 16px rgba(26, 115, 232, 0.08),
+    0 2px 8px rgba(26, 115, 232, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(26, 115, 232, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.highlight-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 16px 40px rgba(26, 115, 232, 0.15),
+    0 8px 20px rgba(26, 115, 232, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.highlight-icon {
+  font-size: 1.6rem;
+  /* 从1.8rem减少到1.6rem */
+  margin-bottom: 10px;
+  /* 从12px减少到10px */
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.highlight-title {
+  font-size: 1rem;
+  /* 从1.1rem减少到1rem */
+  font-weight: 700;
+  color: #1a73e8;
+  margin-bottom: 8px;
+  /* 从10px减少到8px */
+}
+
+.highlight-text {
+  font-size: 0.9rem;
+  /* 从0.95rem减少到0.9rem */
+  line-height: 1.3;
+  /* 从1.4减少到1.3 */
+  color: #555;
+  margin: 0;
+}
+
+.highlight-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.highlight-list li {
+  font-size: 0.85rem;
+  /* 从0.9rem减少到0.85rem */
+  line-height: 1.2;
+  /* 从1.3减少到1.2 */
+  margin-bottom: 5px;
+  /* 从6px减少到5px */
+  padding-left: 16px;
+  /* 从18px减少到16px */
+  position: relative;
+  color: #555;
+}
+
+.highlight-list li:before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #1a73e8;
+  font-size: 1.1rem;
+  /* 从1.2rem减少到1.1rem */
+}
+
+/* 行动号召区域 */
+.cta-section {
+  /* 移除margin-top: auto，避免布局差异 */
+  padding-top: 12px;
+  /* 从15px减少到12px */
+  border-top: 1px solid rgba(26, 115, 232, 0.1);
+}
+
+.cta-text {
+  font-size: 0.9rem;
+  /* 从1rem减少到0.9rem */
+  color: #1a73e8;
+  font-weight: 600;
+  margin-bottom: 8px;
+  /* 从10px减少到8px */
+}
+
+.cta-hint {
+  font-size: 0.8rem;
+  /* 从0.85rem减少到0.8rem */
+  color: #5f6368;
+  margin-bottom: 10px;
+  /* 从12px减少到10px */
+  letter-spacing: 0.5px;
+}
+
+.scroll-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+  /* 从12px减少到10px */
+}
+
+.scroll-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1a73e8;
+  opacity: 0.6;
+  animation: bounce 1.5s infinite;
+}
+
+.scroll-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.scroll-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+/* 简洁首页布局 - 深色模式适配 */
+html.theme-dark .box-1 .box-content {
+  /* 使用与其他盒子相同的深色模式样式 */
+}
+
+html.theme-dark .box-1 .box-content h1 {
+  color: #6ba3ff;
+  text-shadow: 0 4px 20px rgba(107, 163, 255, 0.25);
+}
+
+html.theme-dark .subtitle-text {
+  color: #b0b7c3;
+}
+
+html.theme-dark .subtitle-line {
+  background: linear-gradient(90deg, #6ba3ff, transparent);
+}
+
+html.theme-dark .lead-text {
+  color: #d1d5db;
+}
+
+html.theme-dark .highlight-card {
+  background: rgba(35, 40, 50, 0.9);
+  border: 1px solid rgba(107, 163, 255, 0.15);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+html.theme-dark .highlight-card:hover {
+  box-shadow:
+    0 20px 50px rgba(107, 163, 255, 0.2),
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+html.theme-dark .highlight-title {
+  color: #8ab4f8;
+}
+
+html.theme-dark .highlight-text {
+  color: #c0c6d0;
+}
+
+html.theme-dark .highlight-list li {
+  color: #c0c6d0;
+}
+
+html.theme-dark .highlight-list li:before {
+  color: #6ba3ff;
+}
+
+html.theme-dark .cta-section {
+  border-top: 1px solid rgba(107, 163, 255, 0.1);
+}
+
+html.theme-dark .cta-text {
+  color: #8ab4f8;
+}
+
+html.theme-dark .cta-hint {
+  color: #b0b7c3;
+}
+
+html.theme-dark .scroll-dot {
+  background: #6ba3ff;
+}
+
+/* 简洁首页布局 - 响应式设计 */
+@media (max-width: 1024px) {
+  .box-content {
+    padding: 20px 30px;
+    /* 与其他盒子保持一致 */
+  }
+
+  .box-1 .box-content h1 {
+    font-size: 2rem;
+    /* 与其他盒子的h2保持一致 */
+  }
+
+  .subtitle-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+
+  .lead-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+
+  .highlights-section {
+    gap: 10px;
+    /* 保持原始间距 */
+  }
+
+  .highlight-card {
+    padding: 14px 12px;
+    /* 保持原始内边距 */
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    /* 保持原始大小 */
+  }
+
+}
+
+@media (max-width: 768px) {
+  .box-content {
+    padding: 20px 25px;
+    /* 与其他盒子保持一致 */
+  }
+
+  .box-1 .box-content h1 {
+    font-size: 1.8rem;
+    /* 与其他盒子的h2保持一致 */
+  }
+
+  .subtitle-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+
+  .title-subtitle {
+    gap: 4px;
+    /* 保持原始间距 */
+  }
+
+  .subtitle-line {
+    width: 25px;
+    /* 保持原始宽度 */
+  }
+
+  .lead-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+    padding: 0 6px;
+    /* 保持原始内边距 */
+  }
+
+  .highlights-section {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    /* 保持原始间距 */
+    margin-bottom: 12px;
+    /* 保持原始边距 */
+  }
+
+  .highlight-card {
+    padding: 14px 12px;
+    /* 保持原始内边距 */
+  }
+
+  .highlight-icon {
+    font-size: 1.6rem;
+    /* 保持原始大小 */
+    margin-bottom: 10px;
+    /* 保持原始边距 */
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    /* 保持原始大小 */
+  }
+
+  .highlight-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+
+  .cta-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+}
+
+@media (max-width: 480px) {
+  .box-content {
+    padding: 15px 12px;
+    /* 与其他盒子保持一致 */
+  }
+
+  /* 确保所有盒子的标题样式一致 */
+  .box-content h2,
+  .box-1 .box-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+  }
+
+  .title-subtitle {
+    gap: 4px;
+    /* 保持原始间距 */
+  }
+
+  .subtitle-line {
+    width: 25px;
+    /* 保持原始宽度 */
+  }
+
+  .lead-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+    line-height: 1.3;
+    /* 保持原始行高 */
+    padding: 0 6px;
+    /* 保持原始内边距 */
+    margin-bottom: 15px;
+    /* 保持原始边距 */
+  }
+
+  .intro-text {
+    margin-bottom: 15px;
+    /* 保持原始边距 */
+  }
+
+  .highlights-section {
+    gap: 10px;
+    /* 保持原始间距 */
+    margin-bottom: 12px;
+    /* 保持原始边距 */
+  }
+
+  .highlight-card {
+    padding: 14px 12px;
+    /* 保持原始内边距 */
+    border-radius: 12px;
+    /* 保持原始圆角 */
+  }
+
+  .highlight-icon {
+    font-size: 1.6rem;
+    /* 保持原始大小 */
+    margin-bottom: 10px;
+    /* 保持原始边距 */
+  }
+
+  .highlight-title {
+    font-size: 1rem;
+    /* 保持原始大小 */
+    margin-bottom: 8px;
+    /* 保持原始边距 */
+  }
+
+  .highlight-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+    line-height: 1.3;
+    /* 保持原始行高 */
+  }
+
+  .highlight-list li {
+    font-size: 0.85rem;
+    /* 保持原始大小 */
+    padding-left: 16px;
+    /* 保持原始内边距 */
+    margin-bottom: 5px;
+    /* 保持原始边距 */
+    line-height: 1.2;
+    /* 保持原始行高 */
+  }
+
+  .highlight-list li:before {
+    font-size: 1.1rem;
+    /* 保持原始大小 */
+  }
+
+  .cta-section {
+    margin-top: 0;
+    /* 移除特殊边距 */
+    padding-top: 12px;
+    /* 保持原始内边距 */
+  }
+
+  .cta-text {
+    font-size: 0.9rem;
+    /* 保持原始大小 */
+    margin-bottom: 8px;
+    /* 保持原始边距 */
+  }
+
+  .cta-hint {
+    font-size: 0.8rem;
+    /* 保持原始大小 */
+    margin-bottom: 10px;
+    /* 保持原始边距 */
+  }
+
+  .scroll-dot {
+    width: 8px;
+    /* 保持原始大小 */
+    height: 8px;
+    /* 保持原始大小 */
+  }
+}
+
+@media (max-width: 360px) {
+  .box-content {
+    padding: 12px 8px;
+    /* 与其他盒子保持一致 */
+  }
+
+  /* 确保所有盒子的标题样式一致 */
+  .box-content h2,
+  .box-1 .box-content h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .subtitle-text {
+    font-size: 0.8rem;
+    /* 保持原始大小 */
+  }
+
+  .title-subtitle {
+    gap: 4px;
+    /* 保持原始间距 */
+  }
+
+  .subtitle-line {
+    width: 20px;
+    /* 保持原始宽度 */
+  }
+
+  .lead-text {
+    font-size: 0.8rem;
+    /* 保持原始大小 */
+    line-height: 1.4;
+    padding: 0 5px;
+    margin-bottom: 20px;
+  }
+
+  .intro-text {
+    margin-bottom: 25px;
+  }
+
+  .highlights-section {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .highlight-card {
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+
+  .highlight-icon {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .highlight-title {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .highlight-text {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .highlight-list li {
+    font-size: 0.85rem;
+    padding-left: 16px;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+
+  .highlight-list li:before {
+    font-size: 1.1rem;
+  }
+
+  .cta-section {
+    margin-top: 15px;
+    padding-top: 15px;
+  }
+
+  .cta-text {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .cta-hint {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .scroll-dot {
+    width: 6px;
+    height: 6px;
+  }
 }
