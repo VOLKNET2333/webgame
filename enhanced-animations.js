@@ -145,18 +145,44 @@
   }
 
   // 数字滚动动画
-  function animateNumber(element, start, end, duration = 2000) {
+  function animateNumber(element, start, end, duration = 2000, originalText = '') {
     const range = end - start;
     const increment = range / (duration / 16);
     let current = start;
+    let lastUpdateTime = Date.now();
 
     const timer = setInterval(() => {
-      current += increment;
-      if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-        current = end;
-        clearInterval(timer);
+      const now = Date.now();
+      const elapsed = now - lastUpdateTime;
+
+      // 确保按正确的时间间隔更新
+      if (elapsed >= 16) {
+        current += increment;
+        lastUpdateTime = now;
+
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+          current = end;
+          clearInterval(timer);
+
+          // 动画完成后恢复原始文本
+          if (originalText) {
+            element.textContent = originalText;
+          } else {
+            element.textContent = Math.round(current);
+          }
+          return;
+        }
+
+        // 如果原始文本包含非数字字符，在动画期间显示数字+字符
+        if (originalText && originalText.match(/[^0-9]/)) {
+          // 提取非数字部分
+          const nonNumericPart = originalText.replace(/[0-9]/g, '');
+          // 显示当前数字 + 非数字部分
+          element.textContent = Math.round(current) + nonNumericPart;
+        } else {
+          element.textContent = Math.round(current);
+        }
       }
-      element.textContent = Math.round(current);
     }, 16);
   }
 
@@ -168,17 +194,18 @@
       entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
           entry.target.classList.add('animated');
-          const text = entry.target.textContent;
-          const number = parseInt(text.replace(/[^0-9]/g, ''));
+          const originalText = entry.target.textContent;
 
-          if (!isNaN(number)) {
-            entry.target.textContent = '0';
-            animateNumber(entry.target, 0, number, 2000);
+          // 提取数字部分
+          const numberMatch = originalText.match(/\d+/);
+          if (numberMatch) {
+            const number = parseInt(numberMatch[0]);
 
-            // 恢复原始文本格式
-            setTimeout(() => {
-              entry.target.textContent = text;
-            }, 2000);
+            // 保存原始文本到数据属性，以便在动画完成后恢复
+            entry.target.dataset.originalText = originalText;
+
+            // 开始动画，传入原始文本以便在动画期间和完成后都能正确显示
+            animateNumber(entry.target, 0, number, 2000, originalText);
           }
         }
       });
