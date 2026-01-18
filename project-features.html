@@ -27,7 +27,7 @@
 
 <body>
   <!-- 顶部导航栏 -->
-  <header id="nav-topbar" class="nav-topbar" role="region" aria-label="网页导航栏">
+  <header id="nav-topbar" class="nav-topbar" role="group" aria-label="网页导航栏">
     <div class="nav-topbar-container">
       <div class="site-branding">
         <h1 class="site-name">北魏老弱病残扶持计划</h1>
@@ -806,7 +806,6 @@
   <style>
     /* 内容容器样式 */
     .content-container {
-      margin-left: 0;
       padding: 100px 20px 40px;
       max-width: 1200px;
       margin: 0 auto;
@@ -1136,32 +1135,6 @@
       opacity: 1;
     }
 
-    .tech-card-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
-    }
-
-    .tech-icon {
-      font-size: 2.5rem;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
-      border-radius: 12px;
-      color: white;
-      transition: all 0.4s ease;
-      flex-shrink: 0;
-    }
-
-    .tech-card:hover .tech-icon {
-      transform: rotate(10deg) scale(1.1);
-      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
-    }
-
     .tech-card h3 {
       color: var(--primary-color);
       margin: 0;
@@ -1196,10 +1169,9 @@
     }
 
     .tech-card li {
-      padding: 12px 0;
       border-bottom: 1px solid var(--border-color);
       position: relative;
-      padding-left: 35px;
+      padding: 12px 0 12px 35px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -1316,32 +1288,6 @@
       opacity: 1;
     }
 
-    .benefit-header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 10px;
-    }
-
-    .benefit-icon {
-      font-size: 2.5rem;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
-      border-radius: 12px;
-      color: white;
-      transition: all 0.4s ease;
-      flex-shrink: 0;
-    }
-
-    .benefit-item:hover .benefit-icon {
-      transform: rotate(10deg) scale(1.1);
-      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
-    }
-
     .benefit-item h3 {
       color: var(--primary-color);
       margin: 0;
@@ -1375,47 +1321,6 @@
       font-size: 1.05rem;
       opacity: 0.9;
       flex: 1;
-    }
-
-    .benefit-stats {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid var(--border-color);
-    }
-
-    .stat-badge {
-      background: linear-gradient(135deg, var(--primary-color) 0%, #4a90e2 100%);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-badge::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .stat-badge:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
-    }
-
-    .stat-badge:hover::before {
-      left: 100%;
     }
 
     /* 为受益项目添加独特的装饰元素 */
@@ -1630,10 +1535,9 @@
     }
 
     .roadmap-phase li {
-      padding: 12px 0;
       border-bottom: 1px solid var(--border-color);
       position: relative;
-      padding-left: 35px;
+      padding: 12px 0 12px 35px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -1735,10 +1639,6 @@
       height: 4px;
       background: linear-gradient(90deg, var(--primary-color), var(--border-color));
       z-index: 1;
-    }
-
-    .progress-step.completed:not(:last-child)::after {
-      background: linear-gradient(90deg, var(--primary-color), #4a90e2);
     }
 
     .step-circle {
@@ -1909,58 +1809,6 @@
       color: var(--text-color);
       font-size: 0.95rem;
       opacity: 0.9;
-    }
-
-    /* 统计卡片 */
-    .stats-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin: 40px 0;
-    }
-
-    .stat-card {
-      background: linear-gradient(135deg, var(--hover-background) 0%, var(--background-color) 100%);
-      border: 2px solid var(--border-color);
-      border-radius: 12px;
-      padding: 25px 20px;
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--primary-color);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--primary-color);
-      margin-bottom: 10px;
-      position: relative;
-      display: inline-block;
-    }
-
-    .stat-number::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 30px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary-color), transparent);
-      border-radius: 2px;
-    }
-
-    .stat-label {
-      font-size: 1rem;
-      color: var(--text-color);
-      font-weight: 600;
     }
 
     /* 响应式设计调整 */
@@ -2424,3 +2272,4 @@
     html.theme-dark .roadmap-phase li {
       border-bottom-color: #444;
     }
+    </style>

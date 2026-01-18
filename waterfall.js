@@ -143,10 +143,8 @@ class WaterfallScroll {
     if (!boxContent) return false;
 
     // 检查内容是否超出盒子范围
-    const hasOverflow = boxContent.scrollHeight > boxContent.clientHeight ||
-      boxContent.scrollWidth > boxContent.clientWidth;
-
-    return hasOverflow;
+    return boxContent.scrollHeight > boxContent.clientHeight ||
+        boxContent.scrollWidth > boxContent.clientWidth;
   }
 
   // 检查是否在滚动边界（顶部或底部）
@@ -304,16 +302,7 @@ class WaterfallScroll {
     window.dispatchEvent(event);
   }
 
-  // 获取当前状态
-  getState() {
-    return {
-      currentIndex: this.currentIndex,
-      totalBoxes: this.totalBoxes,
-      isScrolling: this.isScrolling
-    };
-  }
-
-  // 跳转到指定盒子
+// 跳转到指定盒子
   goToBox(index) {
     if (index >= 0 && index < this.totalBoxes) {
       this.activateBox(index);

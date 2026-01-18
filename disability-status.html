@@ -27,7 +27,7 @@
 
 <body>
   <!-- 顶部导航栏 -->
-  <header id="nav-topbar" class="nav-topbar" role="region" aria-label="网页导航栏">
+  <header id="nav-topbar" class="nav-topbar" role="group" aria-label="网页导航栏">
     <div class="nav-topbar-container">
       <div class="site-branding">
         <h1 class="site-name">北魏老弱病残扶持计划</h1>
@@ -627,8 +627,7 @@
               textarea.select();
 
               try {
-                const successful = document.execCommand('copy');
-                return successful;
+                return document.execCommand('copy');
               } catch (err) {
                 console.error('复制失败:', err);
                 return false;
@@ -662,7 +661,6 @@
   <style>
     /* 内容容器样式 */
     .content-container {
-      margin-left: 0;
       padding: 100px 20px 40px;
       max-width: 1200px;
       margin: 0 auto;
@@ -845,7 +843,7 @@
       font-weight: 700;
       color: var(--text-color);
       margin-bottom: 8px;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
 
     .stat-desc {
@@ -1049,7 +1047,7 @@
 
     @keyframes gradient-shift {
       0% {
-        background-position: 0% 50%;
+        background-position: 0 50%;
       }
 
       50% {
@@ -1057,7 +1055,7 @@
       }
 
       100% {
-        background-position: 0% 50%;
+        background-position: 0 50%;
       }
     }
 
@@ -1135,10 +1133,9 @@
     }
 
     .solution-card li {
-      padding: 12px 0;
       border-bottom: 1px solid var(--border-color);
       position: relative;
-      padding-left: 40px;
+      padding: 12px 0 12px 40px;
       transition: all 0.3s ease;
       color: var(--text-color);
       font-size: 1.05rem;
@@ -1167,7 +1164,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
       transition: all 0.3s ease;
     }
 
@@ -1595,3 +1591,4 @@
       background: rgba(74, 144, 226, 0.1);
       border-color: var(--primary-color);
     }
+    </style>

@@ -1752,7 +1752,6 @@ html.theme-dark .close-button:hover {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: auto;
     border-top: 2px solid var(--border-color);
     margin-top: 12px;
 }
@@ -2165,7 +2164,7 @@ html.theme-dark .waterfall-box .box-content::-webkit-scrollbar-track {
     overflow: hidden;
     transition: all 0.3s ease;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .btn::before {

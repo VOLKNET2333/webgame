@@ -104,47 +104,8 @@
   }
 
   // 卡片悬浮视差效果
-  function cardParallaxEffect() {
-    const cards = document.querySelectorAll('.hover-lift, .stat-card, .feature-card');
-
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px) scale(1.02)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
-      });
-    });
-  }
-
-  // 文字打字机效果
-  function typewriterEffect(element, text, speed = 50) {
-    let i = 0;
-    element.textContent = '';
-
-    function type() {
-      if (i < text.length) {
-        element.textContent += text.charAt(i);
-        i++;
-        setTimeout(type, speed);
-      }
-    }
-
-    type();
-  }
-
-  // 数字滚动动画
+// 文字打字机效果
+// 数字滚动动画
   function animateNumber(element, start, end, duration = 2000, originalText = '') {
     const range = end - start;
     const increment = range / (duration / 16);
@@ -237,59 +198,8 @@
   }
 
   // 添加涟漪效果
-  function addRippleEffect() {
-    const rippleElements = document.querySelectorAll('.btn, .highlight-card, .stat-card');
-
-    rippleElements.forEach(element => {
-      element.addEventListener('click', function (e) {
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-
-        ripple.style.cssText = `
-          position: absolute;
-          width: ${size}px;
-          height: ${size}px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.5);
-          left: ${x}px;
-          top: ${y}px;
-          pointer-events: none;
-          animation: ripple 0.6s ease-out;
-        `;
-
-        this.style.position = 'relative';
-        this.style.overflow = 'hidden';
-        this.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 600);
-      });
-    });
-  }
-
-  // 添加粒子效果
-  function createParticles(container, count = 20) {
-    for (let i = 0; i < count; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.cssText = `
-        position: absolute;
-        width: ${Math.random() * 4 + 2}px;
-        height: ${Math.random() * 4 + 2}px;
-        background: rgba(26, 115, 232, ${Math.random() * 0.5 + 0.3});
-        border-radius: 50%;
-        left: ${Math.random() * 100}%;
-        top: ${Math.random() * 100}%;
-        animation: float ${Math.random() * 10 + 5}s ease-in-out infinite;
-        animation-delay: ${Math.random() * 5}s;
-      `;
-      container.appendChild(particle);
-    }
-  }
-
-  // 主题切换动画增强
+// 添加粒子效果
+// 主题切换动画增强
   function enhanceThemeTransition() {
     const themeBtn = document.getElementById('theme-btn');
     if (!themeBtn) return;

@@ -117,7 +117,7 @@
 
   0%,
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 
   50% {
@@ -299,11 +299,11 @@
 /* ========== 流光效果 ========== */
 @keyframes flowingLight {
   0% {
-    background-position: 0% 0%;
+    background-position: 0 0;
   }
 
   100% {
-    background-position: 200% 0%;
+    background-position: 200% 0;
   }
 }
 
@@ -348,7 +348,7 @@
 /* ========== 进度条动画 ========== */
 @keyframes progressBar {
   0% {
-    width: 0%;
+    width: 0;
   }
 
   100% {
@@ -390,7 +390,7 @@
 
   0%,
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 
   50% {
