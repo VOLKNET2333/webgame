@@ -421,15 +421,16 @@ html.theme-dark .sidebar-nav .dropdown-menu {
     cursor: pointer;
     font-size: 1em;
     color: var(--text-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     white-space: normal;
     word-wrap: break-word;
     word-break: break-word;
-    font-weight: 500;
+    font-weight: 600;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     line-height: 1.4;
     text-align: center;
+    letter-spacing: 0.5px;
 }
 
 .btn::after {
@@ -445,16 +446,36 @@ html.theme-dark .sidebar-nav .dropdown-menu {
     transition: width 0.3s ease, height 0.3s ease;
 }
 
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(26, 115, 232, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+    /* 将动画放到背景层 */
+}
+
 .btn:active::after {
     width: 200px;
     height: 200px;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn:hover {
     background-color: #e8f0fe;
     border-color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.15);
+    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
 }
 
 .btn:focus {
@@ -465,6 +486,7 @@ html.theme-dark .sidebar-nav .dropdown-menu {
 .btn:active {
     background-color: #d2e3fc;
     transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
 }
 
 /* 禁用状态 */
@@ -2159,44 +2181,6 @@ html.theme-dark .waterfall-box .box-content::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* ========== 按钮增强样式 ========== */
-.btn {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(26, 115, 232, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s ease, height 0.6s ease;
-    z-index: -1;
-    /* 将动画放到背景层 */
-}
-
-.btn:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
-}
-
-.btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
-}
 
 /* ========== 深色模式下的SVG图标 ========== */
 html.theme-dark .decorative-image svg {
@@ -2318,6 +2302,18 @@ a:focus-visible {
     }
 }
 
+.animate-fadeInDown {
+    animation: fadeInDown 0.8s ease-out forwards;
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fadeInLeft {
+    animation: fadeInLeft 0.8s ease-out forwards;
+}
+
 .animate-fadeInRight {
     animation: fadeInRight 0.8s ease-out forwards;
 }
@@ -2385,89 +2381,4 @@ a:focus-visible {
         opacity: 1;
         transform: scale(1);
     }
-}
-
-/* ============================================
-   增强样式 - 从enhanced-styles.css迁移
-   ============================================ */
-
-/* ========== 深色模式适配 ========== */
-html.theme-dark .highlight-card {
-    background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
-    border-color: rgba(26, 115, 232, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-html.theme-dark .main-title-section h1 {
-    text-shadow: 0 4px 20px rgba(107, 163, 255, 0.4);
-}
-
-html.theme-dark .intro-text .lead-text::before,
-html.theme-dark .intro-text .lead-text::after {
-    color: #6ba3ff;
-    opacity: 0.3;
-}
-
-html.theme-dark .decorative-image.main-image {
-    filter: drop-shadow(0 8px 16px rgba(107, 163, 255, 0.3));
-}
-
-html.theme-dark .decorative-image.main-image:hover {
-    filter: drop-shadow(0 12px 24px rgba(107, 163, 255, 0.4));
-}
-
-/* ========== 响应式设计 ========== */
-@media (max-width: 768px) {
-    .main-title-section h1 {
-        font-size: 2.5rem;
-    }
-
-    .subtitle-text {
-        font-size: 1.2rem;
-    }
-
-    .intro-text .lead-text {
-        font-size: 1.05rem;
-    }
-
-    .highlights-section {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .highlight-icon {
-        font-size: 2.5rem;
-    }
-}
-
-/* ========== 盒子内容增强 ========== */
-.waterfall-box .box-content {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 40px;
-    position: relative;
-}
-
-.waterfall-box .box-content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.waterfall-box .box-content::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-}
-
-.waterfall-box .box-content::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--primary-color), #4a90e2);
-    border-radius: 4px;
-    transition: background 0.3s ease;
-}
-
-.waterfall-box .box-content::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #0d47a1, var(--primary-color));
-}
-
-html.theme-dark .waterfall-box .box-content::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
 }
